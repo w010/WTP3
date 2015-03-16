@@ -1,0 +1,35 @@
+
+2014-06-02 Bernhard Kraft  <kraftb@think-open.at>
+	* Updated the extension to TYPO3 6.2 compatibility
+
+2011-12-22 Bernhard Kraft  <kraftb@think-open.at>
+	* Changed documentation section “Intention”
+
+2009-04-29 Bernhard Kraft  <kraftb@think-open.at>
+	* Fixed a bug: Slided records were sorted by UID and not by their sorting value.
+
+2009-02-12 Bernhard Kraft  <kraftb@think-open.at>
+	* New TypoScript property “table” which fixes a bug when sliding images.
+
+2009-02-06 Bernhard Kraft  <kraftb@think-open.at>
+
+	* Added a property "overridePage" (Thanks to Ünal Aydin for suggesting this)
+	* Added a property "slide" for defining the maximal slide level
+	* Added "stdWrap" to all TS properties
+	* Fixed a bug: Extension didn't check if a tt_content element is hidden or not
+
+
+2006-09-27 Bernhard Kraft  <kraftb@kraftb.at>
+
+	* Updated the extension to the newest TV and T3 version requirements. Created documentation for letting images/files slide and made it multilanguage compatible.
+
+
+2005-09-01 Bernhard Kraft  <kraftb@kraftb.at>
+
+	* Fixed a bug: Misused t3lib_BEfunc in FE.
+
+
+2005-06-07 Bernhard Kraft  <kraftb@kraftb.at>
+
+	* Initial release
+

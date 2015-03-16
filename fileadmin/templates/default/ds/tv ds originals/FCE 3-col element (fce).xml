@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3DataStructure>
+	<meta type="array">
+		<langDisable>1</langDisable>
+	</meta>
+	<ROOT type="array">
+		<tx_templavoila type="array">
+			<title>ROOT</title>
+			<description>Select the HTML element on the page which you want to be the overall container element for the template.</description>
+		</tx_templavoila>
+		<type>array</type>
+		<el type="array">
+			<field_class_outer type="array">
+				<type>attr</type>
+				<tx_templavoila type="array">
+					<title>Outer DIV class</title>
+					<sample_data type="array">
+						<numIndex index="0">outer-class</numIndex>
+					</sample_data>
+					<eType>input</eType>
+					<tags>div:attr:class</tags>
+					<proc type="array">
+						<HSC type="integer">1</HSC>
+					</proc>
+					<TypoScript>
+	10= TEXT
+	10.value = cols fce-3cols yui3-g {field:field_class_outer}
+	10.insertData = 1
+					</TypoScript>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>select</type>
+						<items type="array">
+							<numIndex index="0" type="array">
+								<numIndex index="0"></numIndex>
+								<numIndex index="1"></numIndex>
+							</numIndex>					
+							<numIndex index="1" type="array">
+								<numIndex index="0">boxes</numIndex>
+								<numIndex index="1">boxes</numIndex>
+							</numIndex>	
+						</items>
+						<maxitems>1</maxitems>
+						<size>1</size>
+					</config>
+					<label>Outer DIV class</label>
+				</TCEforms>
+			</field_class_outer>
+<!-- 			<field_style_outer type="array">
+				<type>attr</type>
+				<tx_templavoila type="array">
+					<title>Outer DIV inline style</title>
+					<sample_data type="array">
+						<numIndex index="0">color: red;</numIndex>
+					</sample_data>
+					<eType>input</eType>
+					<tags>div:attr:style</tags>
+					<proc type="array">
+						<HSC type="integer">1</HSC>
+					</proc>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>input</type>
+						<size>48</size>
+						<eval>trim</eval>
+					</config>
+					<label>Outer DIV inline style</label>
+				</TCEforms>
+			</field_style_outer>
+			<field_class_col1 type="array">
+				<type>attr</type>
+				<tx_templavoila type="array">
+					<title>Col1 class</title>
+					<sample_data type="array">
+						<numIndex index="0">col1-classs</numIndex>
+					</sample_data>
+					<eType>input</eType>
+					<tags>div:attr:class</tags>
+					<proc type="array">
+						<HSC type="integer">1</HSC>
+					</proc>
+					<TypoScript>
+	10= TEXT
+	10.value = col col1 yui3-u {field:field_class_col1}
+	10.insertData = 1
+					</TypoScript>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>input</type>
+						<size>48</size>
+						<eval>trim</eval>
+					</config>
+					<label>Col1 class</label>
+				</TCEforms>
+			</field_class_col1>
+			<field_style_col1 type="array">
+				<type>attr</type>
+				<tx_templavoila type="array">
+					<title>Col1 inline style</title>
+					<sample_data type="array">
+						<numIndex index="0">color: blue;</numIndex>
+					</sample_data>
+					<eType>input</eType>
+					<tags>div:attr:style</tags>
+					<proc type="array">
+						<HSC type="integer">1</HSC>
+					</proc>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>input</type>
+						<size>48</size>
+						<eval>trim</eval>
+					</config>
+					<label>Col1 inline style</label>
+				</TCEforms>
+			</field_style_col1> 
+-->
+			<field_col1 type="array">
+				<tx_templavoila type="array">
+					<title>CONTENT COL1:</title>
+					<sample_data type="array">
+						<numIndex index="0">col 1 content...</numIndex>
+					</sample_data>
+					<eType>ce</eType>
+					<tags>div</tags>
+					<TypoScript>
+	10= RECORDS
+	10.source.current=1
+	10.tables = tt_content
+                    </TypoScript>
+					<oldStyleColumnNumber type="integer">0</oldStyleColumnNumber>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>group</type>
+						<internal_type>db</internal_type>
+						<allowed>tt_content</allowed>
+						<size>5</size>
+						<maxitems>200</maxitems>
+						<minitems>0</minitems>
+						<multiple>1</multiple>
+						<show_thumbs>1</show_thumbs>
+					</config>
+					<label>CONTENT COL1:</label>
+				</TCEforms>
+			</field_col1>
+
+<!--			<field_class_col2 type="array">
+				<type>attr</type>
+				<tx_templavoila type="array">
+					<title>Col2 class</title>
+					<sample_data type="array">
+						<numIndex index="0">col2-classname</numIndex>
+					</sample_data>
+					<eType>input</eType>
+					<tags>div:attr:class</tags>
+					<proc type="array">
+						<HSC type="integer">1</HSC>
+					</proc>
+										<TypoScript>
+	10= TEXT
+	10.value = col col2 yui3-u {field:field_class_col2}
+	10.insertData = 1
+					</TypoScript>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>input</type>
+						<size>48</size>
+						<eval>trim</eval>
+					</config>
+					<label>Col2 class</label>
+				</TCEforms>
+			</field_class_col2>
+			<field_style_col2 type="array">
+				<type>attr</type>
+				<tx_templavoila type="array">
+					<title>Col2 inline style</title>
+					<sample_data type="array">
+						<numIndex index="0">color: green</numIndex>
+					</sample_data>
+					<eType>input</eType>
+					<tags>div:attr:style</tags>
+					<proc type="array">
+						<HSC type="integer">1</HSC>
+					</proc>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>input</type>
+						<size>48</size>
+						<eval>trim</eval>
+					</config>
+					<label>Col2 inline style</label>
+				</TCEforms>
+			</field_style_col2>
+-->
+			<field_col2 type="array">
+				<tx_templavoila type="array">
+					<title>CONTENT COL2:</title>
+					<sample_data type="array">
+						<numIndex index="0">col2 content...</numIndex>
+					</sample_data>
+					<eType>ce</eType>
+					<tags>div</tags>
+					<TypoScript>
+	10= RECORDS
+	10.source.current=1
+	10.tables = tt_content
+                    </TypoScript>
+					<oldStyleColumnNumber type="integer">1</oldStyleColumnNumber>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>group</type>
+						<internal_type>db</internal_type>
+						<allowed>tt_content</allowed>
+						<size>5</size>
+						<maxitems>200</maxitems>
+						<minitems>0</minitems>
+						<multiple>1</multiple>
+						<show_thumbs>1</show_thumbs>
+					</config>
+					<label>CONTENT COL2:</label>
+				</TCEforms>
+			</field_col2>
+
+<!--
+			<field_class_col3 type="array">
+				<type>attr</type>
+				<tx_templavoila type="array">
+					<title>Col3 class</title>
+					<sample_data type="array">
+						<numIndex index="0">col3-classname</numIndex>
+					</sample_data>
+					<eType>input</eType>
+					<tags>div:attr:class</tags>
+					<proc type="array">
+						<HSC type="integer">1</HSC>
+					</proc>
+										<TypoScript>
+	10= TEXT
+	10.value = col col3 yui3-u {field:field_class_col3}
+	10.insertData = 1
+					</TypoScript>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>input</type>
+						<size>48</size>
+						<eval>trim</eval>
+					</config>
+					<label>Col3 class</label>
+				</TCEforms>
+			</field_class_col3>
+			<field_style_col3 type="array">
+				<type>attr</type>
+				<tx_templavoila type="array">
+					<title>Col3 inline style</title>
+					<sample_data type="array">
+						<numIndex index="0">color: green</numIndex>
+					</sample_data>
+					<eType>input</eType>
+					<tags>div:attr:style</tags>
+					<proc type="array">
+						<HSC type="integer">1</HSC>
+					</proc>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>input</type>
+						<size>48</size>
+						<eval>trim</eval>
+					</config>
+					<label>Col3 inline style</label>
+				</TCEforms>
+			</field_style_col3>
+-->
+			<field_col3 type="array">
+				<tx_templavoila type="array">
+					<title>CONTENT COL3:</title>
+					<sample_data type="array">
+						<numIndex index="0">col3 content...</numIndex>
+					</sample_data>
+					<eType>ce</eType>
+					<tags>div</tags>
+					<TypoScript>
+	10= RECORDS
+	10.source.current=1
+	10.tables = tt_content
+                    </TypoScript>
+					<oldStyleColumnNumber type="integer">1</oldStyleColumnNumber>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>group</type>
+						<internal_type>db</internal_type>
+						<allowed>tt_content</allowed>
+						<size>5</size>
+						<maxitems>200</maxitems>
+						<minitems>0</minitems>
+						<multiple>1</multiple>
+						<show_thumbs>1</show_thumbs>
+					</config>
+					<label>CONTENT COL3:</label>
+				</TCEforms>
+			</field_col3>
+
+			<field_code_after type="array">
+				<tx_templavoila type="array">
+					<title>HTML code after</title>
+					<sample_data type="array">
+						<numIndex index="0"></numIndex>
+					</sample_data>
+					<eType>text</eType>
+					<tags>div:outer</tags>
+					<proc type="array">
+						<HSC type="integer">0</HSC>
+					</proc>
+										<TypoScript>
+	10= TEXT
+	10.current = 1
+					</TypoScript>
+				</tx_templavoila>
+				<TCEforms type="array">
+					<config type="array">
+						<type>text</type>
+						<cols>48</cols>
+						<rows>7</rows>
+					</config>
+					<label>HTML code after</label>
+				</TCEforms>
+			</field_code_after>
+		</el>
+	</ROOT>
+</T3DataStructure>

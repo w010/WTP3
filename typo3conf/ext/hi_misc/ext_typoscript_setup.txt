@@ -1,0 +1,14 @@
+page.includeLibs.hi_misc = EXT:hi_misc/class.tx_himisc_div.php
+
+# for typo3 4.5
+#temp.tt_content.stdWrap.innerWrap.cObject.default.15 {
+#	noTrimWrap = | class="| {field:tx_himisc_cssclass}" |
+#	insertData = 1
+#}
+
+
+tt_content.stdWrap.innerWrap.cObject.default.20.stdWrap {
+	noTrimWrap = | class="| {field:tx_himisc_cssclass}" |
+	insertData = 1
+}
+

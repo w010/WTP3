@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Template file for the&quot;macina_searchbox&quot;extension.</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<h3>Template file for the &quot;macina_searchbox&quot; extension.</h3>
+<p><b>Available Markers:</b></p>
+<ul>
+  <li>###HEADLINE### Displays the Headline</li>
+  <li>###ADVANCED### Advanced Search Link</li>
+  <li>###SUBMIT### Alttext for the submit button</li>
+  <li>###ACTLANG### UID of the actual language</li>
+  <li>###SEARCHPID### PID of the Searchpage</li>
+  
+  <li>###INSTANCE_ID### Unique instance id - if more searchboxes on one page</li>
+</ul>
+
+<!-- ###TEMPLATE### begin -->
+
+<div class="search-icon"></div>
+<div class="search-form">
+  <div class="line"></div>
+  
+  <form action="###SEARCHPID###" method="post" name="searchform" class="searchform">
+
+	<input name="tx_indexedsearch[sword]" type="text" class="text">
+	<div class="morebutton">
+    	<input name="tx_indexedsearch[submit_button]" type="submit" value="">
+    </div>
+    <input type="hidden" name="tx_indexedsearch[_sections]" value="0" />
+    <input type="hidden" name="tx_indexedsearch[pointer]" value="0" />
+    <input type="hidden" name="tx_indexedsearch[ext]" value="0" />
+    <input type="hidden" name="tx_indexedsearch[lang]" value="###ACTLANG###" />
+
+    <script>
+	$(document).ready(function() {
+		$('.search-icon').click(function(){
+			$(this).parent()
+				.toggleClass('act')
+				.find('.search-form').toggle();
+		});
+
+		// 'fieldname': 'labelvalue'
+		var searchform_defaults = {'tx_indexedsearch[sword]': '###HEADLINE###'};
+		$('.searchform input.text').each(function(index) {
+			if (this.value == '')
+				this.value = searchform_defaults[this.name];
+			$(this).focus(function()	{
+				if (this.value == searchform_defaults[this.name])
+					this.value = '';
+			});
+			$(this).blur(function()	{
+				if (this.value == '')
+					this.value = searchform_defaults[this.name];
+			});
+		});
+	});
+	</script>
+  </form>
+</div>
+<!-- ###TEMPLATE### end -->
+</body>
+</html>

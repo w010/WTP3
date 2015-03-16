@@ -1,0 +1,142 @@
+/* search results */
+.tx-indexedsearch {
+
+}
+	.tx-indexedsearch p {
+		margin: 0 5px 5px;
+		padding: 0 !important;
+	}
+	.tx-indexedsearch .tx-indexedsearch-form {
+		margin-left: 5px;
+		display: inline;
+	}
+	.tx-indexedsearch .tx-indexedsearch-search-submit {
+		display: inline;
+	}
+	.tx-indexedsearch .tx-indexedsearch-res-el {
+		margin: 20px 0;
+	}
+	.tx-indexedsearch .tx-indexedsearch-res-el .tx-indexedsearch-title {
+		margin: 0 0 0 5px;
+		font-weight: bold;
+	}
+	.tx-indexedsearch .tx-indexedsearch-res-el p.descr {
+		margin-top: 5px;
+	}
+	.tx-indexedsearch .tx-indexedsearch-res-el p.descr .tx-indexedsearch-redMarkup {
+
+	}
+	.tx-indexedsearch .tx-indexedsearch-res-el p.path {
+		font-size: 11px;
+	}
+	.tx-indexedsearch .tx-indexedsearch-search-submit button {
+
+	}
+	.tx-indexedsearch .tx-indexedsearch-form input {
+		margin: 0;
+		padding: 6px 10px;
+		width: 200px;
+		font-size: 11px;
+		border: 1px solid #D8D8D8;
+	}
+	.tx-indexedsearch .tx-indexedsearch-whatis { /* naglowek */
+		margin-top: 20px;
+		font-weight: bold;
+	}
+		.tx-indexedsearch .tx-indexedsearch-whatis .tx-indexedsearch-sw {
+			/*color: #CC0001;*/
+		}
+	/* search.ryzy-oldsite.patt-overwrite */
+	.tx-indexedsearch h3 {
+		margin:0;
+	}
+	.tx-indexedsearch h3 .tx-indexedsearch-title.title {
+		font-size:13px;
+		font-family:arial;
+		font-weight:bold;
+	}
+	.tx-indexedsearch h3 a {
+		margin:0;
+		color: #000000 !important;
+	}
+	.tx-indexedsearch p {
+		padding:0;
+		margin:0;
+		margin-top:3px;
+		display:block;
+	}
+	.tx-indexedsearch dl {
+		margin:0;
+	}
+	.tx-indexedsearch-res {
+		margin-top:30px;
+		margin-bottom:30px;
+	}
+	.tx-indexedsearch .res-tmpl-css {
+		margin-bottom:1.75em;
+	}
+	.tx-indexedsearch-metadata {
+		color:#555555;
+		font-size:11px;
+		padding-top:5px;
+	}
+	.tx-indexedsearch-metadata .tx-indexedsearch-metadata-path a {
+		color:inherit !important;
+	}
+	.tx-indexedsearch-metadata .tx-indexedsearch-metadata-path a:hover {
+		text-decoration:none !important;
+	}
+	.tx-indexedsearch-metadata .tx-indexedsearch-metadata-date {
+
+	}
+	.tx-indexedsearch .tx-indexedsearch-res .tx-indexedsearch-descr .tx-indexedsearch-redMarkup {
+		color:inherit !important;
+	}
+	.tx-indexedsearch-descr.descr {
+		font-size:11px;
+		padding-top:5px;
+	}
+
+	/* paginator */
+	.tx-indexedsearch-browsebox {
+
+	}
+	.tx-indexedsearch-browsebox ul,.tx-indexedsearch-browsebox li { /* reset */
+		margin:0;
+		padding:0;
+	}
+	.tx-indexedsearch-browsebox ul { /* container */
+		text-align:left;
+		/*margin-left:-20px;*/
+		padding-bottom:1px;
+		padding-top:1px;
+		margin-top:30px;
+		/*margin-right:-20px;*/
+	}
+	.tx-indexedsearch-browsebox li  {
+		margin-right:0px !important;
+	}
+	.tx-indexedsearch-browsebox p { /* wyniki od {min} do {max} ze wszystkich {total} */
+		display:block;
+		text-align:center;
+		margin-top:7px;
+		color:#545454;
+		font-size:11px;
+		margin-bottom:10px;
+	}
+	.tx-indexedsearch-browsebox a { /* link */
+		display:inline-block;
+		font-weight:normal;
+		padding:6px 7px;
+		font-size:10px;
+		color:#ffffff !important;
+		background-color:#898989;
+	}
+	.tx-indexedsearch-browsebox strong { /* active */
+		display:inline-block;
+	}
+	.tx-indexedsearch-browsebox strong a {
+		background-color:#3E5158;
+		font-weight:bold;
+		color:#ffffff !important;
+	}

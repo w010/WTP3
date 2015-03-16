@@ -1,0 +1,17 @@
+2015-03-13 	<wolo.wolski@gmail.com>
+	* version 0.1.16
+	* compatibility with TYPO3 6.2 (required at least, but you can try it in other branch of 6, will probably work too)
+
+2010-10-05 	<marcin@ryzycki.pl>
+	* version 0.0.15
+	* compatibility with TYPO3 4.5
+	* FIX: field tx_hienv_cssclass renamed to tx_himisc_cssclass (this is the correct name in this ext)
+
+2010-10-05 	<marcin@ryzycki.pl>
+	* version 0.0.14
+	* keywords,description fields added to TYPO3_CONF_VARS[FE][addRootLineFields]
+	  (needed to use parent's pages values from TS)
+
+2010-07-28 	<marcin@ryzycki.pl>
+	* version 0.0.13
+	* universal function tx_himisc_realurl->uidToTitle to use in realurl (encodeTitle_userProc)

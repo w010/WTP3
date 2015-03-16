@@ -1,0 +1,19 @@
+<f:layout name="mainlay" />
+
+<f:section name="content">
+		<div id="main-content-before">
+		</div>
+	  	<div id="content_main">
+	    	<div class="content-inner">
+	    		<f:format.raw>{contentMain}</f:format.raw>
+	    	</div>
+	    	<div id="content_right">
+	    		<!--<f:cObject typoscriptObjectPath="lib.content_right"/>-->
+	    		<f:format.raw>{contentRight}</f:format.raw>
+	    	</div>
+	    	<br class="clear">
+	  	</div>
+		<div id="main-content-after">
+			<f:format.raw>{contentAfter}</f:format.raw>
+		</div>
+</f:section>

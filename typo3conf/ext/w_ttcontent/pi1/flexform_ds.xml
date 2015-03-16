@@ -1,0 +1,54 @@
+<T3DataStructure>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:w_ttcontent/locallang_db.php:tt_content.menu_flexform.sheet_general</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<columnsNum>
+						<TCEforms>
+							<label>LLL:EXT:w_ttcontent/locallang_db.php:tt_content.menu_flexform.columnsNum</label>
+							<config>
+								<type>input</type>
+								<eval>int</eval>
+								<size>5</size>
+							</config>
+						</TCEforms>
+					</columnsNum>
+				</el>
+			</ROOT>
+		</sDEF>
+		<sABS>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:w_ttcontent/locallang_db.php:tt_content.menu_flexform.sheet_abstract</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<abstract>
+						<TCEforms>
+							<label>LLL:EXT:w_ttcontent/locallang_db.php:tt_content.menu_flexform.abstract</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0"></numIndex>
+										<numIndex index="1"></numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">abstract type 1</numIndex>
+										<numIndex index="1">abstract type 2</numIndex>
+									</numIndex>
+								</items>
+								<size>1</size>
+							</config>
+						</TCEforms>
+					</abstract>
+					
+				</el>
+			</ROOT>
+		</sABS>
+	</sheets>
+</T3DataStructure>

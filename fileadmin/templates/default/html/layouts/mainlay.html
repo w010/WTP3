@@ -1,0 +1,39 @@
+	<div id="page" class="page-default">
+
+		<header id="header" class="pagerow">
+			<div id="logo">
+				<f:cObject typoscriptObjectPath="lib.head-logo"/>
+			</div>
+			
+			<nav id="menu-main">
+				<f:cObject typoscriptObjectPath="lib.page-menu"/>
+			</nav>
+			
+			<div id="head-content" class="content">
+				<f:cObject typoscriptObjectPath="lib.page-meta"/>
+			</div>
+			
+			<f:cObject typoscriptObjectPath="lib.head-additional"/>
+			
+			<div class="clear"></div>
+		</header>
+
+		<div id="main" class="pagerow">
+		
+				<f:render section="content"/>
+				
+		</div>
+
+		<footer id="footer" class="pagerow">
+			<div id="footer-before">
+				<f:render partial="footer_before" arguments="{_all}"/>
+			</div>
+
+			<div id="foot-content" class="content">
+				<f:cObject typoscriptObjectPath="lib.page-foot"/>
+			</div>
+
+			<div id="footer-after"></div>
+		</footer>
+
+	</div>

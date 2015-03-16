@@ -1,0 +1,9 @@
+
+# ACCESS
+
+AuthType Basic
+AuthName "wolo: invitation only"
+AuthUserFile /home/users/wolo/public_html/witte_dev/DUMP/.htpasswd
+Require valid-user
+
+
