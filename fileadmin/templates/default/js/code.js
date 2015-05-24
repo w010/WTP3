@@ -163,6 +163,20 @@
 }());
 
 
+/*
+* Universal random() function for general use on any selector - get one random element
+ */
+$.fn.random = function()    {
+    var ret = $();
+
+    if(this.length > 0)
+        ret = ret.add(this[Math.floor((Math.random() * this.length))]);
+
+    return ret;
+};
+
+
+
 
 if (!wtp) var wtp = {
 
@@ -175,7 +189,43 @@ if (!wtp) var wtp = {
 		jw('select').dropdownCss({x:1});
 	},
 
-	
+	// enable bootstrap tables, no-ts method
+    initTables: function()  {
+        //$('.contenttable').addClass('table');
+        $('.content table').addClass('table');
+        $('.table').wrap('<div class="table-responsive"></div>');
+    },
+
+// various content manipulation (non-responsive thing)
+    moveContentsBetweenContainers: function()   {
+        // moveNewsRelations to left column
+        $('aside#relations').appendTo( $('#main-content-B') );
+
+        // move frame box above-align image before box header h3
+        $('.frame-box > .csc-textpic-above .csc-textpic-imagewrap').each(function(){
+            $(this).parent().parent().find('.csc-header').prepend(this);
+        });
+    },
+
+ // make 100% gradient news header coexist with category selectors
+// to calculate one's width to fit exactly inside parent
+    stretchNewsCatheader: function()   {
+        // find all items in div and measure them
+        var buttonsWidth = 0;
+        $('.news-catmenu-ajax .news-catmenu-item').each(function(i,val) {
+            //console.log($(val).outerWidth());
+            buttonsWidth += $(val).outerWidth();
+        });
+//        console.log( $('.news-catmenu-ajax').width() - buttonsWidth, 'cont - buttons' );
+        $('.news-catmenu-ajax .news-catmenu-header')
+            // minus 1px to fix some calculate problems (with font?)
+            .outerWidth(     $('.news-catmenu-ajax').width() - buttonsWidth - 1 );
+
+//        console.log(buttonsWidth);
+        // then resize header to difference between container and buttons
+        //$('#main-content-before .csc-textpic-imagerow').random().show();
+    },
+
 	/**
 	*  standard typo3 anchors includes domain and/or page.
 	*  for Fancybox open ce we need anchors alone.
@@ -342,6 +392,191 @@ if (!wtp) var wtp = {
 			button.css('display', 'none');
 		});
 	}
+}
+
+
+
+if (!wtpAjax) var wtpAjax = {
+
+    ajax_url: '',
+
+    // can be set, but not neccessary
+    base_url: '',
+
+    DEV: true,
+
+    /**
+     * AJAX
+     */
+
+    /**
+     * load-more buttons
+     * @param url - pass params as already built url, to enable chash
+     * @param caller - button/anchor js element
+     * @param specifiedContainer - can be set to load data into that element (and also animate it)
+     * @param replaceContent - don't append new items, replace old
+     * @param confOptions - array additional settings
+     */
+    getResults: function(url, caller, specifiedContainer, successFunc, replaceContent, confOptions)	{
+        //console.log(url, 'URL');
+        //console.log(conf, 'CONF');
+        var trigger = $(caller).parent();   // button wrap
+        var container;
+        //  console.log(specifiedContainer, 'specifiedContainer');
+        if (specifiedContainer)     container = $(specifiedContainer);
+        // get first occurance of container 2 levels up (closest
+        else                        container = $(caller).parent().parent().find('> .items-container');
+        //else                        var container = $(caller).closest('.items-container');    // why this isn't working?
+        //console.log(caller, 'caller - load trigger');
+        if (wtpAjax.DEV)    console.log(container, 'CONTAINER TO LOAD INTO');
+        //	container.css('border', '1px solid red');
+
+        wtpAjax.animationStart(container);
+        //$(inner).fadeTo('fast', 0.3);
+        var conf = {
+            // pass this in url, to make chash
+            //data: {ajaxType: 'getResults', controller: controller, offset: offset},
+            successCallback: function(response) {
+                try {
+                    // if there are problems with disabling some debug comments, use this.
+                    //var result = $.parseJSON(response.split('<!-- Parsetime')[0]);
+                    //console.log(response, 'response');
+                    // dont need to parse when sending pure json
+                    //var result = $.parseJSON(response);
+                    //console.log(result, 'result');
+
+                    // if needed, clear container
+                    if (replaceContent)     $(container).html('');
+
+                    // PUT ITEMS INTO CONTAINER
+                    //$(container).append(result.res);
+                    $(container).append(response.res);
+
+                    /*// ANIMATED VERSION
+                    // put new items into dom (temporary container), start animation and then put into right place
+                    var temp_container = $('<div class="temp hidden">');
+                    temp_container.append( $(result.res) );
+                    $(container).append( temp_container );
+                    wtpAjax.animateItemsLoad( $(container).find('.temp > .item') );
+                    //$(container).append( $(container).find('.temp > .item') );
+
+                    if (confOptions && confOptions.loadMode == 'prepend')
+                        $(container).prepend( $(container).find('.temp > *') );
+                    else
+                        $(container).append( $(container).find('.temp > *') );
+                    temp_container.remove();*/
+
+                    if (successFunc)    successFunc(response, container);    // custom success function may be passed to call here
+
+                    // stop animation
+                    wtpAjax.animationStop(container);
+
+                    //if (!result.res && !result.errors.length)      $(caller).parent().html('<p>Ajax error.</p>');
+                } catch (e) {
+                    //wtpAjax.handleError( e.message, e );
+                    wtpAjax.animationStop(container);
+                    console.error(e.message);
+                }
+                //console.log(result, 'result of request:');
+            }
+        };
+        wtpAjax.request(conf, url, container, false);
+    },
+
+
+    request: function(conf, url, boxToAnimate, nocache)	{
+        //console.log(conf, 'request conf');
+        //console.log(url, 'custom request url');
+        //console.log(wtpAjax.base_url, 'wtpAjax.base_url');
+        //console.log(wtpAjax.ajax_url, 'wtpAjax.ajax_url');
+        //console.log(this.base_url + (url?url:this.ajax_url) + '&no_debug=1', 'URL_FINAL!!!');
+        var request = $.ajax({
+            type:       "GET",
+            //url:              'http://wtp.local/'+ url?url:this.ajax_url,
+            //url:              this.base_url + url ? url : this.ajax_url,
+            //url:            wtpAjax.base_url + (url ? url : wtpAjax.ajax_url) + '&no_debug=1' + (nocache ? '&no_cache=1' : ''),
+            url:            wtpAjax.base_url + (url ? url : wtpAjax.ajax_url) + (nocache ? '&no_cache=1' : ''),
+            //                  data: 'tx_wsocial_pi1[month_ajax]='+month,
+            //                  data: { id : menuId },
+            data:           conf.data ? conf.data : {}
+            //                  dataType: "json",
+            //                  dataType: "html"
+            //success:
+        })
+
+            // this default method is not used, is overwritten in conf.successCallback
+            .done(conf.successCallback ? conf.successCallback : function(res) {
+                console.info('done!');
+                if(parseInt(res)!=0)  {  // if no errors
+                    wtpAjax.animationStop(boxToAnimate);
+                }
+            })
+            .fail(function( jqXHR, textStatus ) {
+                console.error( "Request failed: " + textStatus );
+                //wtpAjax.handleError( "Request failed: " + textStatus );
+            });
+    },
+    
+    
+    /**
+     * load-more buttons
+     * @param caller - button/anchor js element
+     * @param code - view display mode
+     * @param string params - additional params
+     * @param specifiedContainer - should be always given, if not result could be unexpected
+     * @param function successFunc
+     * @param bool replaceContent - don't append new items, replace old
+     * @param confOptions - array additional settings. not used for now
+     */
+    ttnews_getView: function(caller, code, uid, params, specifiedContainer, successFunc, replaceContent, confOptions) {
+        //console.log(successFunc);
+        if (!params)            params = '';
+        //if (!displayMode)       displayMode = controller;
+        replaceContent = true;  // i doubt it will ever be needed for anything. getView should always replace whole content, I think. but maybe not in some cases?
+        // ten url udaje cached, ma cHash, ale nie zadziala jako cachowany - bo recznie dodajemy parametry. wiec (teoretycznie) zawsze zaciagnie swieze dane.
+        // przewaga nad ajax_url jest brak no_cache
+        //var url = wtpAjax.ajax_url + '&no_debug=1&tx_ttnews[cat]=getView&tx_wsocial_pi1[controller]='+controller+'&tx_wsocial_pi1[displayMode]='+displayMode + params;
+        var url = wtpAjax.ajax_url + '&no_debug=1&'+ params;
+        wtpAjax.getResults(url, caller, specifiedContainer, successFunc, replaceContent );
+
+        // set cookie
+        $.cookie("last_news_category", uid, {
+            expires: 1,
+            path: "/"
+        });
+    },
+
+    /**
+     * activate clicked button
+     * @param el
+     */
+    controlAjaxCatButtons: function(el)    {
+        $(el).parent().siblings().removeClass('news-catmenu-ACT').addClass('news-catmenu-NO');
+        $(el).parent().addClass('news-catmenu-ACT');
+    },
+
+
+
+    //
+    // ANIMATION
+
+    animationStart: function(container)	{
+        container.addClass('loading')
+            .animate({
+                opacity: 0.6
+            }, 200, function() {
+                // Animation complete.
+            });
+    },
+
+    animationStop: function(container)	{
+        container.removeClass('loading')
+            .animate({
+                opacity: 1
+            }, 200, function() {
+                // Animation complete.
+            });
+    }
 }
 
 

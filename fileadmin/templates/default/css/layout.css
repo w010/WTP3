@@ -29,6 +29,7 @@
   float: left;
   top: 10px;
   margin: 0 auto;
+  z-index: 4;
 }
 
 #logo img {
@@ -76,6 +77,45 @@
   font-size: 1.2em;
 }
 
+
+
+
+/* FRAMES */
+
+.frame-box  {
+    background: #fff;
+    padding-bottom: 10px;
+    margin-bottom: 34px;
+}
+		/* styles with .content shouldn't be in that file, but are sometimes neccessary to overwrite and is somelike handy */
+.content .frame-box p {
+	margin-bottom: 0.8em;
+}
+    .frame-box2  {
+        background: #a6a6a6;
+        color: #fff;
+    }
+    .frame-box2 a   {
+        color: #fff;
+    }
+    /* pad everything inside except first header */
+.frame-box > *  {
+    margin: 0 12px;
+}
+    .frame-box > :first-child  {
+        margin: 0;
+    }
+.content .frame-box h2, .content .frame-box h3  {
+    padding: 8px;
+    text-transform: uppercase;
+    font-size: 1em;
+    margin-bottom: 20px;
+}
+.content .frame-box h3  {
+    color: #fff;
+    background: #a6a6a6;
+	margin-top: 0;
+}
 
 
 
@@ -289,6 +329,8 @@
     border-radius: 6px 0 6px 6px;
 }
 
+
+/* menu positions opens below */
 .navbar .level1 > li > .dropdown-menu.level2    {
     left: 0;
     top: 100%;
@@ -434,3 +476,17 @@
 .lang-en.act	{		background-image: url('images/flag_gb_act.gif');	}
 .lang-pl.act	{		background-image: url('images/flag_pl_act.gif');	}
 .lang-fr.act	{		background-image: url('images/flag_fr_act.gif');	}*/
+
+
+
+
+
+/** medium screen */
+/*
+@media (max-width: 991px) {
+	.frontEndEditIcons	{
+		display: none !important;
+	}
+}
+
+

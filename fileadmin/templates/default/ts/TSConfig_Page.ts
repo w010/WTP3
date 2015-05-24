@@ -23,13 +23,13 @@ TCEFORM {
 			#2 = my layout 2
 			#3 = my layout 3
 		}
-		subtitle.disabled = 1
+		#subtitle.disabled = 1
 		#lastUpdated.disabled = 1
 		newUntil.disabled = 1
 		#no_search.disabled = 1
 		alias.disabled = 1
-		author.disabled = 1
-		author_email.disabled = 1
+		#author.disabled = 1
+		#author_email.disabled = 1
 		#abstract.disabled = 1
 		#description.disabled = 1
 		php_tree_stop.disabled = 1
@@ -38,9 +38,9 @@ TCEFORM {
 		module.disabled = 1
 		lastUpdated.disabled = 1
 		target.disabled = 1
-		cache_timeout.disabled = 1
+		#cache_timeout.disabled = 1
 		#fe_group.disabled = 1
-		extendToSubpages.disabled = 1
+		#extendToSubpages.disabled = 1
 	}
 	tx_templavoila_tmplobj {
 		rendertype.addItems	{
@@ -65,18 +65,20 @@ TCEFORM {
 			4 = H4
 			5 = H5
 		}
-		# sprawdzic jak to sie ma do typo 6
 		section_frame.altLabels {
-			1 = Add space after
-			10 = Layout 1
-			11 = Layout 2
-			12 = 3cols
-			20 = 3cols+RulerAfter
-			21 = No wrap
+			#1 = Add space after
+			#10 = Layout 1
+			#11 = Layout 2
+			#12 = 3cols
+			#20 = 3cols+RulerAfter
+			#21 = No wrap
 		}
 		section_frame.addItems {
-			30 = 2cols
-			31 = 2cols+RulerAfter
+			31 = Box type 1
+			32 = Box type 2
+			33 = Box type 3
+
+			# 66 is used by default and means No frame
 		}
 		CType.removeItems = multimedia,mailform,search
 		colPos.disabled = 1
@@ -91,7 +93,6 @@ TCEFORM {
 		text_properties.disabled = 1
 		longdescURL.disabled = 1
 		#fe_group.disabled = 1
-		# image.disabled = 1 # DAM ready
 	}
 	tt_news {
 		archivedate.disabled = 1
@@ -120,8 +121,9 @@ RTE.classes {
 		name = Yellow Link
 		value = font-weight: bold;
 	}
-	contact-phone	{
-		name = Contact - Phone
+		value = color: yellow;
+	phone	{
+		name = Phone
 		value = color: #749377;
 	}
 	more {
@@ -137,11 +139,15 @@ RTE.classes {
 RTE.default {
 	
 	buttons	{
-		blockstyle.tags.div.allowedClasses := addToList(yellowLink,contact-phone)
-		textstyle.tags.span.allowedClasses := addToList(yellowLink)
+		blockstyle.tags.div.allowedClasses := addToList(yellowLink,phone)
+		textstyle.tags.span.allowedClasses := addToList(yellowLink,phone)
+		textstyle.tags.p.allowedClasses := addToList(yellowLink, phone)
+		blockstyle.tags.all.allowedClasses := addToList(yellowLink, phone)
 		link.properties.class.allowedClasses := addToList(mail,more,fancybox)
 		#blockstyle.tags.div.allowedClasses := removeFromList(csc-frame-frame1, csc-frame-frame2)
 		#link.properties.class.allowedClasses := removeFromList(external-link,external-link-new-window,internal-link-new-window,internal-link,download,mail)
+
+		#formatblock.removeItems = h5,h6
 	}
 	
 	#classesTable := addToList(sometable) # old, check this
@@ -162,3 +168,32 @@ RTE.default {
 }
 
 
+
+# linkhandler tu kiedys byl - to jest do wstawiania linkow do ttnews w rte. odzyskac to
+# https://axelerant.com/easily-link-to-news-articles-with-the-typo3-rte/
+
+# nie wiadomo, czemu to nie dziala w taki sposob
+# ale dziala jako taki bez tych ustawien
+temp.plugin.tx_linkhandler {
+	tx_tt_news_news {
+		forceLink = 1
+		#parameter = 15
+		parameter >
+		parameter.stdWrap.cObject = USER
+		parameter.stdWrap.cObject {
+			userFunc = tx_sitecedris_linkhandler_helper->main
+			userFunc {
+				# tt_news uid
+				uid = TEXT
+				uid.field = uid
+
+				# Default pid if no pid given
+				pid = TEXT
+				pid.value = 5
+			}
+		}
+		additionalParams = &tx_ttnews[tt_news]={field:uid}
+		additionalParams.insertData = 1
+		useCacheHash = 1
+	}
+}

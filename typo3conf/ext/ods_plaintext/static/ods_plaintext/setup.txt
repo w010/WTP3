@@ -1,0 +1,19 @@
+# Plain text
+includeLibs.tx_odsplaintext = EXT:ods_plaintext/lib/class.tx_odsplaintext.php
+plaintext = PAGE
+plaintext {
+  typeNum = 99 
+  config {
+    disableAllHeaderCode = 1
+  }
+  10 = TEXT
+  10.value = <!--DMAILER_SECTION_BOUNDARY_-->
+  20 = COA
+  20 {
+    10 = USER
+    10.userFunc = tx_templavoila_pi1->main_page
+    stdWrap.postUserFunc = tx_odsplaintext->user_cleanup
+  }
+  30 = TEXT
+  30.value = <!--DMAILER_SECTION_BOUNDARY_END-->
+}

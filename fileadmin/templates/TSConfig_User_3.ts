@@ -27,6 +27,7 @@ TCAdefaults {
 	#tt_news_cat.hidden = 1
 }
 
+# what page and setting is this?
 [PIDupinRootline=275]
 admPanel {
 	hide = 1
@@ -37,3 +38,47 @@ admPanel {
 	}
 }
 [end]
+
+
+# feedit (standard / advanced) - http://wiki.typo3.org/Frontend_editing  /  http://docs.typo3.org/typo3cms/extensions/feeditadvanced/Installation/Index.html
+admPanel	{
+	enable.edit = 1
+	module.edit.forceNoPopup = 0
+	module.edit.forceDisplayFieldIcons = 1
+	module.edit.forceDisplayIcons = 0
+	# hides admpanel itself
+	hide = 1
+}
+
+#[PIDinRootline = 83]
+[globalVar = TSFE|id = 83]
+page.config.admPanel = 0
+admPanel	{
+  	enable.edit = 0
+}
+[global]
+
+
+options.pageTree.backgroundColor.76 = rgba(0, 255, 0, 0.1)
+
+
+permissions.file.default {
+	addFile = 1
+	readFile = 1
+	editFile = 1
+	writeFile = 1
+	uploadFile = 1
+	copyFile = 1
+	moveFile = 1
+	renameFile = 1
+	unzipFile = 1
+	deleteFile = 1
+
+	addFolder = 1
+	readFolder = 1
+	moveFolder = 1
+	writeFolder = 1
+	renameFolder = 1
+	deleteFolder = 1
+	deleteSubfolders = 1
+}

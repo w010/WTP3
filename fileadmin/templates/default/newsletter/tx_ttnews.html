@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<!--
+		IMPORTANT: The stylesheet link below is only for testing the template file directly in a browser while editing it.
+		On the website the css styles for tt_news have to be include with the static TS template "default CSS style (tt_news)" or
+		with an external file (see tt_news/res/tt_news_v2_styles.css) which you include via TypoSript in the "page" object.
+
+ -->
+	<title>new News example template</title>
+    <link href="../res/tt_news_tut_main_stylesheet.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+
+
+
+
+
+<br>
+<br>
+<br>
+<h1>NEWS TEMPLATES</h1>
+<h2>EXAMPLE</h2>
+
+
+
+
+
+
+<br>
+<br>
+<br>
+<pre>
+
+<strong>Common markers:</strong>
+These are substituted in all news item displaying templates:
+
+<em>Markers:</em>
+NEWS_UID - ID number (uid) of the news item
+NEWS_TITLE - News item title
+NEWS_AUTHOR - name of author
+NEWS_EMAIL - email of author
+NEWS_DATE - date
+NEWS_TIME - time
+NEWS_AGE - age of news item in minutes, hours, days or years
+NEWS_SUBHEADER - subheader, if empty main content is inserted here in LIST and LATEST
+NEWS_CONTENT - main content
+NEWS_LINKS - news links
+NEWS_CATEGORY - news item category
+NEWS_CATEGORY_IMAGE - news item category image
+NEWS_RELATED - links to related news
+NEWS_IMAGE - news item images
+NEWS_CATEGORY_ROOTLINE - category rootline
+
+PAGE_UID - Page id of the parent page (pid)
+PAGE_TITLE - Title of the parent page of the news item
+PAGE_AUTHOR - Page author, if any
+PAGE_AUTHOR_EMAIL - Page author email, if any
+
+<em>News Language Markers (see pi/locallang.php):</em>
+LATEST_HEADER - header for the LATEST element
+GOTOARCHIVE - link to archive page in latest template
+ARCHIVE_HEADER - same for AMENU
+MORE - more ;-)
+TEXT_CAT - text output before categories and category images in LIST view (eg: 'categories:')
+TEXT_CAT_LATEST - the same in a shorter form for the LATEST element (eg: 'cat:')
+BACK_TO_LIST - link back to list-view in single-view template
+ARCHIVE_EMPTY_MSG - no items in archive
+SEARCH_EMPTY_MSG - message for empty search results
+TEXT_NEWS_AGE - text inserted before the age of the news item
+
+
+<em>Wrapped Subparts:</em>
+LINK_ITEM - link to the news item single display
+LINK_PREV - used in the pagebrowser
+BROWSE_LINKS - used in the pagebrowser
+LINK_NEXT - used in the pagebrowser
+</pre>
+
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<br>
+<h3>TEMPLATE_LIST</h3>
+<em>This is the template for the list of news in the archive or news page or search.</em>
+<br>
+<br>
+<br>
+<br>
+<!-- ###TEMPLATE_LIST### begin
+	This is the template for the list of news in the archive or news page or search
+-->
+<div class="news news-list-container">
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <tr>
+            <td style="background: #b72f8b url(http://cedris.aw.test-devs.com/fileadmin/templates/default/newsletter/gradient.png) repeat-y scroll 0 0; color: #fff; font-size: 17px; padding: 6px;">NIEUWS VAN CEDRIS</td>
+        </tr>
+    </table>
+
+	<!-- ###CONTENT### begin
+		  This is the part of the template substituted with the list of news:
+	-->
+		<!-- ###NEWS### begin
+			Template for a single item
+		-->
+
+                <table class="news-list-item" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                    <tr>
+                        <td style="background-color: #fff; padding: 5px;">###NEWS_DATE###</td>
+                        <td style="width: 90%; background-color: #cdcdcd; padding: 6px;"><!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="background: #fff url(http://cedris.aw.test-devs.com/fileadmin/templates/default/newsletter/button-more.png) no-repeat scroll bottom right; padding: 20px; font-size: 15px 10px;"><!--###LINK_ITEM###-->###NEWS_SUBHEADER###<!--###LINK_ITEM###--></td>
+                        <td style="clear: both;"></td>
+                    </tr>
+                </table>
+
+
+		<!-- ###NEWS### end-->
+	<!-- ###CONTENT###  end -->
+
+<!--### BROWSE_LINKS ###-->
+</div>
+<!-- ###TEMPLATE_LIST### end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

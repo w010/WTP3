@@ -1,0 +1,14 @@
+location ~ \.(merge|min|gz)(\.gz)?\.(js|css) {
+	expires 365d;
+	add_header Cache-Control "public";
+}
+
+# active only if compression is disabled in the scriptmerger configuration
+gzip on;
+gzip_disable "msie6";
+
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_min_length 1100;
+gzip_buffers 16 8k;
+gzip_types text/plain application/xml text/css text/js text/xml application/x-javascript text/javascript application/json application/xml+rss;

@@ -56,6 +56,12 @@ class tx_himisc_div {
 		if (($pageCssClass = $GLOBALS['TSFE']->rootLine[count($GLOBALS['TSFE']->rootLine)-1]['tx_himisc_cssclass'])) {
 			$classes['page-class'] = $pageCssClass;
 		}
+		if (DEV)    {
+			$classes['dev'] = 'dev';
+		}
+		if (LOCAL)    {
+			$classes['local'] = 'local';
+		}
 
 		$id = 'page-'.$GLOBALS['TSFE']->id;
 		$classes = $this->getBodyTagAdditionalClasses($classes, $conf);

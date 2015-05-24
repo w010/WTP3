@@ -120,3 +120,16 @@ p.bodytext a {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.local #mfPreviewBar,
+.local #mfPreviewBarShow   {
+    display: none;
+}
+
+
+.only-dev	{
+	display: none;
+}
+	.dev .only-dev	{
+		display: block;
+	}

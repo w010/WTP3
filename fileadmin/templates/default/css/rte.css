@@ -1,12 +1,13 @@
-
 /****************************************************************************************
 # Default css file for content edited with htmlArea RTE
 #
 # Defines a few class selectors that can be simply taken as examples by anyone who needs to configure the RTE.
 # This css file is referenced by property RTE.default.contentCSS in the default configuration of htmlArea RTE.
-#
-# TYPO3 SVN ID: $Id$
 # ***************************************************************************************/
+
+/* based on t3 version 6.2
+#  /typo3_src/typo3/sysext/rtehtmlarea/res/contentcss/default.css
+*/
 
 /* Left, center, right and justify alignment of text in block elements*/
 p.align-left, td.align-left, th.align-left, h1.align-left, h2.align-left, h3.align-left, h4.align-left, h5.align-left, h6.align-left, div.align-left, address.align-left { text-align: left; }
@@ -37,7 +38,11 @@ a.external-link-new-window {}
 a.internal-link {}
 a.internal-link-new-window {}
 a.download {}
-a.mail {}
+a.mail {
+    color: gray;
+    /*background: url('../images/icons-contact.png') scroll no-repeat 0 -30px;*/
+    padding-left: 20px;
+}
 
 /* Default selector for indentation.*/
 div.indent { margin-left: 2em; }
@@ -47,8 +52,10 @@ div.indent { margin-left: 2em; }
 	color: #ff0;
 }
 
-.contact-phone	{
-	font-size: 20px;
+span.phone	{
+	color: gray;
+    /*background: url('../images/icons-contact.png') scroll no-repeat 0 0px;*/
+    padding-left: 20px;
 }
 a.more	{
 	font-weight: bold;

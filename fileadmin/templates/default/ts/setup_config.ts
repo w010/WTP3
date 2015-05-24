@@ -24,7 +24,7 @@ config  {
 	inlineStyle2TempFile = 1
 	meaningfulTempFilePrefix = 9
 	spamProtectEmailAddresses = 1
-	#spamProtectEmailAddresses_atSubst =
+	spamProtectEmailAddresses_atSubst = @
 	extTarget =
 	disablePrefixComment = 1
 	content_from_pid_allowOutsideDomain = 1
@@ -37,8 +37,18 @@ config  {
 	config.no_cache = 1
 	config.disablePrefixComment = 0
 	#config.baseURL = http://dev.wtp.aw.test-devs.com/
+
+	config.noPageTitle = 2
+	page.headerData.6666 = TEXT
+	page.headerData.6666.field = subtitle // title
+	page.headerData.6666.wrap = <title>DEV cedris:&nbsp;|</title>
 [end]
 [globalVar= ENV:LOCAL=1]
 	#config.baseURL = http://wtp.localhost/
+
+	config.noPageTitle = 2
+    page.headerData.6666 = TEXT
+    page.headerData.6666.field = subtitle // title
+    page.headerData.6666.wrap = <title>LOC cedris:&nbsp;|</title>
 [end]
 

@@ -8,61 +8,58 @@ tt_content {
 
 	#stdWrap.dataWrap =
 	# usuń linki <a href> do lokalizowanych content-elementów
-	stdWrap.prepend.dataWrap >
-
-  # HTML5
-	stdWrap.innerWrap.cObject.default {
-		10.value = <section id="c{field:uid}"
-		30.value = >|</section>
-	}
-
-	# 1-szy frame: był invisible (nieprzydatny, jest space-after). Odpowiednie zmiany naniesione w  TCEFORM.tt_content.section_frame.altLabels
-	## gron: od t3v4.3 nie dziala 
-	# stdWrap.innerWrap.cObject.1.value = <div class="csc-frame csc-frame-space-after">|</div>
-
-	# rulerAfter
-	stdWrap.innerWrap.cObject.6.15.value = csc-default
-	stdWrap.innerWrap.cObject.6.30.value = >|</section><div class="separator"></div>
-
-	# Zmiana: Indent > layout-1
-	stdWrap.innerWrap.cObject.10.15.value = csc-default frame-layout-1
-	stdWrap.innerWrap.cObject.10.30.value = >|</section>
-
-	# Zmiana: Indent 33/66 > layout-2
-	stdWrap.innerWrap.cObject.11.15.value = csc-default frame-layout-2
-	stdWrap.innerWrap.cObject.11.30.value = >|</section>
+	# stdWrap.prepend.dataWrap >
 
 
-	# Zmiana: Indent 66/33 > 3cols
-	stdWrap.innerWrap.cObject.12.15.value = csc-default frame-3cols
-	stdWrap.innerWrap.cObject.12.30.value = >|</section>
 
-	# Frame 1 > na 3cols + rulerAfter
-	stdWrap.innerWrap.cObject.20.15.value = csc-default frame-3cols frame-3cols-sep
-	stdWrap.innerWrap.cObject.20.30.value = >|</section><div class="separator"></div>
+	#
+	# CONTENT ELEMENTS WRAPS for different layouts/frames
+	#
 
-	# 2col
-	stdWrap.innerWrap.cObject.30 < tt_content.stdWrap.innerWrap.cObject.default
-	stdWrap.innerWrap.cObject.30.15.value = csc-default frame-2cols
-	stdWrap.innerWrap.cObject.30.30.value = >|</section>
-	# 2col w/separator
+
+		#  how to use this:
+		#  basically it looks some like this:
+		# stdWrap.innerWrap.cObject.[default|NN] {
+		#       10 - OPEN TAG
+		#       10.cObject.default.value = <div id="c{field:uid}"
+		#       20 - CLASS
+		#       20.10.value = csc-default
+		#       30 - CLOSE TAG
+		#       30.cObject.default.value = >|</div>
+		# }
+		#
+		#  overwrite settings for selected frame:
+		# stdWrap.innerWrap.cObject.[layout-number]
+		#
+		# differences from typo 4 to 6:
+		# for open tag:  instead of NN.10.value  (default.10.value)   use:  NN.10.cObject.default.value   (default.10.cObject.default.value)
+		# for class:     instead of NN.15.value  (default.15.value)   use:  NN.20.10.value  (default.20.10.value)
+		# for close tag: instead of NN.30.value  (default.30.value)   use:  NN.30.cObject.default.value   (default.30.cObject.default.value)
+
+
+	# labels for these frames: see page tsconfig TCEFORM.tt_content.section_frame.altLabels
+	# examples of modify:
+
+	# rulerAfter add as separate div
+	#stdWrap.innerWrap.cObject.6.15.value = csc-default
+	#stdWrap.innerWrap.cObject.6.30.value = >|</div><div class="separator"></div>
+	#
+	# change: Indent > layout-1
+	#stdWrap.innerWrap.cObject.10.15.value = csc-default frame-layout-1
+	#stdWrap.innerWrap.cObject.10.30.value = >|</div>
+
+	# add new:
+	# Box type 1
 	stdWrap.innerWrap.cObject.31 < tt_content.stdWrap.innerWrap.cObject.default
-	stdWrap.innerWrap.cObject.31.15.value = csc-default frame-2cols frame-2cols-sep
-	stdWrap.innerWrap.cObject.31.30.value = >|</section><div class="separator"></div>
+	stdWrap.innerWrap.cObject.31.20.10.value = csc-default frame-box1
 
+	# Box type 2
+	stdWrap.innerWrap.cObject.32 < tt_content.stdWrap.innerWrap.cObject.default
+	stdWrap.innerWrap.cObject.32.20.10.value = csc-default frame-box2
 
-
-	# usuń wrapy z parametrem ID ( nowe od typo3v4.3 )
-	#stdWrap.innerWrap.cObject.default >
-
-
-
-	# 2-gi frame: bylo frame-2 przelaczam na No wrap
-	stdWrap.innerWrap.cObject.21.10 =
-	stdWrap.innerWrap.cObject.21.15 =
-	stdWrap.innerWrap.cObject.21.20 =
-	stdWrap.innerWrap.cObject.21.30 =
-
+	# Box type 3
+    stdWrap.innerWrap.cObject.33 < tt_content.stdWrap.innerWrap.cObject.default
+    stdWrap.innerWrap.cObject.33.20.10.value = csc-default frame-box3
 }
 
 
@@ -78,6 +75,13 @@ tt_content {
 #tt_content.image.20 {
 #	maxW = 960
 #}
+
+
+	#
+	# MENU / SITEMAP CONTENT
+	#
+
+# seems to work as expected in 6.2
 
 tt_content.menu	{
 
@@ -100,8 +104,9 @@ tt_content.menu	{
 		# "Menu of subpages to these pages"
 		1 {
 			special = directory
-			wrap = <ul class="csc-menu csc-menu-1">|</ul>
-			
+			# in 6 it's not wrap, but that way:
+			# stdWrap.outerWrap = <ul class="csc-menu csc-menu-1">|</ul>
+
 			1 {
 				NO = 1
 				NO.wrapItemAndSub = <li>|</li> |*||*| <li class="last">|</li>
@@ -110,15 +115,15 @@ tt_content.menu	{
 				ACT.wrapItemAndSub = <li class="act">|</li> |*||*| <li class="last act">|</li>
 
 				CUR < .ACT
-				
 				#expAll = 0
 			}
 			2 < .1
-			3 < .1
-			4 < .1
-			5 < .1
-			6 < .1
-			7 < .1
+			2.wrap = <ul class="csc-menu-submenu"> | </ul>
+			3 < .2
+			4 < .2
+			5 < .2
+			6 < .2
+			7 < .2
 		}
 		
 		# "Sitemap - liststyle"
@@ -133,14 +138,13 @@ tt_content.menu	{
 				CUR < .ACT
 			}
 			2 < .1
-			3 < .1
-			4 < .1
-			5 < .1
-			6 < .1
-			7 < .1
+            2.wrap = <ul class="csc-menu-submenu"> | </ul>
+			3 < .2
+			4 < .2
+			5 < .2
+			6 < .2
+			7 < .2
 		}
-
-
 
 		# "Menu of subpages to these pages (with abstract)"
 		4 {
@@ -149,6 +153,7 @@ tt_content.menu	{
 				NO = 1
 				NO {
 					#wrapItemAndSub >
+					#wrapItemAndSub = <li>|</li> |*||*| <li class="last">|</li>
 					linkWrap = <li>|</li> |*||*| <li class="last">|</li>
 					temp_____after {
 						#data = field : abstract // field : description // field : subtitle
@@ -172,41 +177,33 @@ tt_content.menu	{
 
 
 
+# some snippets for sitemap
 
-#tt_content.menu.20.1.1 = TMENU
+temp.tt_content.menu.20  {
+	#1.1.expAll = 1
+	#1.1.NO.allWrap = <p class="csc-mysitemap csc-mysitemap-level1"><span>|</span></p>
+	#1.2 < tt_content.menu.20.1.1
+	#1.2.NO.allWrap = <p class="csc-mysitemap csc-mysitemap-level2"><span>|</span></p>
+	#1.2.itemArrayProcFunc = user_itemArrayProcFuncCat
+	#1.2.IProcFunc = user_IProcFuncCat
 
-tt_content.menu.20.1.1.expAll = 1
-#tt_content.menu.20.1.1.NO.allWrap = <p class="csc-mysitemap csc-mysitemap-level1"><span>|</span></p>
-
-tt_content.menu.20.1.2 < tt_content.menu.20.1.1
-#tt_content.menu.20.1.2.NO.allWrap = <p class="csc-mysitemap csc-mysitemap-level2"><span>|</span></p>
-tt_content.menu.20.1.2 {
-	#itemArrayProcFunc = user_itemArrayProcFuncCat
-	#IProcFunc = user_IProcFuncCat
+	#1.3 < tt_content.menu.20.1.1
+	#1.3.NO.allWrap = <p class="csc-mysitemap csc-mysitemap-level3"><span>|</span></p>
+	#1.3 {
+		#itemArrayProcFunc = user_itemArrayProcFuncCat
+		#IProcFunc = user_IProcFuncCat
+	#}
 }
 
-tt_content.menu.20.1.3 < tt_content.menu.20.1.1
-#tt_content.menu.20.1.3.NO.allWrap = <p class="csc-mysitemap csc-mysitemap-level3"><span>|</span></p>
-tt_content.menu.20.1.3 {
-	#itemArrayProcFunc = user_itemArrayProcFuncCat
-	#IProcFunc = user_IProcFuncCat
-}
-
-tt_content.menu.20.1.4 < tt_content.menu.20.1.1
-#tt_content.menu.20.1.4.NO.allWrap = <p class="csc-mysitemap csc-mysitemap-level4"><span>|</span></p> 
-tt_content.menu.20.1.4 {
-	#itemArrayProcFunc = user_itemArrayProcFuncCat
-	#IProcFunc = user_IProcFuncCat
-}
-
-tt_content.menu.20.1.5 < tt_content.menu.20.1.1
-#tt_content.menu.20.1.5.NO.allWrap = <p class="csc-mysitemap csc-mysitemap-level5"><span>|</span></p>
 
 
+#
+# UPLOADS
+#
 
+# doesn't seem to work in 6.2, settings looks different. clean on first use
 
-
-tt_content.uploads {
+temp.tt_content.uploads {
 	20 {
 		#outerWrap = <div class="csc-uploads">|</div>
 		
@@ -214,7 +211,7 @@ tt_content.uploads {
 		linkProc.iconCObject.file	{
 			import = fileadmin/templates/default/images/fileicons/
 			import.override = fileadmin/templates/default/images/fileicons/
-			width = 18
+			#width = 18
 		}
 		linkProc.icon.path = fileadmin/templates/default/images/fileicons/
 		linkProc.icon.widthAttribute = 18
@@ -279,3 +276,6 @@ temp.tt_content.uploads {
 # remove class bodytext
 # lib.parseFunc_RTE.nonTypoTagStdWrap.encapsLines.addAttributes.P.class >
 
+
+
+# http://typo3.org/news/article/responsive-image-rendering-in-typo3-cms-62/

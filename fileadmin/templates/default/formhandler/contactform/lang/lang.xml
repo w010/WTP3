@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>Language labels for Contact Form</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="label_fieldset">Contact Form</label>
+			<label index="name">Name</label>
+			<label index="surname">Surname</label>
+			<label index="title">Title</label>
+			<label index="mr">Mr</label>
+			<label index="mrs">Mrs</label>
+			<label index="activity">Activity</label>
+			<label index="street">Street</label>
+			<label index="number">Number</label>
+			<label index="postcode">Postcode</label>
+			<label index="city">City</label>
+			<label index="required">*Required</label>
+			<label index="phone">Phone</label>
+			<label index="email">E-Mail</label>
+			<label index="country">Country</label>
+
+<label index="country-albanien">Albanien</label>
+<label index="country-andorra">Andorra</label>
+<label index="country-belgien">Belgien</label>
+<label index="country-bosnien">Bosnien und Herzegowina</label>
+<label index="country-bulgarien">Bulgarien</label>
+<label index="country-danemark">Dänemark</label>
+<label index="country-deutschland">Deutschland</label>
+<label index="country-estland">Estland</label>
+<label index="country-finnland">Finnland</label>
+<label index="country-frankreich">Frankreich</label>
+<label index="country-griechenland">Griechenland</label>
+<label index="country-irland">Irland</label>
+<label index="country-island">Island</label>
+<label index="country-italien">Italien</label>
+<label index="country-kasachstan">Kasachstan</label>
+<label index="country-kosovo">Kosovo</label>
+<label index="country-kroatien">Kroatien</label>
+<label index="country-lettland">Lettland</label>
+<label index="country-liechtenstein">Liechtenstein</label>
+<label index="country-litauen">Litauen</label>
+<label index="country-luxemburg">Luxemburg</label>
+<label index="country-malta">Malta</label>
+<label index="country-mazedonien">Mazedonien</label>
+<label index="country-moldawien">Moldawien</label>
+<label index="country-monaco">Monaco</label>
+<label index="country-montenegro">Montenegro</label>
+<label index="country-niederlande">Niederlande</label>
+<label index="country-norwegen">Norwegen</label>
+<label index="country-osterreich">Österreich</label>
+<label index="country-polen">Polen</label>
+<label index="country-portugal">Portugal</label>
+<label index="country-rumanien">Rumänien</label>
+<label index="country-russland">Russland</label>
+<label index="country-sanmarino">San Marino</label>
+<label index="country-schweden">Schweden</label>
+<label index="country-schweiz">Schweiz</label>
+<label index="country-serbien">Serbien</label>
+<label index="country-slowakei">Slowakei</label>
+<label index="country-slowenien">Slowenien</label>
+<label index="country-spanien">Spanien</label>
+<label index="country-tschechien">Tschechien</label>
+<label index="country-turkei">Türkei</label>
+<label index="country-ukraine">Ukraine</label>
+<label index="country-ungarn">Ungarn</label>
+<label index="country-vatikanstadt">Vatikanstadt</label>
+<label index="country-vereinigtes">Vereinigtes Königreich</label>
+<label index="country-weissrussland">Weißrussland</label>
+<label index="country-andere">andere</label>
+
+			<label index="company">Company</label>
+			<label index="message">Message</label>
+			<label index="receive-copy">I want to receive a copy of this request</label>
+			<label index="submit">Send</label>
+			<label index="reason">Reason</label>
+			<label index="days">Day</label>
+			<label index="days-1">Monday</label>
+			<label index="days-2">Tuesday</label>
+			<label index="days-3">Wednesday</label>
+			<label index="days-4">Thursday</label>
+			<label index="days-5">Friday</label>
+			<label index="days-6">Saturday</label>
+			<label index="time">Time</label>
+			<label index="time-8">8.00</label>
+			<label index="time-9">9.00</label>
+			<label index="time-10">10.00</label>
+			<label index="time-11">11.00</label>
+			<label index="time-12">12.00</label>
+			<label index="time-13">13.00</label>
+			<label index="time-14">14.00</label>
+			<label index="time-15">15.00</label>
+			<label index="time-16">16.00</label>
+			<label index="time-17">17.00</label>
+			<label index="time-18">18.00</label>
+			<label index="time-19">19.00</label>
+			<label index="greetings">Dear</label>
+			<label index="email_user_subject">Your contact request</label>
+			<label index="email_user_text">We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.</label>
+			<label index="email_user_footer">---------------------------------- This message was created automatically. --------------------------------</label>
+
+			<label index="email_admin_subject">Contact request</label>
+			<label index="email_admin_text">A user filled out the contact form on www.example.org.</label>
+			<label index="email_admin_footer">---------------------------------- This message was created automatically. --------------------------------</label>
+
+			<label index="error_name_required">Please enter valid data!</label>
+			<label index="error_surname_required">Please enter valid data!</label>
+			<label index="error_company_required">Please enter valid data!</label>
+			<label index="error_street_required">Please enter valid data!</label>
+			<label index="error_number_required">Please enter valid data!</label>
+			<label index="error_postcode_required">Please enter valid data!</label>
+			<label index="error_city_required">Please enter valid data!</label>
+			<label index="error_country_required">Please enter valid data!</label>
+			<label index="error_email_required">Please enter valid data!</label>
+			<label index="error_email_email">Please enter valid data!</label>
+			<label index="error_message_required">Please enter valid data!</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="label_fieldset">Contact Form</label>
+			<label index="name">Name</label>
+			<label index="surname">Vorname</label>
+			<label index="title">Anrede</label>
+			<label index="mr">Herr</label>
+			<label index="mrs">Frau</label>
+			<label index="activity">Tatigkeitsbereich</label>
+			<label index="street">Strasse</label>
+			<label index="number">Nr.</label>
+			<label index="postcode">PLZ</label>
+			<label index="city">Ort</label>
+			<label index="required">*Pflichtfelder</label>
+			<label index="phone">Telefonnummer</label>
+			<label index="email">E-Mail</label>
+			<label index="country">Land</label>
+			<label index="country-osterreich">Österreich</label>
+			<label index="country-deutschland">Deutschland</label>
+			<label index="company">Firma</label>
+			<label index="message">Nachricht</label>
+			<label index="receive-copy">I want to receive a copy of this request</label>
+			<label index="submit">Absenden</label>
+			<label index="reason">Grund des Anrufes</label>
+			<label index="days">Tag des Rückrufes</label>
+			<label index="days-1">Montag</label>
+			<label index="days-2">Dienstag</label>
+			<label index="days-3">Mittwoch</label>
+			<label index="days-4">Donnerstag</label>
+			<label index="days-5">Freitag</label>
+			<label index="days-6">Samstag</label>
+			<label index="time">gewünscht Uhrzeit</label>
+			<label index="time-8">8.00 Uhr</label>
+			<label index="time-9">9.00 Uhr</label>
+			<label index="time-10">10.00 Uhr</label>
+			<label index="time-11">11.00 Uhr</label>
+			<label index="time-12">12.00 Uhr</label>
+			<label index="time-13">13.00 Uhr</label>
+			<label index="time-14">14.00 Uhr</label>
+			<label index="time-15">15.00 Uhr</label>
+			<label index="time-16">16.00 Uhr</label>
+			<label index="time-17">17.00 Uhr</label>
+			<label index="time-18">18.00 Uhr</label>
+			<label index="time-19">19.00 Uhr</label>
+			<label index="greetings">Dear</label>
+			<label index="email_user_subject">Your contact request</label>
+			<label index="email_user_text">We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.</label>
+			<label index="email_user_footer">---------------------------------- This message was created automatically. --------------------------------</label>
+
+			<label index="email_admin_subject">Contact request</label>
+			<label index="email_admin_text">A user filled out the contact form on www.example.org.</label>
+			<label index="email_admin_footer">---------------------------------- This message was created automatically. --------------------------------</label>
+
+			<label index="error_name_required">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_surname_required">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_company_required">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_street_required">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_number_required">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_postcode_required">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_city_required">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_country_required">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_email_required">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_email_email">Bitte geben sie die gültige Daten ein!</label>
+			<label index="error_message_required">Bitte geben sie die gültige Daten ein!</label>
+		</languageKey>
+
+		<languageKey index="nl" type="array">
+			<label index="label_fieldset">Contact Form</label>
+			<label index="name">Naam</label>
+			<label index="surname">Surname</label>
+			<label index="title">Title</label>
+			<label index="mr">Mr</label>
+			<label index="mrs">Mrs</label>
+			<label index="activity">Activity</label>
+			<label index="street">Street</label>
+			<label index="number">Number</label>
+			<label index="postcode">Postcode</label>
+			<label index="city">City</label>
+			<label index="required">*Required</label>
+			<label index="phone">Phone</label>
+			<label index="email">E-mail</label>
+			<label index="country">Country</label>
+
+			<label index="company">Company</label>
+			<label index="message">Bericht</label>
+			<label index="receive-copy">I want to receive a copy of this request</label>
+			<label index="submit">Verzenden</label>
+			<label index="reason">Reason</label>
+
+			<label index="greetings">Dear</label>
+			<label index="email_user_subject">Your contact request</label>
+			<label index="email_user_text">We have received your request via the contact form on www.example.org. We will process your request and get in contact with you soon.</label>
+			<label index="email_user_footer">---------------------------------- This message was created automatically. --------------------------------</label>
+
+			<label index="email_admin_subject">Contact request</label>
+			<label index="email_admin_text">A user filled out the contact form on www.example.org.</label>
+			<label index="email_admin_footer">---------------------------------- This message was created automatically. --------------------------------</label>
+
+			<label index="error_name_required">Vul de juiste gegevens in!</label>
+			<label index="error_surname_required">Vul de juiste gegevens in!</label>
+			<label index="error_company_required">Vul de juiste gegevens in!</label>
+			<label index="error_street_required">Vul de juiste gegevens in!</label>
+			<label index="error_number_required">Vul de juiste gegevens in!</label>
+			<label index="error_postcode_required">Vul de juiste gegevens in!</label>
+			<label index="error_city_required">Vul de juiste gegevens in!</label>
+			<label index="error_country_required">Vul de juiste gegevens in!</label>
+			<label index="error_email_required">Vul de juiste gegevens in!</label>
+			<label index="error_email_email">Vul de juiste gegevens in!</label>
+			<label index="error_message_required">Vul de juiste gegevens in!</label>
+		</languageKey>
+	</data>
+</T3locallang>

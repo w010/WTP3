@@ -309,6 +309,17 @@ return array (
       array (
       ),
     ),
+    'opendocs' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-opendocs',
+      'state' => 'active',
+      'packagePath' => 'typo3/sysext/opendocs/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
     'perm' => 
     array (
       'manifestPath' => '',
@@ -326,6 +337,17 @@ return array (
       'composerName' => 'typo3/cms-recordlist',
       'state' => 'active',
       'packagePath' => 'typo3/sysext/recordlist/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'recycler' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-recycler',
+      'state' => 'active',
+      'packagePath' => 'typo3/sysext/recycler/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -662,34 +684,12 @@ return array (
       array (
       ),
     ),
-    'opendocs' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-opendocs',
-      'state' => 'inactive',
-      'packagePath' => 'typo3/sysext/opendocs/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
     'openid' => 
     array (
       'manifestPath' => '',
       'composerName' => 'typo3/cms-openid',
       'state' => 'inactive',
       'packagePath' => 'typo3/sysext/openid/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'recycler' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-recycler',
-      'state' => 'inactive',
-      'packagePath' => 'typo3/sysext/recycler/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -765,6 +765,15 @@ return array (
       'composerName' => 'templavoila/templavoila',
       'state' => 'inactive',
       'packagePath' => 'typo3conf/ext/templavoila_old/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'w_rawhtml' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/w_rawhtml/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (

@@ -36,7 +36,7 @@ plugin.tt_news {
 	useMultiPageSingleView = 0
 	
 	# cat=plugin.tt_news/enable/3; type=boolean; label= Use bidirectional relations: If this is enabled the SINGLE view shows the the relations of news in both directions. The relation which points back to the source record will be inserted automatically.
-	useBidirectionalRelations = 0
+	useBidirectionalRelations = 1
 	
 	# cat=plugin.tt_news/enable/4; type=boolean; label= Use Pages as related news: If this is enabled the SINGLE view shows also relations to pages.
 	usePagesRelations = 0

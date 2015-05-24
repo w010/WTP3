@@ -1,0 +1,55 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:w_tools/locallang_db.xml:tt_content.pi_flexform.sheet_general</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+
+                    <newsItem>
+                        <TCEforms>
+                            <label>LLL:EXT:w_tools/locallang_db.xml:tt_content.pi_flexform.newsItem</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>tt_news</allowed>
+                                <show_thumbs>1</show_thumbs>
+                                <size>1</size>
+                                <maxitems>1</maxitems>
+                                <wizards>
+                                    <!-- doesnt work for some reason -->
+                                    <!--<edit>
+                                        <type>popup</type>
+                                        <title>Edit item</title>
+                                        &lt;!&ndash;<script>wizard_edit.php</script>&ndash;&gt;
+                                        &lt;!&ndash; for 6.2 use: &ndash;&gt;
+                                        <module>
+                                            <name>wizard_edit</name>
+                                        </module>
+                                        <popup_onlyOpenIfSelected>1</popup_onlyOpenIfSelected>
+                                        <icon>edit2.gif</icon>
+                                        &lt;!&ndash;<JSopenParams>height=350,width=580,status=0,menubar=0,scrollbars=1</JSopenParams>&ndash;&gt;
+                                    </edit>-->
+                                    <suggest>
+                                        <type>suggest</type>
+                                        <default>
+                                            <!--<searchWholePhrase>1</searchWholePhrase>-->
+                                        </default>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </newsItem>
+
+
+                </el>
+            </ROOT>
+        </sDEF>
+
+    </sheets>
+</T3DataStructure>

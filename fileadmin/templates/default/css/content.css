@@ -10,7 +10,7 @@ px - em
 /*$page-color-home: #1f1f1f;*/
 /*$menu-color-subtitle: #b2a06b;*/
 .content {
-  line-height: 130%;
+	text-align: left;
 }
 
 .content p {
@@ -62,8 +62,7 @@ px - em
 }
 
 .content ul, .content ol {
-  margin-top: 0.2em;
-  margin-bottom: 0.8em;
+
 }
 
 .content ul {
@@ -72,7 +71,7 @@ px - em
 
 .content ul li {
   padding-left: 1.4em;
-  list-style-type: none;
+  /*list-style-type: none;*/
 }
 
 .content ul.csc-menu li {
@@ -86,6 +85,7 @@ px - em
 .content ul.csc-menu ul.csc-menu-submenu {
   margin-top: 0.4em;
   margin-bottom: 0em;
+	padding-left: 20px;
 }
 
 .csc-header + .filelinks {
@@ -285,6 +285,10 @@ body .more:hover .end,
   z-index: 1;
 }
 
+.content .frame-box1 div.csc-textpic .csc-textpic-last	{
+	margin-bottom: 0;
+}
+
 /* CONTENT */
 #main p.bodytext {
   /*font-size: 1.2em;*/
@@ -427,7 +431,7 @@ p .detail {
 /* arrows, dots */
 p.arrow-right {
   padding-right: 20px;
-  background: transparent url("images/arrow2.gif") scroll no-repeat 100% 3px;
+  background: transparent url("../images/arrow2.gif") scroll no-repeat 100% 3px;
   font-size: 10px;
   font-weight: bold;
 }
@@ -437,46 +441,26 @@ p.arrow-right a {
   text-decoration: none;
 }
 
-.loginbox {
-  color: #676c71;
+
+/* TABLES */
+
+
+/*Firefox and fieldsets
+Firefox has some awkward fieldset styling involving width that interferes with the responsive table. This cannot be overriden without a Firefox-specific hack that we don't provide in Bootstrap:
+http://stackoverflow.com/questions/17408815/fieldset-resizes-wrong-appears-to-have-unremovable-min-width-min-content/17863685#17863685
+http://getbootstrap.com/css/#tables
+*/
+@-moz-document url-prefix() {
+	fieldset { display: table-cell; }
 }
-.loginbox input[type="password"],
-.loginbox input[type="text"],
-.loginbox input[type="submit"] {
-  border-top: 1px solid #8f9496;
-  border-right: 1px solid #c1c3c4;
-  border-bottom: 1px solid #dadada;
-  border-left: 1px solid #c1c3c4;
-  background: #fff;
-  color: #676c71;
-  width: 130px;
-  padding: 3px 5px;
-  font-size: 1em;
+
+.table > tbody > tr > td:nth-child(2n+1)	{
+	background-color: #f2f2f2;
 }
-.loginbox input[type="submit"] {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  border-color: #c3c3c3;
-  width: auto;
-}
-.loginbox .row.submit {
-  text-align: center;
-}
-.loginbox .status-msg {
-  margin-top: 6px;
-}
-.loginbox .status-name {
-  margin-bottom: 3px;
-}
-.loginbox .logout input {
-  border: none !important;
-  padding: 0 !important;
-  margin: 0;
-  font-weight: bold;
-  color: #202025;
-  cursor: pointer;
-}
+
+
+
+
 
 /* MAINPAGE SLIDER */
 /* w_slider - can be removed? */
@@ -645,6 +629,10 @@ p.arrow-right a {
   background-image: url(../images/slider2-right.png);
 }
 
+
+/* FORMS */
+
+
 /* fancybox */
 /* form */
 /* OVERALL */
@@ -666,21 +654,35 @@ button {
   box-shadow: none;
   -webkit-box-shadow: none;
   text-shadow: none;
-  background: url(../images/button.png) no-repeat;
+  /*background: url(../images/button.png) no-repeat;
   height: 28px;
   color: #fff;
   border: none !important;
   padding: 6px 16px;
   font-size: 1.2em;
-  font-family: 'Conv_FuturaBT-Heavy', Verdana, Arial;
   font-weight: normal;
-  text-transform: none;
+  text-transform: none;*/
 }
+
+input.submit:hover,
+input.submit:active,
+input[type="submit"]:hover,
+input[type="submit"]:active,
+button:hover,
+button:active {
+	/*background-position: 0 -28px;
+	  color: black;*/
+	/* rewrite bootstrap onhover */
+	background: #737373 url(../images/button1.png) no-repeat 90% 8px;
+	color: #fff;
+}
+/* uporzadkowac przy uzyciu */
+
 input.submit:hover,
 input[type="submit"]:hover,
 button:hover {
-  background-position: 0 -28px;
-  color: black;
+  /*background-position: 0 -28px;
+  color: black;*/
 }
 input.submit .end,
 input[type="submit"] .end,
@@ -933,6 +935,136 @@ select:hover,
 }
 .select .options .option:hover {
   background: lightgray;
+}
+
+
+
+/* LOGIN */
+
+.loginbox {
+  color: #676c71;
+}
+.loginbox input[type="password"],
+.loginbox input[type="text"],
+.loginbox input[type="submit"] {
+  border-top: 1px solid #8f9496;
+  border-right: 1px solid #c1c3c4;
+  border-bottom: 1px solid #dadada;
+  border-left: 1px solid #c1c3c4;
+  background: #fff;
+  color: #676c71;
+  width: 130px;
+  padding: 3px 5px;
+  font-size: 1em;
+}
+.loginbox input[type="submit"] {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border-color: #c3c3c3;
+  width: auto;
+}
+.loginbox .row.submit {
+  text-align: center;
+}
+.loginbox .status-msg {
+  margin-top: 6px;
+}
+.loginbox .status-name {
+  margin-bottom: 3px;
+}
+.loginbox .logout input {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0;
+  font-weight: bold;
+  color: #202025;
+  cursor: pointer;
+}
+
+
+
+/* uporzadkowac */
+
+
+/* general loginboxes styles */
+.loginbox input[type="password"],
+.loginbox input[type="text"],
+.loginbox input[type="submit"] {
+	/*border-top: 1px solid #8f9496;
+	  border-right: 1px solid #c1c3c4;
+	  border-bottom: 1px solid #dadada;
+	  border-left: 1px solid #c1c3c4;
+	  background: #fff;
+	  color: #676c71;
+	  width: 130px;
+	  padding: 3px 5px;
+	  font-size: 1em;*/
+}
+.loginbox input[type="submit"] {
+	border-color: #c3c3c3;
+	width: auto;
+}
+.loginbox label {
+	font-weight: normal;
+}
+.loginbox .row.submit {
+	text-align: center;
+}
+.loginbox .status-msg {
+	margin-top: 6px;
+}
+.loginbox .status-name {
+	margin-bottom: 3px;
+}
+.loginbox .logout input {
+	cursor: pointer;
+}
+
+/* top loginbox */
+#top-loginbox   {
+	font-family: 'AvenirLTStd-Medium', Tahoma, Arial, Helvetica, sans-serif;
+	min-height: 30px;
+	min-width: 156px;
+	font-size: 1.05em;
+}
+#top-loginbox,
+#top-loginbox label,
+#top-loginbox a {
+	color: #fff;
+	/*font-family: 'AvenirLTStd-Medium', Tahoma, Arial, Helvetica, sans-serif;*/
+}
+#top-loginbox input[type="password"],
+#top-loginbox input[type="text"]    {
+	width: 240px;
+	background: #fff;
+	color: #8c8c8c !important;
+	border: 1px solid #d3d3d3;
+	border-bottom: 1px solid #a2a2a2;
+	padding: 5px 13px;
+	/*font-size: 1.05em;*/
+}
+#top-loginbox .login-options  {
+	padding: 4px 14px;
+}
+#top-loginbox .forgot {
+	float: right;
+}
+#top-loginbox #permalogin {
+	float: left;
+	margin: 10px 10px 0 0;
+}
+#top-loginbox .submit {
+	/*display: none;*/
+}
+#top-loginbox .button-logout    {
+	border: 0;
+	/*color: #737373;*/
+	color: #fff;
+	padding: 5px 10px;
+}
+#top-loginbox input[type="submit"]    {
+	border: 1px solid #d3d3d3;
 }
 
 

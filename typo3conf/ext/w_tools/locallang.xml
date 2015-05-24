@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'w_tools'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+            <label index="tt_content.list_type_pi1">News - single item</label>
+            <label index="tt_content.list_type_pi3">Xml import (WTP Tools)</label>
+
+            <label index="scheduler.import.crm.name">Import Cedris CRM</label>
+            <label index="scheduler.import.crm.description">Import fileadmin/contents/ExportDynamicsCRM/ to the newsletter list.</label>
+		</languageKey>
+		<languageKey index="pl" type="array">
+		</languageKey>
+	</data>
+</T3locallang>

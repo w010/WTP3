@@ -36,9 +36,9 @@ plugin.tx_felogin_pi1	{
  	#welcomeMessage_stdWrap
  	#successHeader_stdWrap
 
- 	#feloginBaseURL = http://dev.xxx.pl
- 	email_from = info@xxx.pl
- 	email_fromName = my site
+ 	#feloginBaseURL = http://dev.xxx.com
+ 	email_from = noreply@xxx.com
+ 	email_fromName = WTP
 
  	welcomeHeader_stdWrap {
 		wrap = <p class="bodytext">|</p>
@@ -47,7 +47,7 @@ plugin.tx_felogin_pi1	{
 		wrap = <p class="bodytext">|</p>
 	}
 	errorHeader_stdWrap {
-		wrap = <p class="bodytext">|</p>
+		wrap = <p class="bodytext error">|</p>
 	}
 	changePasswordHeader_stdWrap {
 		wrap = <p class="bodytext">|</p>
@@ -55,6 +55,14 @@ plugin.tx_felogin_pi1	{
 	changePasswordMessage_stdWrap {
 		wrap = <p class="bodytext">|</p>
 	}
+	logoutHeader_stdWrap	{
+		wrap = <span class="header">|</span>
+	}
+
+	preserveGETvars = 0
+
+	# custom option - forget password page link - modded felogin @see in typo3conf/ext/felogin
+	pid_forget = 27
 }
 
 

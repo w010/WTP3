@@ -1,0 +1,76 @@
+config {
+	compressJs = 0
+	compressCss = 0
+	#concatenateJs = 0
+	#concatenateCss = 0
+}
+
+plugin.tx_scriptmerger {
+	css {
+		enable = {$plugin.tx_scriptmerger.css.enable}
+		addContentInDocument = {$plugin.tx_scriptmerger.css.addContentInDocument}
+		doNotRemoveInDoc = {$plugin.tx_scriptmerger.css.doNotRemoveInDoc}
+		mergedFilePosition = {$plugin.tx_scriptmerger.css.mergedFilePosition}
+
+		minify {
+			enable = {$plugin.tx_scriptmerger.css.minify.enable}
+			ignore = {$plugin.tx_scriptmerger.css.minify.ignore}
+		}
+
+		compress {
+			enable = {$plugin.tx_scriptmerger.css.compress.enable}
+			ignore = {$plugin.tx_scriptmerger.css.compress.ignore}
+		}
+
+		merge {
+			enable = {$plugin.tx_scriptmerger.css.merge.enable}
+			ignore = {$plugin.tx_scriptmerger.css.merge.ignore}
+		}
+
+		uniqueCharset {
+			enable = {$plugin.tx_scriptmerger.css.uniqueCharset.enable}
+			value = {$plugin.tx_scriptmerger.css.uniqueCharset.value}
+		}
+
+		postUrlProcessing {
+			pattern = {$plugin.tx_scriptmerger.css.postUrlProcessing.pattern}
+			replacement = {$plugin.tx_scriptmerger.css.postUrlProcessing.replacement}
+		}
+	}
+
+	javascript {
+		enable = {$plugin.tx_scriptmerger.javascript.enable}
+		parseBody = {$plugin.tx_scriptmerger.javascript.parseBody}
+		doNotRemoveInDocInBody = {$plugin.tx_scriptmerger.javascript.doNotRemoveInDocInBody}
+		doNotRemoveInDocInHead = {$plugin.tx_scriptmerger.javascript.doNotRemoveInDocInHead}
+		mergedHeadFilePosition = {$plugin.tx_scriptmerger.javascript.mergedHeadFilePosition}
+		mergedBodyFilePosition = {$plugin.tx_scriptmerger.javascript.mergedBodyFilePosition}
+		addContentInDocument = {$plugin.tx_scriptmerger.javascript.addContentInDocument}
+		deferLoading = {$plugin.tx_scriptmerger.javascript.deferLoading}
+
+		minify {
+			enable = {$plugin.tx_scriptmerger.javascript.minify.enable}
+			useJSMinPlus = {$plugin.tx_scriptmerger.javascript.minify.useJSMinPlus}
+			useJShrink = {$plugin.tx_scriptmerger.javascript.minify.useJShrink}
+			ignore = {$plugin.tx_scriptmerger.javascript.minify.ignore}
+		}
+
+		compress {
+			enable = {$plugin.tx_scriptmerger.javascript.compress.enable}
+			ignore = {$plugin.tx_scriptmerger.javascript.compress.ignore}
+		}
+
+		merge {
+			enable = {$plugin.tx_scriptmerger.javascript.merge.enable}
+			ignore = {$plugin.tx_scriptmerger.javascript.merge.ignore}
+		}
+	}
+
+	externalFileCacheLifetime = {$plugin.tx_scriptmerger.externalFileCacheLifetime}
+
+	urlRegularExpressions {
+		#pattern = http://domain.tld((filadmin|typo3temp/).+)
+		#pattern.replacement = http://assets.domain.tld/$1
+		#pattern.useWholeContent = 0
+	}
+}

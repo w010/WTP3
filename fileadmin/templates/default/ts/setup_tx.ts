@@ -20,6 +20,37 @@ plugin.tx_jfmulticontent_pi1 {
 	jQueryLibrary >
 }
 
+# news single
+plugin.tx_wtools_pi1	{
+	templateFile = fileadmin/templates/default/html/tx_ttnews_singlenews.html
+}
+
+plugin.feadmin.dmailsubscription	{
+	email.from = test@example.com
+	email.fromName = WTP
+	templateFile = fileadmin/templates/default/html/tx_directmailsubscription_foot.html
+
+	create	{
+		fields = email
+		required = email
+	}
+
+	# pid of page with sub form
+	# custom option - ext src modified!
+# wtp todo: patch tych zmian, opis tej opcji
+	pid_subscribe = 46
+
+	# pid of storage with subscribed addresses
+# wtp todo: pid
+	pid = 78
+}
+
+# on page subscribe show full form
+[globalVar = TSFE:id = 46]
+plugin.feadmin.dmailsubscription.templateFile = fileadmin/templates/default/html/tx_directmailsubscription.html
+[global]
+
+
 
 plugin.tx_evojqtabs_pi1	{
 	template_file = fileadmin/templates/default/html/tx_evojqtabs.html

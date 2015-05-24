@@ -4,9 +4,9 @@
 
 lib.page-menu = COA
 #lib.page-menu.20 < lib.searchbox
-lib.page-menu.9 = HTML
+lib.page-menu.9 = TEXT
 lib.page-menu.9.value (
-	<div class="container">
+	<div class="containerx">
 		<div class="navbar-header">
 		   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 		       <span class="sr-only">Toggle navigation</span>
@@ -18,7 +18,7 @@ lib.page-menu.9.value (
 		</div>
 
 )
-lib.page-menu.11 = HTML
+lib.page-menu.11 = TEXT
 lib.page-menu.11.value = </div>
 
 lib.page-menu.10 = HMENU
@@ -133,7 +133,7 @@ lib.page-menu2 {
 
 # na stronie glownej zawsze markuje wybrana pozycje
 [treeLevel = 0]
-   lib.page-menu.alwaysActivePIDlist = 999
+   lib.page-menu.10.alwaysActivePIDlist = 3
 [end]
 
 #names: breadcrumb,navigation,location
@@ -143,6 +143,7 @@ lib.breadcrumb {
 	special.range = 1|10
 
 	wrap = <div id="breadcrumb">|</div>
+	# <ol class="breadcrumb"> - bootstrap
 
 	1 = TMENU
 	1 {
@@ -229,4 +230,24 @@ temp.page.10 {
   }
 }
 
+
+
+
+# snippet:
+# display only if has subpages
+# try to do side menu with this
+
+temp.x.30 = TEXT
+temp.x.30 {
+  wrap = <ul><li>|</li></ul>
+  data = leveltitle:1
+  if {
+    isTrue.numRows {
+      table = pages
+      select {
+                # select properties here if necessary
+      }
+    }
+  }
+}
 

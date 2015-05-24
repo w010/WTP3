@@ -1,10 +1,11 @@
 <?php
 
 // WTP DUMP/BACKUP TOOL - wolo.pl '.' studio
-// v0.5
+// v0.7
 // 2015
 //
 // dump / zapalniczka73
+// you should change default password
 
 // WARNING! THIS SCRIPT IS FOR PRIVATE DEV USE ONLY, DO NOT PUT IT ON PUBLIC!
 // IT DOES LOW LEVEL FILE OPERATIONS AND HAS NO USER-INPUT SECURITY CHECK.
@@ -22,8 +23,7 @@ define('PATH_site', dirname(PATH_thisScript).'/');
 define('PATH_work', realpath(PATH_site.'../').'/');
 define('TYPO3_MODE', 'BE');
 
-
-if (file_exists(PATH_work.'typo3conf/localConfiguration.php'))	{
+if (file_exists(PATH_work.'typo3conf/LocalConfiguration.php'))	{
 	define('V6', true);
 	$GLOBALS['TYPO3_CONF_VARS'] = require_once(PATH_work.'typo3conf/LocalConfiguration.php');
 	include_once(PATH_work.'typo3conf/AdditionalConfiguration.php');
@@ -35,7 +35,7 @@ if (file_exists(PATH_work.'typo3conf/localConfiguration.php'))	{
 	$typo_db = $GLOBALS['TYPO3_CONF_VARS']['DB']['database'];
 }
 else /**/
-	require_once(PATH_work.'typo3conf/localconf.php');
+	include_once(PATH_work.'typo3conf/localconf.php');
 	//require_once(PATH_work.'typo3conf/localConfiguration.php');
 
 /*var_dump(LOCAL);
@@ -44,26 +44,53 @@ var_dump(DEV2);
 var_dump(DEV47);
 var_dump(DEV62);*/
 
-print '<h5>running on '.(DEV62?'DEV62':(DEV2?'DEV2':(DEV?'DEV':'PUBLIC !!!!'))).(LOCAL?' LOCAL':'').'</h5>';
+
+// options for this script operation
+// old type array to be compatible with older installations
+$options = array(
+	// script only displays generated command line, but doesn't exec it
+	'dontExecCommands' => 1,
+
+	// exec commands, but don't show them
+	'dontShowCommands' => 1,
+
+	// 'password'
+	 'version' => '0.7',
+);
+
 
 //if (!DEV)
 //	die('access denied');
 
+// you may here hardcode db data if not using t3 config 
 /*		$typo_db = 'baza1298_petrol';
 		$typo_db_host = '1298.m.tld.pl';
 		$typo_db_host = 'localhost';
 		$typo_db_password = '';
 		$typo_db_username = 'admin1298_petrol';
 */
+
+// remember that undefined constants returns true / string with its name - should use defined()
+
+//print '<h5>running on '.(DEV62?'DEV62':(DEV2?'DEV2':(DEV?'DEV':'PUBLIC !!!!'))).(LOCAL?' LOCAL':'').'</h5>';
+print '<h5>running on '. (DEV?'DEV':'<span class="error">PUBLIC !!!!</span>') . (LOCAL?' LOCAL':'').'</h5>';
+
+
+// define some global variables
+
 // message/error to show
 $msg = '';
-// stored commands executed to debug
+// stored commands to show and/or execute
 $cmds = '';
+
+if (!$_POST['name'])    list($projectNamePredict) = preg_split('@\.@', $_SERVER['HTTP_HOST']);
 
 main();
 
 
 function main()	{
+
+	global $options;
 
 	global $typo_db_username;
 	global $typo_db_password;
@@ -73,13 +100,10 @@ function main()	{
 	if (!$typo_db_username || !$typo_db_password || !$typo_db_host || !$typo_db)
 		msg('CHECK DATABASE CONFIG. Looks like some authorization data is missed. Check localconf');
 
-	// to tu chyba jest zbedne
-	//global $msg;
-
-	$projectName = 		$_GET['name'];
-	$projectVersion = 	$_GET['v'];
-	$action = 			$_GET['action'];
-	$dbFilename = 		$_GET['dbFilename']?$_GET['dbFilename']:$_GET['dbFilenameSel'];
+	$projectName = 		$_POST['name'];
+	$projectVersion = 	$_POST['v'];
+	$action = 			$_POST['action'];
+	$dbFilename = 		$_POST['dbFilename']?$_POST['dbFilename']:$_POST['dbFilenameSel'];
 
 	//$projectDirectory = $projectName?$projectName:'public_html';
 
@@ -93,70 +117,85 @@ function main()	{
 	if (!paramsRequiredPass(array('action'=>$action))) return;
 
 
-	// BACKUP FILESYSTEM
-	if ($action == 'backup')    {
-		$backupDir = PATH_work.'../'.$projectName.'_backup'.time().'/';
-		exec('mkdir '.$backupDir);
-		echr('mkdir '.$backupDir);
-		exec('cp -R '.PATH_work.'/* '.$backupDir);
-		echr('cp -R '.PATH_work.'/* '.$backupDir);
-	}
+	// RUN
+	switch ($action) {
+
+		// BACKUP FILESYSTEM
+		case 'backup':
+			$backupDir = PATH_work.'../'.$projectName.'_backup'.time().'/';
+			exec_control('mkdir '.$backupDir);
+			echr('mkdir '.$backupDir);
+			exec_control('cp -R '.PATH_work.'/* '.$backupDir);
+			echr('cp -R '.PATH_work.'/* '.$backupDir);
+			break;
+
 
 	// EMPTY specified backup folder. use this, if you know why to delete a backup.
-	if ($action == 'backupclean')    {
-		if (!is_set($_GET['backupdir']))
-			die('error: backup remove - directory namepart not given');
-		$backupDir = 'backup'.$_GET['backupdir'];
-		die('backup remove disabled');
-	//	exec ('rm -R '.$backupDir.'/*');
-		echr ('rm -R '.$backupDir.'/* [DISABLED FOR NOW]');
-	}
+		case 'backupclean':
+			if (!is_set($_POST['backupdir']))
+				die('error: backup remove - directory namepart not given');
+			$backupDir = 'backup'.$_POST['backupdir'];
+			die('backup remove disabled');
+		//	exec_control ('rm -R '.$backupDir.'/*');
+			echr ('rm -R '.$backupDir.'/* [DISABLED FOR NOW]');
+			break;
 
 	// DUMP EXPORT SITE FILES AND DATABASE
-	if ($action == 'dump' || $action == 'quickdump' || $action == 'databasedump')	{
-		if (!paramsRequiredPass(array('projectName'=>$projectName, 'projectVersion'=>$projectVersion)))	return;
-		$dumpFilename = str_replace(' ', '_', $projectName);
-		
-		if ($action == 'quickdump')	{
-			exec ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.tgz ./../* --exclude="typo3temp" --exclude="DUMP" --exclude="uploads" -exclude="typo3_src-*"  ');
-			echr ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.tgz ./../* --exclude="typo3temp" --exclude="DUMP" --exclude="uploads" -exclude="typo3_src-*"  ');
-		} else if ($action == 'databasedump')	{
-			// do nothing, don't dump filesystem
-		} else	{
-			exec ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.tgz ./../* --exclude="DUMP" ');
-			echr ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.tgz ./../* --exclude="DUMP" ');
+		case 'dump':
+		case 'quickdump':
+		case 'databasedump':
+			if (!paramsRequiredPass(array('projectName'=>$projectName, 'projectVersion'=>$projectVersion)))	return;
+			$dumpFilename = str_replace(' ', '_', $projectName);
+
+			if ($action == 'quickdump')	{
+				exec_control ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.tgz ./../* --exclude="typo3temp" --exclude="DUMP" --exclude="uploads" -exclude="typo3_src-*"  ');
+				echr ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.tgz ./../* --exclude="typo3temp" --exclude="DUMP" --exclude="uploads" -exclude="typo3_src-*"  ');
+			} else if ($action == 'databasedump')	{
+				// do nothing, don't dump filesystem
+			} else	{
+				exec_control ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.tgz ./../* --exclude="DUMP" ');
+				echr ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.tgz ./../* --exclude="DUMP" ');
+			}
+
+			exec_control ('mysqldump --complete-insert --add-drop-table --no-create-db --skip-set-charset --quick --lock-tables --add-locks --default-character-set=utf8 --host='.$typo_db_host.' --user='.$typo_db_username.' --password="'.$typo_db_password.'" '.$typo_db.' > "'.PATH_work.'DUMP/'.$projectName.'-v'.$projectVersion.'.sql"');
+			echr ('mysqldump --complete-insert --add-drop-table --no-create-db --skip-set-charset --quick --lock-tables --add-locks --default-character-set=utf8 --host='.$typo_db_host.' --user='.$typo_db_username.' --password="'.$typo_db_password.'" '.$typo_db.' > "'.PATH_work.'DUMP/'.$projectName.'-v'.$projectVersion.'.sql"');
+
+			exec_control ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.sql.tgz '.PATH_work.'DUMP/'.$projectName.'-v'.$projectVersion.'.sql');
+			echr ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.sql.tgz '.PATH_work.'DUMP/'.$projectName.'-v'.$projectVersion.'.sql');
+
+			if (!$options['dontExecCommands']) echr( '<br><a href="'.$dumpFilename.'-v'.$projectVersion.'.sql.tgz">'.$dumpFilename.'-v'.$projectVersion.'.sql.tgz</a>' );
+			break;
+
+		// IMPORT DATABASE
+		case 'importdb':
+			if (!paramsRequiredPass(array('dbFilename'=>$dbFilename))) return;
+			//if (!$dbFilename)	$dbFilename = 'wtpack_dump.sql';
+			// slashes even on windows have to be unix-style in execute source
+			exec_control ('mysql --batch --quick --host='.$typo_db_host.' --user='.$typo_db_username.' --password="'.$typo_db_password.'" --database='.$typo_db.' --execute="SET NAMES \'utf8\'; SET collation_connection = \'utf8_unicode_ci\'; SET collation_database = \'utf8_unicode_ci\'; SET collation_server = \'utf8_unicode_ci\'; source '.str_replace('\\', '/', PATH_work.'DUMP/'.$dbFilename).';"');
+			echr ('mysql --batch --quick --host='.$typo_db_host.' --user='.$typo_db_username.' --password="'.$typo_db_password.'" --database='.$typo_db.' --execute="SET NAMES \'utf8\'; SET collation_connection = \'utf8_unicode_ci\'; SET collation_database = \'utf8_unicode_ci\'; SET collation_server = \'utf8_unicode_ci\'; source '.str_replace('\\', '/', PATH_work.'DUMP/'.$dbFilename).';"');
+			break;
 		}
-
-		exec ('mysqldump --complete-insert --add-drop-table --no-create-db --skip-set-charset --quick --lock-tables --add-locks --default-character-set=utf8 --host='.$typo_db_host.' --user='.$typo_db_username.' --password="'.$typo_db_password.'" '.$typo_db.' > "'.PATH_work.'DUMP/'.$projectName.'-v'.$projectVersion.'.sql"');
-		echr ('mysqldump --complete-insert --add-drop-table --no-create-db --skip-set-charset --quick --lock-tables --add-locks --default-character-set=utf8 --host='.$typo_db_host.' --user='.$typo_db_username.' --password="'.$typo_db_password.'" '.$typo_db.' > "'.PATH_work.'DUMP/'.$projectName.'-v'.$projectVersion.'.sql"');
-
-		exec ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.sql.tgz '.PATH_work.'DUMP/'.$projectName.'-v'.$projectVersion.'.sql');
-		echr ('tar -zcf '.PATH_work.'DUMP/'.$dumpFilename.'-v'.$projectVersion.'.sql.tgz '.PATH_work.'DUMP/'.$projectName.'-v'.$projectVersion.'.sql');
-
-		echr( '<a href="'.$dumpFilename.'-v'.$projectVersion.'.sql.tgz">'.$dumpFilename.'-v'.$projectVersion.'.sql.tgz</a>' );
-	}
-
-	// IMPORT DATABASE
-	if ($action == 'importdb')	{
-		if (!paramsRequiredPass(array('dbFilename'=>$dbFilename))) return;
-		//if (!$dbFilename)	$dbFilename = 'wtpack_dump.sql';
-		exec ('mysql --batch --quick --host='.$typo_db_host.' --user='.$typo_db_username.' --password="'.$typo_db_password.'" --database='.$typo_db.' --execute="SET NAMES \'utf8\'; SET collation_connection = \'utf8_unicode_ci\'; SET collation_database = \'utf8_unicode_ci\'; SET collation_server = \'utf8_unicode_ci\'; source '.PATH_work.'DUMP/'.$dbFilename.';"');
-		echr ('mysql --batch --quick --host='.$typo_db_host.' --user='.$typo_db_username.' --password="'.$typo_db_password.'" --database='.$typo_db.' --execute="SET NAMES \'utf8\'; SET collation_connection = \'utf8_unicode_ci\'; SET collation_database = \'utf8_unicode_ci\'; SET collation_server = \'utf8_unicode_ci\'; source '.PATH_work.'DUMP/'.$dbFilename.';"');
-	}
 }
 
 /* put message/notice */
 function msg($message)	{
 	global $msg;
-	$msg = $message;
+	$msg .= $message.'<br>';
 }
 
-/* dump called command */
+/* collect called commands */
 function echr($str)	{
-	/*print $str .'<br>';
-	return;*/
 	global $cmds;
 	$cmds .= $str.'<br>';
+}
+
+/* call command */
+function exec_control($cmd) {
+	global $options;
+	if ($options['dontExecCommands'])
+		msg('command not executed - exec disabled - see @dontExecCommands');
+	else
+		exec($cmd);
 }
 
 /* list files */
@@ -184,30 +223,31 @@ function paramsRequiredPass($params)	{
 <head>
 <style type='text/css'>
 label	{display: block; clear: both;}
-label span	{float: left; width: 140px;}
+label span	{float: left; width: 260px;}
 label input	{float: left;}
 .clear	{clear: both;}
 .error	{color: red;}
 .actions label:hover	{color: red;}
+footer  {font-size: 80%;}
 </style>
 </head>
 <body>
-<p>PATH_site = <?php print PATH_site; ?></p>
-<p>PATH_work = <?php print PATH_work; ?></p>
-<?php if ($cmds) print "<p>commands executed:</p><p>".$cmds."</p>"; ?>
-<p class='error'><?php print $msg; ?></p>
-<form action='' method='get'>
+<p><pre>PATH_site = <?php  print PATH_site;  ?></pre></p>
+<p><pre>PATH_work = <?php  print PATH_work;  ?></pre></p>
+<?php  if ($cmds  &&  !$options['dontShowCommands']) print "<p>commands executed:</p><p><pre>".$cmds."</pre></p>";  ?>
+<p class='error'><?php  print $msg;  ?></p>
+<form action='' method='post'>
 	<div class="actions"><h3>action:</h3>
+		<label> <span>export/dump DB &gt;</span><input name='action' type='radio' value='databasedump'> <br class='clear'></label>
+		<label> <span>import DB &lt;</span> <input name='action' type='radio' value='importdb'> <br class='clear'></label>
 		<label> <span>dump WHOLE SITE</span><input name='action' type='radio' value='dump'> <br class='clear'></label>
 		<label> <span>quickdump (exclude temp,uploads,src)</span><input name='action' type='radio' value='quickdump'> <br class='clear'></label>
-		<label> <span>export/dump DB SQL</span><input name='action' type='radio' value='databasedump'> <br class='clear'></label>
-		<label> <span>import DB SQL</span> <input name='action' type='radio' value='importdb'> <br class='clear'></label>
 		<label> <span>backup filesystem</span> <input name='action' type='radio' value='backup'> <br class='clear'></label>
 		<label> <span>backup clean</span> <input name='action' type='radio' value='backupclean'> <br class='clear'></label>
 	</div>
 	<div>
 		<h3>project / dir name:</h3>
-		<input name='name' type='text'>
+		<input name='name' type='text' value='<?php print $_POST['name'] ? $_POST['name'] : $projectNamePredict; ?>'>
 	</div>
 	<div>
 		<h3>version:</h3>
@@ -222,11 +262,18 @@ label input	{float: left;}
 			print "<option>".$file.'</option>';
 		?>
 		</select>
-		<input name='dbFilename' type='text'>
+		or type: <input name='dbFilename' type='text'>
 	</div>
 	
 	<br>
 	<input type='submit' value='go!'>
 </form>
+<br>
+<br>
+
+<footer>
+	<i>WTP DUMP/BACKUP TOOL v<?php print $options['version']; ?> - wolo.pl '.' studio 2015</i>
+</footer>
+
 </body>
 </html>

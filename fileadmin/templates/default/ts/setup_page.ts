@@ -24,7 +24,7 @@ page.bodyTagCObject	{
 	#layoutMappingDefault = 1
 }
 
-#page.shortcutIcon = fileadmin/contents/favicon.png
+#page.shortcutIcon = fileadmin/templates/default/images/favicon.ico
 
 
 page.config {
@@ -41,6 +41,8 @@ page.config {
 page.includeLibs {
 	# only as example. included in ext
 	#hi_misc = EXT:hi_misc/class.tx_himisc_div.php
+
+	#linkhandler_helper = EXT:site_nn/class.tx_sitenn_linkhandler_helper.php
 }
 
 page.headerData {
@@ -69,6 +71,16 @@ page.headerData {
 page.includeCSS {
 	reset = fileadmin/templates/default/css/bootstrap.min.css
 	reset.media = all
+
+	screen = fileadmin/templates/default/css/screen.css
+    screen.media = all
+    layout = fileadmin/templates/default/css/layout.css
+    layout.media = all
+    content = fileadmin/templates/default/css/content.css
+    content.media = all
+
+	rte = fileadmin/templates/default/css/rte.css
+  rte.media = all
 
 	#mobile = fileadmin/templates/default/css/mobile.css
 	#mobile.media = all
@@ -106,21 +118,25 @@ page.includeJSFooter {
 	code = fileadmin/templates/default/js/code.js
 }
 
+# auto reload css every configured time. use &autocss=1 in url
+[globalVar= ENV:DEV=1] && [globalVar= GP:autocss > 0 ]
+page.includeJSFooter.autoreloadcss = fileadmin/templates/default/js/autoreloadcss.js
+[global]
+
 # google analytics
 temp.page.footerData {
 	667 = TEXT
 	667.value (
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-XXXXXXXXXX-X']);
-  _gaq.push(['_trackPageview']);
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+<script language="javascript" type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." [^] : "http://www." [^]);
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
-)
+<script language="javascript" type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-xxxxxx");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+	)
 }
 
 

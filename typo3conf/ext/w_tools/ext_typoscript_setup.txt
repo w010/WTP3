@@ -1,0 +1,33 @@
+plugin.tx_wtools_pi1 {
+
+}
+
+
+
+
+# page type for ajax
+wtools_ttnews_ajax = PAGE
+wtools_ttnews_ajax	{
+	typeNum = 950
+
+	#10 =< plugin.tx_wtools_pi2
+	#10.mode = ajax
+	#10.wrapInBaseClass = 0
+	
+	10 = RECORDS
+	10.tables = tt_content
+	#10.source.data = GP:uid
+	# to conf
+	# should be set per page/instance
+	10.source = 13
+
+	config {
+		#no_cache = 1
+		debug = 0
+		disableAllHeaderCode = 1
+		# tak debugster nie dziala
+		additionalHeaders = Content-type:application/json
+    	xhtml_cleaning = 0
+	}
+}
+

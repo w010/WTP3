@@ -21,7 +21,7 @@ lib.CE_fluid.source.current = 1
 # 
 
 lib.content = COA
-#lib.content.10 < lib.breadcrumb
+#lib.content.10 < lib.breadcrumb		# breadcrumb markup zrobic z bootstrapa
 lib.content.20 = RECORDS
 lib.content.20.source.current = 1
 lib.content.20.tables = tt_content
@@ -77,6 +77,23 @@ lib.main-after = COA
 #
 lib.head-logo < lib.CE
 lib.head-logo.source = 3
+
+
+temp.lib.head-logo = COA
+temp.lib.head-logo {
+		1 = TEXT
+		1.typolink.parameter = 1
+		1.value = Cedris
+		1.wrap = <h1>|</h1>
+		1.innerWrap = <span>|</span>
+		2 = TEXT
+		2.typolink.parameter = 1
+		2.value = Cedris is de landelijke vereniging voor sociale werkgelegenheid en re-integratie
+		2.wrap = <h2>|</h2>
+}
+
+
+
 
 #
 # additional content in div#page-head
