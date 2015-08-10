@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>language labels for direct_mail_userfunc</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="config.makeEntriesUnique">Make entries unique: Makes sure entries with the same e-mail address will only appear once.</label>
+			<label index="config.enableSamples">Enable samples: Provides sample user functions to show how it works</label>
+
+			<!--  Labels for sample user functions -->
+			<label index="userfunction.myRecipientList">[Sample] Recipient List</label>
+			<label index="userfunction.myRecipientListExtJS">[Sample] Recipient List (ExtJS wizard)</label>
+			<label index="userfunction.myRecipientListTca">[Sample] Recipient List (TCA wizard)</label>
+		</languageKey>
+	</data>
+</T3locallang>

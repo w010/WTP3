@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'direct_mail_userfunc'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="sys_dmail_group.type.I.5">External provider</label>
+			<label index="wizard.itemsProcFunc.invalidClass">Unknown class</label>
+			<label index="wizard.itemsProcFunc.invalidMethod">Class is valid but method does not exist</label>
+			<label index="wizard.itemsProcFunc.providers">Registered providers:</label>
+			<label index="wizard.parameters.title">Click here to update user parameters</label>
+		</languageKey>
+	</data>
+</T3locallang>

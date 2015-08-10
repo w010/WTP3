@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'direct_mail_userfunc'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="sys_dmail_group.tx_directmailuserfunc_itemsprocfunc">Provider:</label>
+			<label index="sys_dmail_group.tx_directmailuserfunc_params">Additional parameters:</label>
+
+			<!--  Labels for sample user functions -->
+			<label index="myRecipientListTca.size">Size of the list:</label>
+			<label index="myRecipientListTca.name">Name:</label>
+			<label index="myRecipientListTca.email">E-mail:</label>
+			<label index="myRecipientListTca.palette.person">Person</label>
+		</languageKey>
+	</data>
+</T3locallang>

@@ -1,0 +1,5 @@
+	# cat=basic/enable; type=boolean; label=LLL:EXT:direct_mail_userfunc/Resources/Private/Language/locallang.xml:config.makeEntriesUnique
+makeEntriesUnique = 1
+
+	# cat=basic/enable; type=boolean; label=LLL:EXT:direct_mail_userfunc/Resources/Private/Language/locallang.xml:config.enableSamples
+enableSamples = 0

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-10-04T10:30:07Z" product-name="direct_mail_userfunc">
+		<header/>
+		<body>
+			<trans-unit id="sys_dmail_group.type.I.5" xml:space="preserve">
+				<source>External provider</source>
+			</trans-unit>
+			<trans-unit id="wizard.itemsProcFunc.invalidClass" xml:space="preserve">
+				<source>Unknown class</source>
+			</trans-unit>
+			<trans-unit id="wizard.itemsProcFunc.invalidMethod" xml:space="preserve">
+				<source>Class is valid but method does not exist</source>
+			</trans-unit>
+			<trans-unit id="wizard.itemsProcFunc.providers" xml:space="preserve">
+				<source>Registered providers:</source>
+			</trans-unit>
+			<trans-unit id="wizard.parameters.title" xml:space="preserve">
+				<source>Click here to update user parameters</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

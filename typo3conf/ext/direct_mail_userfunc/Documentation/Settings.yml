@@ -1,0 +1,28 @@
+# This is the project specific Settings.yml file.
+# Place Sphinx specific build information here.
+# Settings given here will replace the settings of 'conf.py'.
+
+---
+conf.py:
+  copyright: 2009-2015
+  project: External Providers for Direct Mail
+  version: 1.4
+  release: 1.4.3
+  latex_documents:
+  - - Index
+    - direct_mail_userfunc.tex
+    - External Providers for Direct Mail
+    - Xavier Perseguers
+    - manual
+  latex_elements:
+    papersize: a4paper
+    pointsize: 10pt
+    preamble: \usepackage{typo3}
+  intersphinx_mapping:
+    t3tca:
+    - http://docs.typo3.org/typo3cms/TCAReference/
+    - null
+    t3cmsapi:
+    - http://typo3.org/api/typo3cms/
+    - null
+...

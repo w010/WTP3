@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-10-04T10:30:07Z" product-name="direct_mail_userfunc">
+		<header/>
+		<body>
+			<trans-unit id="sys_dmail_group.tx_directmailuserfunc_itemsprocfunc" xml:space="preserve">
+				<source>Provider:</source>
+			</trans-unit>
+			<trans-unit id="sys_dmail_group.tx_directmailuserfunc_params" xml:space="preserve">
+				<source>Additional parameters:</source>
+			</trans-unit>
+
+			<!--  Labels for sample user functions -->
+			<trans-unit id="myRecipientListTca.size" xml:space="preserve">
+				<source>Size of the list:</source>
+			</trans-unit>
+			<trans-unit id="myRecipientListTca.name" xml:space="preserve">
+				<source>Name:</source>
+			</trans-unit>
+			<trans-unit id="myRecipientListTca.email" xml:space="preserve">
+				<source>E-mail:</source>
+			</trans-unit>
+			<trans-unit id="myRecipientListTca.palette.person" xml:space="preserve">
+				<source>Person</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
