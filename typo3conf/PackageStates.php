@@ -779,6 +779,62 @@ return array (
       array (
       ),
     ),
+    'direct_mail_subscription' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/direct_mail_subscription/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'linkhandler' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'intera-typo3-extension/linkhandler',
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/linkhandler/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'ods_plaintext' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/ods_plaintext/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'scriptmerger' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/scriptmerger/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'tt_address' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/tt_address/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'w_tools' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/w_tools/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
   ),
   'version' => 4,
 )

@@ -14,14 +14,14 @@ plugin.Tx_Formhandler.settings.predef.formhandler-basic-contactform {
 	masterTemplateFile.value = {$formhandlerExamples.basic.contact-form.rootPath}/html/mastertemplate.html
 
 	cssFile {
-	#10 = TEXT
-	#10.value = {$formhandlerExamples.basic.contact-form.rootPath}/skin/css/base.css
-	#20 = TEXT
-	#20.value = {$formhandlerExamples.basic.contact-form.rootPath}/skin/css/forms.css
-	25 = TEXT
-	25.value = {$formhandlerExamples.basic.contact-form.rootPath}/skin/css/special.css
-	#30 = TEXT
-	#30.value = {$formhandlerExamples.basic.contact-form.rootPath}/skin/css/colors.css
+		#10 = TEXT
+		#10.value = {$formhandlerExamples.basic.contact-form.rootPath}/skin/css/base.css
+		#20 = TEXT
+		#20.value = {$formhandlerExamples.basic.contact-form.rootPath}/skin/css/forms.css
+		25 = TEXT
+		25.value = {$formhandlerExamples.basic.contact-form.rootPath}/skin/css/special.css
+		#30 = TEXT
+		#30.value = {$formhandlerExamples.basic.contact-form.rootPath}/skin/css/colors.css
 	}
 
 	# In case an error occurred, all markers ###is_error_[fieldname]### are filled with the configured value of the setting "default".
@@ -72,6 +72,11 @@ plugin.Tx_Formhandler.settings.predef.formhandler-basic-contactform {
 		  	redirectPage = {$formhandlerExamples.basic.contact-form.redirectPage}
 		}
 	}
+	
+	# to use typo's conf settings, like smtp
+	mailer {
+		#class = Mailer_TYPO3Mailer
+    }
 }
 
 [globalVar= ENV:LOCAL=1]

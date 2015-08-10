@@ -50,10 +50,10 @@ if (DEV)	{
 
 // only localhost. defined last to overwrite DEV settings - could be also in dev mode
 if (LOCAL)  {
-	$GLOBALS['TYPO3_CONF_VARS']['DB']['host'] = '127.0.0.1';
-	$GLOBALS['TYPO3_CONF_VARS']['DB']['username'] = 'admin833_cedris';
-	$GLOBALS['TYPO3_CONF_VARS']['DB']['password'] = 'Vkm*5i34';
-	$GLOBALS['TYPO3_CONF_VARS']['DB']['database'] = 'baza833_cedris';
+	/*$GLOBALS['TYPO3_CONF_VARS']['DB']['host'] = '127.0.0.1';
+	$GLOBALS['TYPO3_CONF_VARS']['DB']['username'] = 'admin833_';
+	$GLOBALS['TYPO3_CONF_VARS']['DB']['password'] = '';
+	$GLOBALS['TYPO3_CONF_VARS']['DB']['database'] = 'baza833_';*/
 
 	$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'sendmail';
 

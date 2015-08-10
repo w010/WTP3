@@ -11,10 +11,10 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array (
-	'title' => 'News',
-	'description' => 'Website news with front page teasers and article handling inside.',
+	'title' => 'News - Cedris modified, see project info',
+	'description' => 'This ext is modified, hooks are added, look for "wolo mod", search for patches in project dir. Website news with front page teasers and article handling inside.',
 	'category' => 'plugin',
-	'version' => '3.6.0',
+	'version' => '993.6.0',
 	'state' => 'beta',
 	'uploadfolder' => 1,
 	'createDirs' => '',

@@ -78,7 +78,8 @@ plugin.tt_news {
           }
           noImage_stdWrap {
 			cObject = IMAGE
-			cObject.file = fileadmin/templates/shared/images/default.jpg
+			#cObject.file = fileadmin/templates/default/images/news_default.png
+			cObject.file = fileadmin/templates/default/images/clear.gif
       	  }
         }
 	}
@@ -109,7 +110,8 @@ plugin.tt_news {
 		  noImage_stdWrap {
 			wrap = <span class="default-img">|</span>
 			cObject = IMAGE
-			cObject.file = fileadmin/templates/default/images/news_default.png
+			#cObject.file = fileadmin/templates/default/images/news_default.png
+			cObject.file = fileadmin/templates/default/images/clear.gif
       	  }
    		}
 	}
@@ -198,6 +200,19 @@ plugin.tt_news.code = LIST
 plugin.tt_news.code >
 plugin.tt_news.code = SINGLE
 [global]
+
+
+
+# on windows %e doesn't work and causes not rendering date at all
+
+[globalVar= ENV:LOCAL=1]
+plugin.tt_news.displayLatest.date_stdWrap.strftime = e-%m-%Y
+plugin.tt_news.displayList.date_stdWrap.strftime = e-%m-%Y
+plugin.tt_news.displaySingle.date_stdWrap.strftime = e-%m-%Y
+[global]
+
+
+
 
 
 

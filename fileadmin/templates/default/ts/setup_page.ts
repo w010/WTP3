@@ -124,6 +124,7 @@ page.includeJSFooter.autoreloadcss = fileadmin/templates/default/js/autoreloadcs
 [global]
 
 # google analytics
+# TO HEADER!!! BEFORE </head>
 temp.page.footerData {
 	667 = TEXT
 	667.value (
