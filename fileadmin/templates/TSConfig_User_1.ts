@@ -17,7 +17,7 @@ mod.web_list {
    hideTables = static_template,static_currencies,static_taxes,static_markets,static_countries
 }
 
-# Domyslnie (prawie ;) wszystkie nowe tresci ukryte
+# By default almost all new contents hidden
 TCAdefaults {
 	#pages.hidden = 1
 	#tt_content.hidden = 1
@@ -27,6 +27,9 @@ TCAdefaults {
 
 options.clearCache.system = 1
 options.clearCache.all = 1
+
+
+
 
 
 permissions.file.default {
@@ -48,4 +51,8 @@ permissions.file.default {
 	renameFolder = 1
 	deleteFolder = 1
 	deleteSubfolders = 1
+}
+
+tx_directmail	{
+	hideSteps = cat
 }

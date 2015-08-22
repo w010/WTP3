@@ -42,7 +42,7 @@
 
   <div class="newsletter-form row">
       <div class="col col1 col-sm-6 col-xs-12">
-        ###GW1B###Meld u aan voor de nieuwsbrief!###GW1E###
+        ###GW1B###Subscribe to newsletter###GW1E###
       </div>
       <div class="col col1 col-sm-6 col-xs-12">
           ###GW2B###
@@ -51,12 +51,12 @@
             Same as above...
             EVAL_ERROR_FIELD_email is in addition an error message defined in TypoScript in case an email address does not verify to be of correct syntax.
         -->
-            <p class="error">Vul uw e-mailadres in.</p>
+            <p class="error">You must fill in this field!</p>
             ###EVAL_ERROR_FIELD_email###
         <!--###SUB_REQUIRED_FIELD_email### end-->
-            <input type="text" name="FE[tt_address][email]" id="fe_ttaddress_email_input" placeholder="Uw e-mailadres">
+            <input type="text" name="FE[tt_address][email]" id="fe_ttaddress_email_input" placeholder="e-mail">
 
-            <input type="submit" name="submit" value="Verstuur">
+            <input type="submit" name="submit" value="Submit">
             <!--<input type="submit" name="submit" value="Cancel" onClick="document.forms[0].action='###BACK_URL###';">-->
             ###HIDDENFIELDS###
           ###GW2E###
@@ -115,7 +115,7 @@
 ###GW1B###Subscribed.###GW1E###
 
 ###GW2B###
-U bent nu ingeschreven voor de nieuwsbrief. Er is een e-mail gestuurd naar uw e-mailadres, ###FIELD_email###, met een link om uw gegevens te bewerken. Uw inschrijving is pas definitief als u de link heeft aangeklikt.
+You're now subscribed to our newsletter. An email has been sent to your email address, ###FIELD_email###, with a link to the administration of your profile.<br />Please notice that your subscription is not active until you've clicked a link in that email!
 ###GW2E###
 <!-- ###TEMPLATE_CREATE_SAVED### end-->
 

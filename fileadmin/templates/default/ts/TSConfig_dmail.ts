@@ -20,3 +20,8 @@ mod.web_modules.dmail.jumpurl_tracking_privacy=0
 mod.web_modules.dmail.enable_mailto_jump_url=0
 
 # http://stackoverflow.com/questions/18851222/typo3-no-updated-newsletter-with-direct-mail-and-scheduler
+
+
+#TCEFORM.tt_address.module_sys_dmail_category.PAGE_TSCONFIG_IDLIST = 78,79
+#TCEFORM.tt_address.module_sys_dmail_category.disabled = 0
+

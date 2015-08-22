@@ -25,6 +25,12 @@ plugin.tx_wtools_pi1	{
 	templateFile = fileadmin/templates/default/html/tx_ttnews_singlenews.html
 }
 
+plugin.tx_macinasearchbox_pi1 {
+	#pidSearchpage = 17
+	#templateFile = fileadmin/templates/default/html/tx_macinasearchbox.html
+}
+
+
 plugin.feadmin.dmailsubscription	{
 	email.from = test@example.com
 	email.fromName = WTP

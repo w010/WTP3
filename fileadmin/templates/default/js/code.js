@@ -182,12 +182,45 @@ if (!wtp) var wtp = {
 
 
 	init: function()	{
-		wtp.checkIfHideAgeSplash();
+		//wtp.checkIfHideAgeSplash();
 		//wtp.makeMenuSlidingMarker();	// do it on windowready instead
-		wtp.fixFancyboxAnchors();
-		wtp.makeMoreButtonEndings();
-		jw('select').dropdownCss({x:1});
+        //wtp.moveContentsBetweenContainers();
+		//wtp.fixFancyboxAnchors();
+		//wtp.makeMoreButtonEndings();
+		wtp.initWTPinfobox();
+		//$('select').dropdownCss({x:1});
 	},
+
+    initWTPinfobox: function()  {
+
+        // INFOBOX
+        $("#wtp_infobox").draggable();
+
+        // restore posision
+        var position = $.cookie("wtp-infobox-position").split(',');
+        $("#wtp_infobox").css({ visibility: 'visible', top: position[0]+'px', left: position[1]+'px' });
+
+        // save position after click release
+        $("#wtp_infobox").mouseup(function(){
+            $.cookie("wtp-infobox-position",
+                $(this).position().top + ',' + $(this).position().left, { expires: 30, path: "/" });
+        });
+
+
+        // init containers BORDER TOGGLER
+        $("#wtp_infobox").dblclick(function(){
+            $('body.dev').toggleClass('wtp-borders');
+
+            // save borders visibility
+            $.cookie("wtp-borders-enabled",
+                $('body.dev').hasClass('wtp-borders'), { expires: 30, path: "/" });
+        });
+
+        // restore borders visibility
+        var bordersEnabled = $.cookie("wtp-borders-enabled");
+        if (bordersEnabled == 'true')   {   $('body.dev').addClass('wtp-borders');  }
+        else                            {   $('body.dev').removeClass('wtp-borders'); }
+    },
 
 	// enable bootstrap tables, no-ts method
     initTables: function()  {
@@ -196,7 +229,16 @@ if (!wtp) var wtp = {
         $('.table').wrap('<div class="table-responsive"></div>');
     },
 
-// various content manipulation (non-responsive thing)
+
+    // focus login form
+    initLoginForm: function()   {
+        //$('#top-loginbox').click( function(){
+        $('#user').focus();
+        //});
+    },
+
+
+    // various content manipulation (non-responsive thing)
     moveContentsBetweenContainers: function()   {
         // moveNewsRelations to left column
         $('aside#relations').appendTo( $('#main-content-B') );
@@ -207,24 +249,7 @@ if (!wtp) var wtp = {
         });
     },
 
- // make 100% gradient news header coexist with category selectors
-// to calculate one's width to fit exactly inside parent
-    stretchNewsCatheader: function()   {
-        // find all items in div and measure them
-        var buttonsWidth = 0;
-        $('.news-catmenu-ajax .news-catmenu-item').each(function(i,val) {
-            //console.log($(val).outerWidth());
-            buttonsWidth += $(val).outerWidth();
-        });
-//        console.log( $('.news-catmenu-ajax').width() - buttonsWidth, 'cont - buttons' );
-        $('.news-catmenu-ajax .news-catmenu-header')
-            // minus 1px to fix some calculate problems (with font?)
-            .outerWidth(     $('.news-catmenu-ajax').width() - buttonsWidth - 1 );
 
-//        console.log(buttonsWidth);
-        // then resize header to difference between container and buttons
-        //$('#main-content-before .csc-textpic-imagerow').random().show();
-    },
 
 	/**
 	*  standard typo3 anchors includes domain and/or page.
@@ -232,7 +257,7 @@ if (!wtp) var wtp = {
 	*  this should be before fancybox apply.
 	*/
 	fixFancyboxAnchors: function()	{
-		$( $('.fancybox') ).each(function(index) {
+		$('.fancybox').each(function(index) {
 			var anchor = $(this).attr('href').split('#')[1];
 			if (anchor)
 			$(this).attr('href', "#" + anchor);
@@ -258,7 +283,7 @@ if (!wtp) var wtp = {
 		}
 	},
 
-	checkIfHideAgeSplash: function()	{
+	/*checkIfHideAgeSplash: function()	{
 		// show form layer - because it starts with visible overlay and hidden form to avoid form blink on start
 		$('.agesplash-inner').css('display', 'block');
 		
@@ -266,7 +291,7 @@ if (!wtp) var wtp = {
 		if ($.cookie("age_confirmed"))	{
 			wtp.hideAgeSplash(false, true);
 		}
-	},
+	},*/
 
 
 	/**
@@ -582,7 +607,7 @@ if (!wtpAjax) var wtpAjax = {
 
 /* 1. dom ready (same as $(function(){} ) */
 $(document).ready(function() {
-    //wtp.init();
+    wtp.init();
 	//wtp.initMenu();
 });
 
@@ -591,13 +616,11 @@ $(window).load(function() {
 	/*wtp.initHeaders();
 	wtp.equalizeProducts();
 	wtp.equalizeColumns();*/
-	
+    //wtp.initWTPinfobox();
 	/*setTimeout( function() {
-			wtp.initHeaders();
+            wtp.initWTPinfobox();
 		}, 400
 		);*/
 });
 
 
-/* there's no such thing */
-//$(window).ready(function() {

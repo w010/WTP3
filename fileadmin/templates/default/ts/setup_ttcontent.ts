@@ -51,15 +51,15 @@ tt_content {
 	# add new:
 	# Box type 1
 	stdWrap.innerWrap.cObject.31 < tt_content.stdWrap.innerWrap.cObject.default
-	stdWrap.innerWrap.cObject.31.20.10.value = csc-default frame-box1
+	stdWrap.innerWrap.cObject.31.20.10.value = csc-default frame-box frame-box1
 
 	# Box type 2
 	stdWrap.innerWrap.cObject.32 < tt_content.stdWrap.innerWrap.cObject.default
-	stdWrap.innerWrap.cObject.32.20.10.value = csc-default frame-box2
+	stdWrap.innerWrap.cObject.32.20.10.value = csc-default frame-box frame-box2
 
 	# Box type 3
     stdWrap.innerWrap.cObject.33 < tt_content.stdWrap.innerWrap.cObject.default
-    stdWrap.innerWrap.cObject.33.20.10.value = csc-default frame-box3
+    stdWrap.innerWrap.cObject.33.20.10.value = csc-default frame-box frame-box3
 }
 
 

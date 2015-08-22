@@ -17,6 +17,14 @@ class tx_wtools_import_crm extends tx_wtools_import {
 	protected function _prepareData()    {
 		$success = false;
 
+		// clear existing data - 1. remove all Personen (tt_address) and 2. it's relations (with tablenames = 'ExportDynamicsCRM')
+		$this->db()->exec_DELETEquery('tt_address', 'pid = '.intval($this->extConf['pid']));
+		//$this->db()->exec_DELETEquery('tt_address_group_mm', 'tablenames = "ExportDynamicsCRM"');
+		$this->db()->exec_DELETEquery('tt_address_group_mm', 'sorting > 1');
+		//$this->log('FLUSH: Person (4Personen) clean import (tt_address table - where pid, tt_address_group_mm - where tablenames="ExportDynamicsCRM")');
+		$this->log('FLUSH: Person (4Personen) clean import (tt_address table - where pid, tt_address_group_mm - where sorting = 2');
+
+
 		foreach ($this->_pathFiles as $file)   {
 			if (preg_match('/exportGroepen/', $file, $m2))  {
 				//debugster($m2);
@@ -64,7 +72,10 @@ class tx_wtools_import_crm extends tx_wtools_import {
 			//debugster($recordType);
 				$this->TTr->start('save set', 'save_'.$recordType, 'SAVE_GROUP');
 			foreach($xmlItem->BusinessEntities[0]->BusinessEntity as $entity) {
-				$this->_saveRecord($entity, $recordType);
+				if ($entity->statecode > 0)
+					$this->_removeRecord($entity, $recordType);
+				else
+					$this->_saveRecord($entity, $recordType);
 				//				break;  // stop after first
 			}
 				$this->TTr->stop('save_'.$recordType, 'SAVE_GROUP');
@@ -77,16 +88,34 @@ class tx_wtools_import_crm extends tx_wtools_import {
 			if ($this->counter[$recordType.'_updated'])
 				$this->log('UPDATED items: ' . $recordType . ' - ' . $this->counter[$recordType.'_updated']);
 
+			if ($this->counter[$recordType.'_mm'])
+				$this->log('- MM category relations: ' . $recordType . ' - ' . $this->counter[$recordType.'_mm']);
+
+
+			// REMOVED LOG. disabled, was used only in person import but now the table is cleared before import
+			/*	if ($this->counter[$recordType.'_remove_should'])
+					// actually_removed can be greater than should_remove, because there can be for some reason more of records with this xml id imported...
+					$this->log('DELETED items: ' . $recordType . ' - should delete: ' . $this->counter[$recordType.'_remove_should'] . ', - actually deleted: ' . $this->counter[$recordType.'_removed_actually'] );
+
+				if ($this->counter[$recordType.'_removed_mm'])
+					$this->log('- it\'s MM relations deleted: ' . $recordType . ' - ' . $this->counter[$recordType.'_removed_mm']);*/
+
+
 			// read groups again
 			if ($recordType == '1Groups')   {
 				$this->existingInDb['1Groups'] = $this->_getRecords('*', 'tt_address_group', 'AND pid = '.$this->extConf['pid']);
 				$this->log('read Groups again from db after import: '.count($this->existingInDb['1Groups']));
 			}
 		}
-//debugster( $this->data['test'] );
-//debugster($this->counter);
-//debugster($this->existingInDb);
-//debugster($this->alreadyExists);
+		// test page - don't debug in scheduler
+		if ($GLOBALS['TSFE']->id == 82) {
+			//debugster( $this->data['test'] );
+			debugster($this->counter);
+			//debugster($this->existingInDb);
+			//debugster($this->existingInDb['3Bedrijven']);
+			//debugster($this->alreadyExistsId);
+			//debugster($this->alreadyExistsId['3Bedrijven']);
+		}
 		return ['success' => $success, 'notice' => 'data saved'];
 	}
 
@@ -100,6 +129,7 @@ class tx_wtools_import_crm extends tx_wtools_import {
 	 * @return array result
 	 */
 	protected function _saveRecord($entity, $recordType)	{
+		$result = ['notice' => 'check recordType param, case not triggered'];
 		switch ($recordType) {
 			case '1Groups':
 				// insert control
@@ -125,17 +155,51 @@ class tx_wtools_import_crm extends tx_wtools_import {
 				break;
 
 			case '3Bedrijven':
+
+				//debugster($entity);
+				//debugster((string) $entity->accountid);
+				// insert control
+				$exists = false;
+				if (false !== array_search((string) $entity->accountid, array_column($this->existingInDb[$recordType], 'tx_sitecedris_sw_accountid'))) {
+					$this->alreadyExistsId[$recordType][] = (string) $entity->accountid;
+					$exists = true;
+					//debugster($entity);
+					//die('exists');
+					//break;
+				}
+				$row = $this->_mapRow__fe_users($entity);
+
+					// UPDATE. note: inserting disabled
+					// http://mantis.kbsystems.pl/view.php?id=4471
+					// only updating for now, because not all records (previously imported from excel) has set id and will duplicate when inserted from xml.
+				// NOW IS ALSO INSERTING
+				if ($exists) {
+					unset ($row['username']);
+					unset ($row['password']);
+					unset ($row['usergroup']);
+					unset ($row['pid']);
+					unset ($row['crdate']);
+					$result = $this->_insertItem($row, 'fe_users', $recordType, '', [], (string) $entity->accountid, 'tx_sitecedris_sw_accountid');
+				}
+				else	{
+					$result = $this->_insertItem($row, 'fe_users', $recordType, '', [], 0, 'tx_sitecedris_sw_accountid');
+				}
 				break;
 
 			case '4Personen':
 				//debugster($entity);
-				// insert control
+
+				// insert control - disabled
+				// table is cleared before import
 				$exists = false;
+				/*
 				if (false !== array_search((string) $entity->contactid, $this->existingInDb[$recordType])) {
 					$this->alreadyExistsId[$recordType][] = (string) $entity->contactid;
 					//break;
 					$exists = true;
 				}
+				*/
+
 				$row = $this->_mapRow__tt_address($entity);
 
 				// test - this record has 2 relations: //if ($row['description'] == '82952189-bbe1-db11-810a-0014384ef846') {
@@ -145,15 +209,71 @@ class tx_wtools_import_crm extends tx_wtools_import {
 				array_unshift($groupUids, $this->extConf['categoryUid']);   // default as first
 				//debugster($groupUids);
 
+
 				// INSERT / UPDATE
 				unset ($row['__UNSET_groupUids']);
-				$result = $this->_insertItem($row, 'tt_address', $recordType, 'tt_address_group_mm', $groupUids, $exists ? $entity->contactid : 0);
+				$result = $this->_insertItem($row, 'tt_address', $recordType, 'tt_address_group_mm', $groupUids, $exists ? (string) $entity->contactid : 0, 'description', "", "2");    // 'description' is passed as default, but is not used in this context (person) - is used in update bedrijven as idfield
 				break;
 		}
 
 		//$this->log('insert: '.implode(',', $this->alreadyExists));
 		return $result; //['notice' => 'insert: '.implode(',', $this->alreadyExists)];
 	}
+
+
+
+
+	/**
+	 * remove control - delete flagged records from database
+	 * PROBABLY NOT USED FOR NOW SINCE WE CLEAR WHOLE TABLE
+	 *
+	 * @param        $entity - array or simplexmlobject
+	 * @param string $recordType
+	 * @return array result
+	 */
+	protected function _removeRecord($entity, $recordType)	{
+		switch ($recordType) {
+
+			case '4Personen':
+				//debugster($entity);
+				// if statecode > 0 - delete this record from database
+				if ($entity->statecode > 0) {
+
+					$this->counter[$recordType . '_remove_should']++;
+
+					// select given record, get its uid (or uids, may be more with this xml id...) to remove its relations
+					$rows = self::db()->exec_SELECTgetRows(
+						'uid',
+						'tt_address',
+						'description = '.self::db()->fullQuoteStr($entity->contactid, 'tt_address'),
+						'', '', '', 'uid'    // group, order, limit, index
+					);
+					//debugster($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery);
+					//debugster($rows);
+					//debugster((string) $entity->contactid);
+
+					// remove record(s) with such xml id (could be more than one)
+					self::db()->exec_DELETEquery('tt_address', 'description = '.self::db()->fullQuoteStr($entity->contactid, 'tt_address'));
+					//debugster($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery);
+					$res_removed = self::db()->sql_query('SELECT ROW_COUNT()');
+					$removed = array_pop($res_removed->fetch_assoc());
+					$this->counter[$recordType . '_removed_actually'] += intval($removed);
+					//debugster($removed);
+					// remove also their mms
+					if ($removed) {
+						foreach ($rows as $row) {
+							$removedMM = self::db()->exec_DELETEquery('tt_address_group_mm', 'uid_local = ' . intval($row['uid']));
+							$this->counter[$recordType . '_removed_mm'] += intval($removedMM);
+						}
+					}
+				}
+				break;
+		}
+
+		//$this->log('insert: '.implode(',', $this->alreadyExists));
+		return true;
+	}
+
 
 
 	/**
@@ -213,7 +333,7 @@ class tx_wtools_import_crm extends tx_wtools_import {
 
 		//		debugster($this->data['2GroupRelations_parsed']);
 
-		return [
+		$row = [
 			// system
 			'tstamp' => $this->scriptStartStamp,
 			//'crdate' => strtotime($entity->createdon),    // doesn't have such
@@ -228,6 +348,11 @@ class tx_wtools_import_crm extends tx_wtools_import {
 			'__UNSET_groupUids' => $groupUids   // only for setting mm in caller, unset before insert, there's no such field
 			//'overall_official' => json_encode($entity->xpath('overall_official')),    // example
 		];
+
+		//if (DEVS)
+		//	$row['email'] = 'wolo.wolski+'.mt_rand(0,12345346).'@gmail.com';
+
+		return $row;
 	}
 
 	/**
@@ -249,20 +374,59 @@ class tx_wtools_import_crm extends tx_wtools_import {
 	}
 
 
+	/**
+	 * maps xml structure to row array to insert into database
+	 *
+	 * @param SimpleXMLElement $entity
+	 * @return array
+	 */
+	protected function _mapRow__fe_users(SimpleXMLElement &$entity)	{
+		return [
+			// system
+			'tstamp' => $this->scriptStartStamp,
+			'crdate' => (int) strtotime($entity->createdon),
+			//'pid' => $this->extConf['pid'],
+
+			// not shown on page by default. need to set category, which auto moves to proper storage.
+			'pid' => 107,
+			'usergroup' => '3',
+			'password' => md5(chr(mt_rand(1,256)) . mt_rand(1,10000000) . chr(mt_rand(1,256))),
+			'module_sys_dmail_newsletter' => 1,
+			'module_sys_dmail_html' => 1,
+
+			'name' => (string) $entity->name,
+			'username' => (string) $entity->name,   // unset on update
+			'tx_sitecedris_sw_accountid' => (string) $entity->accountid,     // MAIN ID used from this field!
+			'tx_sitecedris_sw_provincie' => (string) $entity->address1_stateorprovince,
+			'tx_sitecedris_sw_postadres' => (string) $entity->address1_postalcode,
+			'telephone' => (string) $entity->telephone1,
+			'country' => (string) $entity->address1_country,
+			'email' => (string) $entity->emailaddress1,
+			'city' => (string) $entity->address1_city,
+			'zip' => (string) $entity->address1_postalcode,
+			'fax' => (string) $entity->fax,
+			'www' => (string) $entity->websiteurl,
+		];
+	}
+
 
 	/**
-	 * @param array  $row - item to insert into db
+	 * @param array  $row              - item to insert into db
 	 * @param string $table
 	 * @param string $recordType
 	 * @param string $mmTable
-	 * @param array $mmUidsForeign - uids of foreign table, ie. categories (typo uids!)
-	 * @param int $updateExistingId - id (possible not uid) of current record
+	 * @param array  $mmUidsForeign    - uids of foreign table, ie. categories (typo uids!)
+	 * @param int    $updateExistingId - id (possible not uid) of current record. 0 means insert
+	 * @param string $idField          - name of db field with id
+	 * @param string $tablenames       - tablenames column in mm table. used in where clause to group relations to clear table before import
+	 * @param int $mmSorting           - mm relation sorting. see above - where clause
 	 * @return mixed
 	 */
-	protected function _insertItem($row, $table = 'tt_news', $recordType = 'default', $mmTable = 'tt_news_cat_mm', $mmUidsForeign = [], $updateExistingId = 0)	{
+	protected function _insertItem($row, $table = 'tt_news', $recordType = 'default', $mmTable = 'tt_news_cat_mm', $mmUidsForeign = [], $updateExistingId = 0, $idField = 'description', $tablenames = '', $mmSorting = 2)	{
 
 		// if using method with duplicate key update, omit this
-		if (!$updateExistingId) {
+		// insert if not updating
+		if ($updateExistingId === 0) {
 
 			// neccessary to make valid query - only if manual build
 			$row = self::db()->fullQuoteArray($row, $table, false);
@@ -285,23 +449,30 @@ class tx_wtools_import_crm extends tx_wtools_import {
 			// insert mm relation records
 			//debugster($GLOBALS['TYPO3_DB']->sql_insert_id());
 			if (is_array($mmUidsForeign)  &&  $uidLocal)
+				//if ($tablenames)    die($tablenames);
 				//foreach (explode(',', $mmUidsForeign) as $mmUidForeign)
 				foreach ($mmUidsForeign as $mmUidForeign)
 					if (intval($mmUidForeign)) {
-						$this->_insertMmRelation($mmTable, $uidLocal, $mmUidForeign);
-						$this->counter[$recordType]['mm'] ++;
+						$this->_insertMmRelation($mmTable, $uidLocal, $mmUidForeign, $tablenames, $mmSorting);
+						$this->counter[$recordType.'_mm'] ++;
 					}
 		}
 
-		// update record
-		else    {
+		// update record (can be string)
+		else if ($updateExistingId)   {
 			//debugster($row);
-
+			//debugster((string) $updateExistingId);
 				// one update could take about 5-10 ms, so calculate this if import takes too long
 				//$this->TTr->start('update_'.$updateExistingId, 'update_'.$updateExistingId);
 
-			// cedris crm - finally, we use also this id as uniquality test on import. id is currently kept in description field
-			$result = self::db()->exec_UPDATEquery($table, 'description = "'.$updateExistingId.'"', $row);
+			unset ($row['crdate']);
+
+			// (cedris crm - id for news is currently kept in description field! as default for this method)
+			$result = self::db()->exec_UPDATEquery(
+				$table,
+				$idField.' = "'.$updateExistingId.'"',
+				$row
+			);
 			$this->counter[$recordType.'_updated'] += intval($result);
 
 				//$this->TTr->stop('update_'.$updateExistingId);
@@ -341,6 +512,8 @@ class tx_wtools_import_crm extends tx_wtools_import {
 		//debugster($this->existingInDb['1Groups']);
 
 		// get 3Bedrijven
+		$this->existingInDb['3Bedrijven'] = $this->_getRecords('*', 'fe_users', 'AND pid IN (45,107)', 'AND NOT deleted AND NOT disable');   // pid should be in conf, but probably will never change
+		$this->log('LOAD current: total Bedrijven records in db: '.count($this->existingInDb['3Bedrijven']));
 
 		// get 4Personen - only identifiers, which is kept in description field
 		$this->existingInDb['4Personen'] = $this->_getExistingRecordsIds('description', 'tt_address', 'AND pid = '.$this->extConf['pid']);
@@ -357,7 +530,7 @@ class tx_wtools_import_crm extends tx_wtools_import {
 	 * @param string $enableFields
 	 * @return array
 	 */
-	private function _getRecords($fields, $table, $where, $enableFields = ' AND NOT deleted AND NOT hidden') {
+	private function _getRecords($fields, $table, $where, $enableFields = 'AND NOT deleted AND NOT hidden') {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			$fields,
 			$table,

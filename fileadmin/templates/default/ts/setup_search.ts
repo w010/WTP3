@@ -46,6 +46,6 @@ lib.searchbox < plugin.tx_macinasearchbox_pi1
 ### poprawka dla pagebrowser`a w wynikach wyszukiwania <patrz>  setup.ts
 
 #indexed_search: make exception for search results at indexed_search, otherwise Strona1, Strona2 will link to index.php not siteurl
-[PIDinRootline = 74]
-	config.absRefPrefix >
-[end]
+#[PIDinRootline = 74]
+#	config.absRefPrefix >
+#[end]

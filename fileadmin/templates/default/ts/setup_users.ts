@@ -46,6 +46,10 @@ plugin.tx_felogin_pi1	{
 	forgotHeader_stdWrap {
 		wrap = <p class="bodytext">|</p>
 	}
+	successHeader_stdWrap {
+		# it doesn't affect toploginbox username!
+		#wrap = <span class="header">|</span>
+	}
 	errorHeader_stdWrap {
 		wrap = <p class="bodytext error">|</p>
 	}

@@ -3,10 +3,10 @@ plugin.tt_news {
 	file.templateFile = fileadmin/templates/default/html/tx_ttnews.html
 	
 	# cat=plugin.tt_news/links/3; type=text; label= Starting Point (pid_list): The PID of the page (or comma separated list pf PIDs) where your news articles are located.
-	pid_list = 2
+	pid_list = 10
 	
 	# cat=plugin.tt_news/links/5; type=int+; label= SinglePid: The PID of the page on which single news items should be displayed (since tt_news v1.6.0 this var is called 'singlePid'. The old var-name 'PIDitemDisplay' does not work anymore).
-	singlePid = 4
+	singlePid = 11
 
 	# cat=plugin.tt_news/links/9; type=int+; label= BackPid: The PID of the page to go back to from single news item display screen.
 	backPid = 
@@ -76,10 +76,8 @@ plugin.tt_news {
 	
 	# cat=plugin.tt_news/dims/160; type=int+; label= list-image max height: Max height for an image displayed in LIST template
 	listMaxH = 300
-}
 
 
-plugin.tt_news { 
   displayXML { 
     # rss091_tmplFile = EXT:tt_news/res/rss_0_91.tmpl 
     # rdf_tmplFile = EXT:tt_news/res/rdf.tmpl 
@@ -105,7 +103,6 @@ plugin.tt_news {
 
     #dontInsertSiteUrl = 1
     xmlCaching = 0
-     
   } 
   
 }  

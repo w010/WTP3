@@ -1,6 +1,7 @@
 
-# wtp todo: pid
-plugin.tx_linkhandler.tt_news.singlePid = 34
+
+plugin.tx_linkhandler.tt_news.singlePid = 11
+
 
 
 plugin.feadmin.dmailsubscription {

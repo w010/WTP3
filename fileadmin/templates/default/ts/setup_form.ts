@@ -75,7 +75,7 @@ plugin.Tx_Formhandler.settings.predef.formhandler-basic-contactform {
 	
 	# to use typo's conf settings, like smtp
 	mailer {
-		#class = Mailer_TYPO3Mailer
+		class = Mailer_TYPO3Mailer
     }
 }
 

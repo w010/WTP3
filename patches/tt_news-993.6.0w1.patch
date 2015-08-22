@@ -1,0 +1,119 @@
+From 24610389c565172ffd5ced2faa2db726019bf459 Mon Sep 17 00:00:00 2001
+From: wolo <wolo.wolski@gmail.com>
+Date: Mon, 10 Aug 2015 03:47:18 +0200
+Subject: patch tt_news 993.6.0
+
+ typo3conf/ext/tt_news/ext_emconf.php              |  6 +--
+ typo3conf/ext/tt_news/pi/class.tx_ttnews.php      | 46 +++++++++++++++++--
+ 7 files changed, 135 insertions(+), 22 deletions(-)
+
+
+diff --git a/typo3conf/ext/tt_news/ext_emconf.php b/typo3conf/ext/tt_news/ext_emconf.php
+index f20fa27..860b1fa 100644
+--- a/typo3conf/ext/tt_news/ext_emconf.php
++++ b/typo3conf/ext/tt_news/ext_emconf.php
+@@ -11,10 +11,10 @@
+  ***************************************************************/
+ 
+ $EM_CONF[$_EXTKEY] = array (
+-	'title' => 'News',
+-	'description' => 'Website news with front page teasers and article handling inside.',
++	'title' => 'News - modified, see project info',
++	'description' => 'This ext is modified, hooks are added, look for "wolo mod", search for patches in project dir. Website news with front page teasers and article handling inside.',
+ 	'category' => 'plugin',
+-	'version' => '3.6.0',
++	'version' => '993.6.0',
+ 	'state' => 'beta',
+ 	'uploadfolder' => 1,
+ 	'createDirs' => '',
+diff --git a/typo3conf/ext/tt_news/pi/class.tx_ttnews.php b/typo3conf/ext/tt_news/pi/class.tx_ttnews.php
+index 9c48c63..72c5da6 100644
+--- a/typo3conf/ext/tt_news/pi/class.tx_ttnews.php
++++ b/typo3conf/ext/tt_news/pi/class.tx_ttnews.php
+@@ -666,7 +666,7 @@ class tx_ttnews extends tslib_pibase {
+ 				$this->db->sql_free_result($res);
+ 			}
+ 			$this->newsCount = $newsCount;
+-
++//			debugster($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery);
+ 
+ 			// Only do something if the query result is not empty
+ 			if ($newsCount > 0) {
+@@ -934,6 +934,11 @@ class tx_ttnews extends tslib_pibase {
+ //				debug($selectConf, $this->theCode.' final $selectConf (' . __CLASS__ . '::' . __FUNCTION__ . ')', __LINE__, __FILE__, 3);
+ 
+ 
++		// wolo mod
++		if (isset($GLOBALS['w_ttnews_showSQL']) && $GLOBALS['w_ttnews_showSQL'])
++			debugster($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery);
++
++
+ 		// make some final config manipulations
+ 		// overwrite image sizes from TS with the values from content-element if they exist.
+ 		if ($this->config['FFimgH'] || $this->config['FFimgW']) {
+@@ -996,7 +1001,21 @@ class tx_ttnews extends tslib_pibase {
+ 				$row['page'] = $tmpPage;
+ 				$row['ext_url'] = $tmpExtURL;
+ 			}
+-				// Register displayed news item globally:
++
++
++
++			// wolo mod
++			// Adds hook for processing item array (row), after overlays apply, before markers build
++			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'])) {
++				foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'] as $_classRef) {
++					$_procObj = & t3lib_div::getUserObj($_classRef);
++					$row = $_procObj->extraItemArrayProcessor($row, $lConf, $this);
++				}
++			}
++			// wolo mod end.
++
++
++			// Register displayed news item globally:
+ 			$GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'];
+ 
+ 			$this->tsfe->ATagParams = $pTmp . ' title="' . $this->local_cObj->stdWrap(trim(htmlspecialchars($row[$titleField])), $lConf['linkTitleField.']) . '"';
+@@ -1121,7 +1140,20 @@ class tx_ttnews extends tslib_pibase {
+ 			$OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
+ 			$row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->tsfe->sys_language_content, $OLmode);
+ 		}
+-			// Register displayed news item globally:
++
++
++		// wolo mod
++		// Adds hook for processing of extra item array
++		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'])) {
++			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'] as $_classRef) {
++				$_procObj = & t3lib_div::getUserObj($_classRef);
++				$row = $_procObj->extraItemArrayProcessor($row, $lConf, $this);
++			}
++		}
++		// wolo mod end.
++
++
++		// Register displayed news item globally:
+ 		$GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'];
+ 
+ 		if (is_array($row) && ($row['pid'] > 0 || $this->vPrev)) { // never display versions of a news record (having pid=-1) for normal website users
+@@ -2081,11 +2113,15 @@ class tx_ttnews extends tslib_pibase {
+ 						$news_category[] = $this->local_cObj->stdWrap($this->pi_linkTP_keepPIvars($catTitle, array('cat' => $val['catid'],
+ 								'year' => ($this->piVars['year'] ? $this->piVars['year'] : null),
+ 								'month' => ($this->piVars['month'] ? $this->piVars['month'] : null), 'backPid' => null,
+-								$this->pointerName => null), $this->allowCaching, 0, $catSelLinkParams), $lConf[$titleWrap]);
++								//$this->pointerName => null), $this->allowCaching, 0, $catSelLinkParams), $lConf[$titleWrap]);
++						// wolo mod - clear pivars to not include news uid in category link
++								$this->pointerName => null), $this->allowCaching, 1, $catSelLinkParams), $lConf[$titleWrap]);
+ 
+ 					} else {
+ 						$news_category[] = $this->local_cObj->stdWrap($this->pi_linkTP_keepPIvars($catTitle, array('cat' => $val['catid'],
+-								'backPid' => null, $this->pointerName => null), $this->allowCaching, 0, $catSelLinkParams), $lConf[$titleWrap]);
++//								'backPid' => null, $this->pointerName => null), $this->allowCaching, 0, $catSelLinkParams), $lConf[$titleWrap]);
++						// wolo mod
++								'backPid' => null, $this->pointerName => null), $this->allowCaching, 1, $catSelLinkParams), $lConf[$titleWrap]);
+ 					}
+ 				}
+ 
+-- 
+1.9.5.msysgit.1
+

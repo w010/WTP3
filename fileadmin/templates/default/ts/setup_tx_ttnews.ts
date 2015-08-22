@@ -165,8 +165,21 @@ plugin.tt_news {
     # 10.default.10.typolink.parameter = 34
 	}
 
-	newsFiles.icon = 0
-  newsFiles.size.wrap = &nbsp;(|)
+	newsFiles	{
+		icon = 0
+		size.wrap = &nbsp;(|)
+		size.bytes.labels =  | KB| MB| GB
+
+			#labelStdWrap.cObject = TEXT
+            #labelStdWrap.cObject.dataWrap = DB:tt_news:{GPvar:tx_ttnews|tt_news}:title
+            #labelStdWrap.cObject.wrap3 = {|}
+            #labelStdWrap.cObject.insertData = 1
+
+            labelStdWrap = TEXT
+            labelStdWrap.field= title
+            labelStdWrap.wrap = |
+
+	}
 
 	related_stdWrap.wrap = <dl class="ttnews-related">|</dl>
 	newsFiles_stdWrap.wrap = <dl class="ttnews-files">|</dl>

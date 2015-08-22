@@ -27,7 +27,7 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
- * Pibase extended v3
+ * Pibase extended v4
  *
  * @author	wolo.pl <wolo.wolski@gmail.com>
  * @package	TYPO3
@@ -120,6 +120,15 @@ class tx_wtools_pibase extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin    {
 	public function getFeuser() {
         return $GLOBALS['TSFE']->fe_user->user;
     }
+
+
+	/**
+	 * shorthand for database with code completion
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	public function db()   {
+		return $GLOBALS['TYPO3_DB'];
+	}
 
 
 	/**

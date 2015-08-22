@@ -36,14 +36,16 @@ lib.contentLeft {
 	20.source.postUserFunc = thinkopen_at\KbTvContSlide\SlideController->main
 	20.source.postUserFunc.field = main-content-left
 	20.source.postUserFunc.table = tt_content
+	# if only menus in left columns and use indexedsearch, use (remove search tags):
+	20.wrap = |
 }
 lib.contentRight < lib.contentLeft
-lib.contentRight.source.postUserFunc.field = main-content-right
+lib.contentRight.20.source.postUserFunc.field = main-content-right
 
-# top - referenced as non-slided example
 lib.contentTop < lib.contentLeft
-lib.contentRight.source.postUserFunc.field = main-content-top
+lib.contentTop.20.source.postUserFunc.field = main-content-top
 
+# bottom - referenced as non-slided example
 #lib.contentBottom < lib.content
 #lib.contentHead < lib.content
 
@@ -56,14 +58,16 @@ lib.contentRight.source.postUserFunc.field = main-content-top
 #[global]
 
 
+lib.contentTop.10 < lib.breadcrumb
 
 # example optionally insert something before by making it COA array
+# by doing this way, we doesn't copy breadcrumb to other containers and no need to reset it there
 
-#temp.libcont < lib.content
+#temp.libcontent < lib.content
 #lib.content >
 #lib.content = COA
 #lib.content.5 < lib.breadcrumb
-#lib.content.10 < temp.libcont
+#lib.content.10 < temp.libcontent
 
 
 
@@ -119,24 +123,27 @@ lib.page-meta.15 < lib.searchbox
 #
 lib.page-foot = COA
 lib.page-foot {
+
+	# foot menu
 	10 = COA
+	10.wrap = <div class="col-xs-6"> | </div>
 	10	{
 		10 < lib.CE
-		10.source = 7
+		10.source = 2
 	}
-	10.wrap = <div class="col-xs-6"> | </div>
-	
+
 	#15 < lib.menu-footer
 
 	# copyrights
 	20 = COA
+	20.wrap = <div class="col-xs-6"> | </div>
 	20	{
 		10 = TEXT
-		10.value = <p class="pull-left"> {date:Y} - WTP </p>
-		10.insertData = 1
+		10.value = <p class="pull-left"> wolo.pl TYPO3 pack <br> Preconfigured web system starter</p>
 
 		20 = TEXT
-		20.value = <p class="pull-right"> wolo.pl TYPO3 pack  </p>
+		20.value = <p class="pull-right text-right"> {date:Y} - WTP 2.62.3<br>  <a href="http://wolo.pl">wolo.pl '.' studio</a> </p>
+		20.insertData = 1
 		
 		#20 < lib.CE
 		#20.source = 8
@@ -145,7 +152,6 @@ lib.page-foot {
 		99 = TEXT
 		99.value = <br class="clear">
 	}
-	20.wrap = <div class="col-xs-6"> | </div>
 
 	#99 = TEXT
 	#99.value = <br class="clear">

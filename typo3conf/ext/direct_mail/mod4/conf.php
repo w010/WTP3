@@ -11,6 +11,5 @@ $MLANG['default']['ll_ref'] = 'LLL:EXT:direct_mail/mod4/locallang_mod.xml';
 $MCONF['access'] = 'user,group';
 $MCONF['script']='index.php';
 
-
 $MCONF['workspaces'] = 'online'
 ?>

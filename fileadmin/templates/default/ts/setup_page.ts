@@ -66,39 +66,60 @@ page.headerData {
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     )
+
+	# analytics in head
+    667 = TEXT
+    667.value (
+		<script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-xxxxx', 'auto');
+          ga('send', 'pageview');
+        </script>
+    )
 }
 
+page.includeCSSLibs {
+	# force before typo's standard stylesheet
+	bootstrap = fileadmin/templates/default/css/bootstrap.min.css
+	bootstrap.media = all
+}
 page.includeCSS {
-	reset = fileadmin/templates/default/css/bootstrap.min.css
-	reset.media = all
+	# reverse order when forceOnTop!
+	layout = fileadmin/templates/default/css/layout.css
+	layout.media = all
+	layout.forceOnTop = 1
 
 	screen = fileadmin/templates/default/css/screen.css
     screen.media = all
-    layout = fileadmin/templates/default/css/layout.css
-    layout.media = all
+    screen.forceOnTop = 1
+
+	# rendered after typo's standard stylesheet
     content = fileadmin/templates/default/css/content.css
     content.media = all
 
 	rte = fileadmin/templates/default/css/rte.css
-  rte.media = all
+ 	rte.media = all
 
 	#mobile = fileadmin/templates/default/css/mobile.css
 	#mobile.media = all
-
-# czy to sie nie dolacza samo z t3jquery?
-	#jqueryUI = fileadmin/templates/default/css/jquery-ui-1.8.23.custom.css
 }
 
 #[useragent = *iPad*]
 #	page.includeCSS.mobile = fileadmin/templates/default/css/mobile-ipad.css
 #[global]
 
-# try to keep all in footer
-page.includeJS	{
+
+# force before standard typo's javascript
+page.includeJSlibs	{
 	# modernizr have to be here. check for:
 	# "For best performance, you should have them follow after your stylesheet references." (doc)
 	modernizr = fileadmin/templates/default/js/modernizr.custom.283.js
-
+}
+# try to keep all in footer
+page.includeJS	{
 	# example of external js settings
 	#jq = http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
 	#jq.external = 1
@@ -123,21 +144,10 @@ page.includeJSFooter {
 page.includeJSFooter.autoreloadcss = fileadmin/templates/default/js/autoreloadcss.js
 [global]
 
-# google analytics
-# TO HEADER!!! BEFORE </head>
+
+
 temp.page.footerData {
-	667 = TEXT
-	667.value (
-<script language="javascript" type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." [^] : "http://www." [^]);
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script language="javascript" type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-xxxxxx");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-	)
+	
 }
 
 
@@ -191,6 +201,9 @@ temp.page	{
 
 [globalVar= ENV:DEV=1]
 	page.config.admPanel = 0
+
+	# include not minimized bootstrap
+	page.includeCSS.reset = fileadmin/templates/default/css/bootstrap.css
 [end]
 
 

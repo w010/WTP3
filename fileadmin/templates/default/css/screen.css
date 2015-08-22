@@ -133,3 +133,30 @@ p.bodytext a {
 	.dev .only-dev	{
 		display: block;
 	}
+
+
+
+#wtp_infobox	{
+	display: none;
+	visibility: hidden;	/* avoid blinking, unhide in js */
+	position: absolute;
+	left: 600px;
+	top: 20px;
+	border: 1px solid #444;
+	/*background: #aaa;*/
+	z-index: 5;
+	padding: 10px;
+	cursor: move;
+}
+	#wtp_infobox p	{
+		margin-bottom: 2px;
+		font-size: 0.8em;
+	}
+
+	.dev 		#wtp_infobox,
+	.local 		#wtp_infobox,
+	.testdevs	#wtp_infobox	{
+		display: block;
+	}
+
+

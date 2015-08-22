@@ -409,6 +409,17 @@ return array (
       array (
       ),
     ),
+    'scheduler' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-scheduler',
+      'state' => 'active',
+      'packagePath' => 'typo3/sysext/scheduler/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
     'sv' => 
     array (
       'manifestPath' => '',
@@ -544,6 +555,15 @@ return array (
       array (
       ),
     ),
+    'ods_plaintext' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/ods_plaintext/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
     'kb_tv_cont_slide' => 
     array (
       'state' => 'active',
@@ -571,10 +591,55 @@ return array (
       array (
       ),
     ),
+    'formhandler' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/formhandler/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
     'extension_builder' => 
     array (
       'state' => 'active',
       'packagePath' => 'typo3conf/ext/extension_builder/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'tt_address' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/tt_address/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'direct_mail' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/direct_mail/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'direct_mail_userfunc' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/direct_mail_userfunc/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'direct_mail_subscription' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/direct_mail_subscription/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -695,17 +760,6 @@ return array (
       array (
       ),
     ),
-    'scheduler' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-scheduler',
-      'state' => 'inactive',
-      'packagePath' => 'typo3/sysext/scheduler/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
     'sys_action' => 
     array (
       'manifestPath' => '',
@@ -779,15 +833,6 @@ return array (
       array (
       ),
     ),
-    'direct_mail_subscription' => 
-    array (
-      'state' => 'inactive',
-      'packagePath' => 'typo3conf/ext/direct_mail_subscription/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
     'linkhandler' => 
     array (
       'manifestPath' => '',
@@ -799,28 +844,10 @@ return array (
       array (
       ),
     ),
-    'ods_plaintext' => 
-    array (
-      'state' => 'inactive',
-      'packagePath' => 'typo3conf/ext/ods_plaintext/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
     'scriptmerger' => 
     array (
       'state' => 'inactive',
       'packagePath' => 'typo3conf/ext/scriptmerger/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'tt_address' => 
-    array (
-      'state' => 'inactive',
-      'packagePath' => 'typo3conf/ext/tt_address/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (

@@ -4,6 +4,9 @@ mod.web_layout.defaultLanguageLabel = Polski
 #mod.SHARED.defaultLanguageLabel = Deutsch
 #mod.SHARED.defaultLanguageFlag = de
 #mod.web_layout.defaultLanguageLabel = Deutsch
+#mod.SHARED.defaultLanguageLabel = Nederlandse
+#mod.SHARED.defaultLanguageFlag = nl
+#mod.web_layout.defaultLanguageLabel = Nederlandse
 
 #TCEFORM.pages.backend_layout.PAGE_TSCONFIG_ID = 2
 #TCEFORM.pages.backend_layout_next_level.PAGE_TSCONFIG_ID = 2
@@ -65,6 +68,7 @@ TCEFORM {
 			4 = H4
 			5 = H5
 		}
+		#header_layout.removeItems = 5,6
 		section_frame.altLabels {
 			#1 = Add space after
 			#10 = Layout 1
@@ -143,16 +147,18 @@ RTE.default {
 		textstyle.tags.span.allowedClasses := addToList(yellowLink,phone)
 		textstyle.tags.p.allowedClasses := addToList(yellowLink, phone)
 		blockstyle.tags.all.allowedClasses := addToList(yellowLink, phone)
-		link.properties.class.allowedClasses := addToList(mail,more,fancybox)
+		link.properties.class.allowedClasses := addToList(mail, more, fancybox)
 		#blockstyle.tags.div.allowedClasses := removeFromList(csc-frame-frame1, csc-frame-frame2)
 		#link.properties.class.allowedClasses := removeFromList(external-link,external-link-new-window,internal-link-new-window,internal-link,download,mail)
 
 		#formatblock.removeItems = h5,h6
 	}
+
+	#buttons.textstyle.postfixLabelWithClassName = 1
 	
 	#classesTable := addToList(sometable) # old, check this
 	
-	proc.allowedClasses := addToList(yellowLink,more,contact-phone,fancybox)
+	proc.allowedClasses := addToList(yellowLink, more, contact-phone, fancybox)
 	
 	# proc.allowTags := addToList(img)
 	# proc.entryHTMLparser_db.allowTags := addToList(img)

@@ -14,7 +14,7 @@ lib.page-menu.9.value (
 		       <span class="icon-bar"></span>
 		       <span class="icon-bar"></span>
 		   </button>
-		   <a class="navbar-brand" href="#">NavBar</a>
+		   <a class="navbar-brand" href="/">wtp2</a>
 		</div>
 
 )
@@ -131,10 +131,17 @@ lib.page-menu2 {
    }
 }
 
-# na stronie glownej zawsze markuje wybrana pozycje
+
+
+
+# on homepage always mark this page (hp shortcut in menu)
 [treeLevel = 0]
    lib.page-menu.10.alwaysActivePIDlist = 3
 [end]
+
+
+
+
 
 #names: breadcrumb,navigation,location
 lib.breadcrumb = HMENU
@@ -158,6 +165,7 @@ lib.breadcrumb {
 		NO.ATagTitle.data = field:subtitle // field:abstract // field:title
 	}
 }
+
 
 # if needed
 temp.lib.breadcrumb.20 < lib.breadcrumb.10
@@ -199,8 +207,46 @@ lib.page-submenu-1 {
     	#ACT.ATagParams = class="act"
       
    	}
-   
 }
+
+
+# currently content sitemap option is used for footer menu
+
+lib.menu-footer = COA
+#lib.menu-footer.stdWrap.wrap = <nav class="menu-footer"> | </nav>
+lib.menu-footer.10 = HMENU
+lib.menu-footer.10 {
+	# excludeUidList = 45
+#	special = directory
+#	special.value = 17
+
+	1 = TMENU
+    1 {
+        # stdWrap.preCObject.wrap = | &nbsp;&raquo;&nbsp;
+        #wrap = <nav class="menu-footer"> | </nav>
+
+        #expAll = 1
+        noBlur = 1
+        #IProcFunc = user_mainMenuIProcFunc
+
+        NO.linkWrap = <span class="item-first page-{elementUid}">|</span> |*| <span class="item-middle page-{elementUid}">|</span> |*| <span class="item-last page-{elementUid}">|</span>
+        NO.subst_elementUid = 1
+        #NO.stdWrap.wrap = <span>|</span>
+
+        ACT < .NO
+        ACT = 1
+        ACT.linkWrap = <span class="item-first page-{elementUid} act">|</span> |*| <span class="item-middle page-{elementUid} act">|</span> |*| <span class="item-last page-{elementUid} act">|</span>
+        ACT.subst_elementUid = 1
+        #ACT.ATagParams = class="act"
+    }
+}
+
+# social icons
+lib.menu-footer.20 = TEXT
+lib.menu-footer.20.value (
+
+)
+
 
 
 

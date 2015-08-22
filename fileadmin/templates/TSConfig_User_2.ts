@@ -18,7 +18,7 @@ mod.web_list {
    hideTables = static_template,static_currencies,static_taxes,static_markets
 }
 
-# Domyslnie (prawie ;) wszystkie nowe tresci ukryte
+# By default almost all new contents hidden
 TCAdefaults {
 	#pages.hidden = 1
 	#tt_content.hidden = 1
@@ -26,6 +26,7 @@ TCAdefaults {
 	#tt_news_cat.hidden = 1
 }
 
+# but on local don't hide them
 [globalVar= ENV:LOCAL=1]
 	TCAdefaults {
 		pages.hidden = 0
@@ -36,16 +37,16 @@ TCAdefaults {
 [end]
 
 
-[PIDupinRootline=275]
-admPanel {
-	hide = 1
-	override {
-		preview = 1
-		preview.showHiddenPages = 1
-		preview.showHiddenRecords = 1
-	}
-}
-[end]
+#[PIDupinRootline=275]
+#admPanel {
+#	hide = 1
+#	override {
+#		preview = 1
+#		preview.showHiddenPages = 1
+#		preview.showHiddenRecords = 1
+#	}
+#}
+#[end]
 
 
 permissions.file.default {

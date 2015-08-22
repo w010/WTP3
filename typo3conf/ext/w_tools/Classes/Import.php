@@ -1,16 +1,46 @@
 <?php
-
+/***************************************************************
+*  Copyright notice
+*
+*  (c) 2010 - 2015 wolo.pl <wolo.wolski@gmail.com>
+*  All rights reserved
+*
+*  This script is part of the TYPO3 project. The TYPO3 project is
+*  free software; you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation; either version 2 of the License, or
+*  (at your option) any later version.
+*
+*  The GNU General Public License can be found at
+*  http://www.gnu.org/copyleft/gpl.html.
+*
+*  This script is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
+//namespace WTP\WTools;
 
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('w_tools').'class.wXml.php');
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('w_tools').'Classes/wXml.php');
 
 
 
 
 
-
+/**
+ * WTools Universal Import v5
+ *
+ * usage: extend this class
+ *
+ * @author	wolo.pl <wolo.wolski@gmail.com>
+ * @package	TYPO3
+ * @subpackage	tx_wtools
+ */
 class tx_wtools_import extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 
 
@@ -47,9 +77,13 @@ class tx_wtools_import extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 		// init() has to be moved to execute() beacause it doesn't call constructor on run...
 	}
 
-	protected function init()   {
+	/**
+	 * @param string $key - select config set
+	 */
+	protected function init($key)   {
 		$this->scriptStartStamp = $GLOBALS['EXEC_TIME'];
-		$this->extConf = &$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['w_tools']['import']['ExportDynamicsCRM'];  // key must be configured. note that this may lead to some misunderstanding - $this->extConf never contains full extconf array, only given key!
+		// todo: remove / configure this key
+		$this->extConf = &$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['w_tools']['import'][$key];  // key must be configured. note that this may lead to some misunderstanding - $this->extConf never contains full extconf array, only given key!
 		$this->XmlObj =     new wXml();
 		$this->TTr =        new TTrack();
 		$this->Log =        GeneralUtility::makeInstance('tx_wtools_log', PATH_site.$this->extConf['log']);
@@ -63,7 +97,7 @@ class tx_wtools_import extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 
 
 	public function execute() {
-		$this->init();
+		$this->init('ExportDynamicsCRM');
 		$res = self::import();
 		//debugster($res);
 		// todo later: write this res notice to scheduler list window
@@ -96,6 +130,8 @@ class tx_wtools_import extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 		if (!$this->_prepareWorkingDirAndGetFiles())
 			return ['result' => false, 'notice' => 'not importing, no files'];
 			//$this->TTr->stop('prepare');
+
+		$this->log('found '.count($this->_pathFiles) .' files in work dir');
 
 			$this->TTr->start('load and parse xml data');
 
@@ -180,7 +216,6 @@ class tx_wtools_import extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 			unset ($this->_pathFiles[$keyUnset]);
 
 		//debugster($this->_pathFiles);
-			$this->log('found '.count($this->_pathFiles) .' files in work dir');
 			$this->TTr->stop('prepare');
 
 		return (bool) count($this->_pathFiles);
@@ -235,6 +270,8 @@ class tx_wtools_import extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 				$this->log('SAVED items: ' . $recordType . ' - ' . $this->counter[$recordType]);
 				$this->log('UPDATED items: ' . $recordType . ' - ' . $this->counter[$recordType.'_updated']);
 				$this->log('already existed: '.$recordType. ' - '.count($this->alreadyExistsId[$recordType]));
+				if ($this->counter[$recordType.'_mm'])
+					$this->log('MM category relations: ' . $recordType . ' - ' . $this->counter[$recordType.'_mm']);
 			}
 			return ['success' => $success, 'notice' => 'data saved'];
 		}
@@ -356,7 +393,7 @@ class tx_wtools_import extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 			    foreach ($mmUidsForeign as $mmUidForeign)
 				    if (intval($mmUidForeign)) {
 					    $this->_insertMmRelation($mmTable, $uidLocal, $mmUidForeign);
-					    $this->counter[$recordType]['mm'] ++;
+					    $this->counter[$recordType.'_mm'] ++;
 				    }
 	    }
 
@@ -387,12 +424,14 @@ class tx_wtools_import extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 
 	/**
 	 * @param string $table
-	 * @param int $uid_local - uid of item to set category
-	 * @param int $uid_foreign - uid of category
+	 * @param int $uid_local - uid of item to set category (or other relation)
+	 * @param int $uid_foreign - uid of category / related table record
+	 * @param string $tablenames - tablenames column value. not as in TCA (but it doesn't complicate anything), used here to know which relations to remove on clear without reading all records and iterate. deprecated?
+	 * @param int $mmSorting - sorting column value. not as in TCA (but it doesn't complicate anything), used here to know which relations to remove on clear without reading all records and iterate
 	 * @return query result
 	 */
-    protected function _insertMmRelation($table = 'tt_news_cat_mm', $uid_local = 0, $uid_foreign = 0)	{
-        $query = "INSERT INTO {$table} (uid_local, uid_foreign, tablenames, sorting) VALUES ({intval($uid_local)}, {intval($uid_foreign)}, '', '1')";
+    protected function _insertMmRelation($table = 'tt_news_cat_mm', $uid_local = 0, $uid_foreign = 0, $tablenames = '', $mmSorting = 1)	    {
+        $query = 'INSERT INTO '.$table.' (uid_local, uid_foreign, tablenames, sorting) VALUES ('.intval($uid_local).', '.intval($uid_foreign).', "'.$tablenames.'", '.intval($mmSorting).')';
         return $GLOBALS['TYPO3_DB']->sql_query($query);
     }
 

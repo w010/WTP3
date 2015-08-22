@@ -39,9 +39,9 @@ a.internal-link {}
 a.internal-link-new-window {}
 a.download {}
 a.mail {
-    color: gray;
+    /*color: gray;*/
     /*background: url('../images/icons-contact.png') scroll no-repeat 0 -30px;*/
-    padding-left: 20px;
+    /*padding-left: 20px;*/
 }
 
 /* Default selector for indentation.*/

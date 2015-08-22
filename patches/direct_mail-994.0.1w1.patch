@@ -1,0 +1,161 @@
+From 738d2c4a65d205fd85937b2ff32687467d94d713 Mon Sep 17 00:00:00 2001
+From: wolo <wolo.wolski@gmail.com>
+Date: Mon, 10 Aug 2015 05:56:55 +0200
+Subject: [PATCH] direct_mail mod
+
+---
+ typo3conf/ext/direct_mail/Classes/Module/Dmail.php | 21 +++++++++++
+ .../direct_mail/Classes/Module/MailerEngine.php    |  4 ++
+ .../ext/direct_mail/Classes/Module/Statistics.php  | 43 +++++++++++++++-------
+ 3 files changed, 55 insertions(+), 13 deletions(-)
+
+diff --git a/typo3conf/ext/direct_mail/Classes/Module/Dmail.php b/typo3conf/ext/direct_mail/Classes/Module/Dmail.php
+index 60c2a01..793d9d2 100644
+--- a/typo3conf/ext/direct_mail/Classes/Module/Dmail.php
++++ b/typo3conf/ext/direct_mail/Classes/Module/Dmail.php
+@@ -1824,6 +1824,27 @@ die('stop');*/
+ 				<td>' . htmlspecialchars(BackendUtility::getProcessedValue('sys_dmail', $name, $row[$name])) . '</td>
+ 			</tr>';
+ 		}
++
++			// wolo mod
++
++			$groupsNames = [];
++			$queryInfo = unserialize($row['query_info']);
++
++			if (is_array($queryInfo))
++				$groupsUids = $queryInfo['groups_selected'];
++			foreach (explode(',', $groupsUids) as $groupUid) {
++				$group = BackendUtility::getRecord('sys_dmail_group', $groupUid);
++				$groupsNames[] = $group['title'];
++			}
++
++			$content .= '<tr><td></td><td></td></tr>';
++			$content .= '<tr><td>UID:</td><td>'.$row['uid'].'</td></tr>';
++			$content .= '<tr><td>Groups selected:</td><td>'.($groupsNames?'* '.implode("<br>\n * ", $groupsNames) : '').'</td></tr>';
++			$content .= '<tr><td>query_info:</td><td><pre>'.print_r(unserialize($row['query_info']), true).'</pre></td></tr>';
++
++
++			// wolo mod end.
++
+ 		$content = '<table border="0" cellpadding="1" cellspacing="1" width="460" class="typo3-dblist">' . $content . '</table>';
+ 
+ 		$sectionTitle = IconUtility::getSpriteIconForRecord('sys_dmail', $row) . '&nbsp;' . htmlspecialchars($row['subject']);
+diff --git a/typo3conf/ext/direct_mail/Classes/Module/MailerEngine.php b/typo3conf/ext/direct_mail/Classes/Module/MailerEngine.php
+index 9f88ede..a4137c3 100644
+--- a/typo3conf/ext/direct_mail/Classes/Module/MailerEngine.php
++++ b/typo3conf/ext/direct_mail/Classes/Module/MailerEngine.php
+@@ -365,8 +365,11 @@ class MailerEngine extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
+ 			'scheduled DESC'
+ 		);
+ 
++		// wolo mod below
++
+ 		$out = '<tr>
+ 				<td class="t3-row-header">'.'&nbsp;'.'</td>
++				<td class="t3-row-header">'.'UID'.'</td>
+ 				<td class="t3-row-header"><b>'.$GLOBALS["LANG"]->getLL('dmail_mailerengine_subject') . '&nbsp;&nbsp;'.'</b></td>
+ 				<td class="t3-row-header"><b>'.$GLOBALS["LANG"]->getLL('dmail_mailerengine_scheduled') . '&nbsp;&nbsp;'.'</b></td>
+ 				<td class="t3-row-header"><b>'.$GLOBALS["LANG"]->getLL('dmail_mailerengine_delivery_begun') . '&nbsp;&nbsp;'.'</b></td>
+@@ -386,6 +389,7 @@ class MailerEngine extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
+ 			list($count) = $GLOBALS["TYPO3_DB"]->sql_fetch_row($countres);
+ 			$out.='<tr>
+ 						<td>'.IconUtility::getSpriteIconForRecord('sys_dmail',$row).'</td>
++						<td>'.$row['uid'].'</td>
+ 						<td>'.$this->linkDMail_record(htmlspecialchars(GeneralUtility::fixed_lgd_cs($row['subject'],100)).'&nbsp;&nbsp;',$row['uid']).'</td>
+ 						<td>'.BackendUtility::datetime($row['scheduled']).'&nbsp;&nbsp;'.'</td>
+ 						<td>'.($row['scheduled_begin']?BackendUtility::datetime($row['scheduled_begin']):'').'&nbsp;&nbsp;'.'</td>
+diff --git a/typo3conf/ext/direct_mail/Classes/Module/Statistics.php b/typo3conf/ext/direct_mail/Classes/Module/Statistics.php
+index cb0041d..1b59a6d 100644
+--- a/typo3conf/ext/direct_mail/Classes/Module/Statistics.php
++++ b/typo3conf/ext/direct_mail/Classes/Module/Statistics.php
+@@ -457,7 +457,7 @@ class Statistics extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
+ 					<td><b>'.$GLOBALS["LANG"]->getLL('stats_overview_delivery_ended').'</b></td>
+ 					<td nowrap="nowrap"><b>'.$GLOBALS["LANG"]->getLL('stats_overview_total_sent').'</b></td>
+ 					<td><b>'.$GLOBALS["LANG"]->getLL('stats_overview_status').'</b></td>
+-						<td><b>Recipient groups</b></td>
++						<td><b>'.'Recipient groups'.'</b></td>
+ 				</tr>';
+ 			while($row = $GLOBALS["TYPO3_DB"]->sql_fetch_assoc($res))	{
+ 
+@@ -481,16 +481,16 @@ class Statistics extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
+ 					$sent = $GLOBALS["LANG"]->getLL('stats_overview_queuing');
+ 				}
+ 
+-				// wolo: groups list read
+-				$groupsNames = [];
+-				$queryInfo = unserialize($row['query_info']);
++					// wolo: groups list read
++					$groupsNames = [];
++					$queryInfo = unserialize($row['query_info']);
+ 
+-				if (is_array($queryInfo))
+-					$groupsUids = $queryInfo['groups_selected'];
+-				foreach (explode(',', $groupsUids) as $groupUid) {
+-					$group = BackendUtility::getRecord('sys_dmail_group', $groupUid);
+-					$groupsNames[] = $group['title'];
+-				}
++					if (is_array($queryInfo))
++						$groupsUids = $queryInfo['groups_selected'];
++					foreach (explode(',', $groupsUids) as $groupUid) {
++						$group = BackendUtility::getRecord('sys_dmail_group', $groupUid);
++						$groupsNames[] = $group['title'];
++					}
+ 
+ 				$out.='<tr class="bgColor4">
+ 					<td>'.IconUtility::getSpriteIconForRecord('sys_dmail', $row).'</td>
+@@ -499,9 +499,9 @@ class Statistics extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
+ 					<td>'.BackendUtility::datetime($row["scheduled"]).'</td>
+ 					<td>'.($row["scheduled_begin"]?BackendUtility::datetime($row["scheduled_begin"]):'&nbsp;').'</td>
+ 					<td>'.($row["scheduled_end"]?BackendUtility::datetime($row["scheduled_end"]):'&nbsp;').'</td>
+-					<td>'.($count?$count:'&nbsp;0 SENT!').'</td>
++					<td>'.($count?$count:'&nbsp;0!!').'</td>
+ 					<td>'.$sent.'</td>
+-						<td>'.implode(', ', $groupsNames).'</td>
++						<td>'.($groupsNames?'* '.implode("<br>\n * ", $groupsNames) : '').'</td>
+ 				</tr>';
+ 			}
+ 			$out.='</table>';
+@@ -537,7 +537,7 @@ class Statistics extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
+ 		}
+ 		$thisurl = 'index.php?id='.$this->id.'&sys_dmail_uid='.$row['uid'].'&CMD='.$this->CMD.'&recalcCache=1';
+ 		$output = $this->directMail_compactView($row);
+-
++//		debugster($output);
+ 			// *****************************
+ 			// Mail responses, general:
+ 			// *****************************
+@@ -1713,6 +1713,17 @@ class Statistics extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
+ 		}
+ 		$sentRecip = $GLOBALS['TYPO3_DB']->sql_num_rows($GLOBALS['TYPO3_DB']->exec_SELECTquery('*','sys_dmail_maillog','mid='.$row['uid'].' AND response_type = 0','','rid ASC'));
+ 
++			// wolo: groups list read
++			$groupsNames = [];
++			$queryInfo = unserialize($row['query_info']);
++
++			if (is_array($queryInfo))
++				$groupsUids = $queryInfo['groups_selected'];
++			foreach (explode(',', $groupsUids) as $groupUid) {
++				$group = BackendUtility::getRecord('sys_dmail_group', $groupUid);
++				$groupsNames[] = $group['title'];
++			}
++
+ 		$out = '<table cellpadding="3" cellspacing="0" class="stats-table">';
+ 		$out .= '<tr class="bgColor2"><td colspan="3">' . IconUtility::getSpriteIconForRecord('sys_dmail', $row) . htmlspecialchars($row['subject']) . '</td></tr>';
+ 		$out .= '<tr class="bgColor4"><td>'.$GLOBALS["LANG"]->getLL('view_from').'</td><td>'.htmlspecialchars($row['from_name'].' <'.htmlspecialchars($row['from_email']).'>').'</td><td>'.$from_info.'</td></tr>';
+@@ -1720,6 +1731,12 @@ class Statistics extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
+ 		$out .= '<tr class="bgColor4"><td>'.$GLOBALS["LANG"]->getLL('view_mail').'</td><td>'.BackendUtility::getProcessedValue('sys_dmail','sendOptions',$row['sendOptions']).($row['attachment']?'; ':'').BackendUtility::getProcessedValue('sys_dmail','attachment',$row['attachment']).'</td><td>'.$mail_info.'</td></tr>';
+ 		$out .= '<tr class="bgColor4"><td>'.$GLOBALS["LANG"]->getLL('view_delivery_begin_end').'</td><td>'.$delBegin.' / '.$delEnd.'</td><td>&nbsp;</td></tr>';
+ 		$out .= '<tr class="bgColor4"><td>'.$GLOBALS["LANG"]->getLL('view_recipient_total_sent').'</td><td>'.$totalRecip.' / '.$sentRecip.'</td><td>&nbsp;</td></tr>';
++		// wolo mod
++		$out .= '<tr class="bgColor4"><td>UID:</td><td>'.$row['uid'].'</td><td>&nbsp;</td></tr>';
++		$out .= '<tr class="bgColor4"><td>Subject:</td><td>'.$row['subject'].'</td><td>&nbsp;</td></tr>';
++		$out .= '<tr class="bgColor4"><td>'.'Recipient groups:'.'</td><td>'.($groupsNames?'* '.implode("<br>\n * ", $groupsNames) : '').'</td><td>&nbsp;</td></tr>';
++		$out .= '<tr class="bgColor4"><td>'.'query_info:'.'</td><td colspan="2"><pre>'.print_r(unserialize($row['query_info']), true).'</pre></td></tr>';
++
+ 		$out .= '</table>';
+ 		$out .= $this->doc->spacer(5);
+ 
+-- 
+1.9.5.msysgit.1
+

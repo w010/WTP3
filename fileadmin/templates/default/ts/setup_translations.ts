@@ -59,9 +59,15 @@ plugin.tx_wform_pi1._LOCAL_LANG	{
 	}
 }
 
-
-
 plugin.tt_news._LOCAL_LANG	{
+
+	nl	{
+		catmenuHeader = Nieuwsoverzicht
+		noNewsToListMsg = Geen nieuws in deze lijst
+		#backToList =
+		textFiles = Download
+	}
+
 	pl {
    		more = więcej >
 		preAuthor =
@@ -135,6 +141,12 @@ plugin.tx_felogin_pi1._LOCAL_LANG	{
 	}
 }
 
+#[globalVar=GP:L=0]
+plugin.feadmin.dmailsubscription	{
+	#evalErrors.email.uniqueLocal = Dit e-mailadres is al geregistreerd
+	#evalErrors.email.email = Dit is geen correct e-mailadres
+	#evalErrors.captcha.captcha = Captcha code is not correct.
+}
 
 plugin.tx_indexedsearch._LOCAL_LANG	{
 	de	{

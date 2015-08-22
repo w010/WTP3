@@ -1,4 +1,4 @@
-#übergibt das komplette Template-Rendering an TemplaVoilà
+
 page = PAGE
 page	{
 	typeNum = 0
@@ -22,7 +22,7 @@ config	{
 	tx_realurl_enable = 1
 
 	# is ok?
-	absRefPrefix = http://example.com/
+	absRefPrefix = http://wtp.localhost/
 }
 
 xmlprologue = none

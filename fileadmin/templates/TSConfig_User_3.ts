@@ -19,7 +19,7 @@ mod.web_list {
    hideTables = static_template,static_currencies,static_taxes,static_markets
 }
 
-# Domyslnie (prawie ;) wszystkie nowe tresci ukryte
+# By default almost all new contents hidden
 TCAdefaults {
 	#pages.hidden = 1
 	#tt_content.hidden = 1
@@ -27,22 +27,17 @@ TCAdefaults {
 	#tt_news_cat.hidden = 1
 }
 
-# what page and setting is this?
-[PIDupinRootline=275]
-admPanel {
-	hide = 1
-	override {
-		preview = 1
-		preview.showHiddenPages = 1
-		preview.showHiddenRecords = 1
-	}
-}
-[end]
 
 
-# feedit (standard / advanced) - http://wiki.typo3.org/Frontend_editing  /  http://docs.typo3.org/typo3cms/extensions/feeditadvanced/Installation/Index.html
+
+# FEEDIT (standard / advanced)
+# http://wiki.typo3.org/Frontend_editing
+# http://docs.typo3.org/typo3cms/extensions/feeditadvanced/Installation/Index.html
+
 admPanel	{
+
 	enable.edit = 1
+
 	module.edit.forceNoPopup = 0
 	module.edit.forceDisplayFieldIcons = 1
 	module.edit.forceDisplayIcons = 0
@@ -59,7 +54,8 @@ admPanel	{
 [global]
 
 
-options.pageTree.backgroundColor.76 = rgba(0, 255, 0, 0.1)
+# background of selected branch (zmienic kolor! na inny niz ten w newsletterze)
+options.pageTree.backgroundColor.2 = rgba(0, 255, 0, 0.1)
 
 
 permissions.file.default {

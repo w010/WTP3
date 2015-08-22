@@ -1,0 +1,3 @@
+directory for git patches of original sources of typo3 classes or extensions
+
+99N.N.Nw1 - w1 means it's first revision of wtp mod for this version of extension

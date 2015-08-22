@@ -4,9 +4,9 @@ if (!defined ('TYPO3_MODE')) {
 }
 
 /**
- * WTP2 v2.62.2
- * Wolo TYPO3 Pack 2
- * 2015-05
+ * WTP2 v2.62.3
+ * Wolo TYPO3 Pack
+ * 2015-08
  * wolo.pl '.' studio
  *
  * (version convention explain: vA.B.C means: A=2 because WTP2,  B=nn is like T3-branch n.n,  C is WTP version itself.)
@@ -18,25 +18,29 @@ define('LOCAL', intval(
 	preg_match('/(localhost)/', $_SERVER['HTTP_HOST'])
 ));
 
-define('DEVS', intval(
+define('TESTDEVS', intval(
 	preg_match('/(test-devs\.)/', $_SERVER['HTTP_HOST'])
 ));
 
 define('DEV', intval(
 	preg_match('/(dev\.)/', $_SERVER['HTTP_HOST'])
-	||	DEVS
+	||	TESTDEVS
 	||	LOCAL
 ));
 
+define('CLI', intval(
+	PHP_SAPI == 'cli'
+));
+
 putenv("DEV=".intval(DEV)); // make them available from TS: [globalVar= ENV:DEV=1]
-putenv("DEVS=".intval(LOCAL));
+putenv("DEVS=".intval(TESTDEVS));
 putenv("LOCAL=".intval(LOCAL));
 
 // helps in styling in some cases
 define('NO_DEBUG', (bool)$_GET['no_debug']);
 
 
-if (DEVS)  {
+if (TESTDEVS)  {
 	//$GLOBALS['TYPO3_CONF_VARS']['DB']['username'] = 'admin833_xx';
 	//$GLOBALS['TYPO3_CONF_VARS']['DB']['password'] = '7DxxxaU';
 	//$GLOBALS['TYPO3_CONF_VARS']['DB']['database'] = 'baza833_aaaa';
@@ -48,7 +52,7 @@ if (DEV)	{
 	//$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path_lzw'] = '/usr/bin/';
 }
 
-// only localhost. defined last to overwrite DEV settings - could be also in dev mode
+// only localhost. defined last to overwrite DEV settings - possible is also in dev mode
 if (LOCAL)  {
 	/*$GLOBALS['TYPO3_CONF_VARS']['DB']['host'] = '127.0.0.1';
 	$GLOBALS['TYPO3_CONF_VARS']['DB']['username'] = 'admin833_';
@@ -81,8 +85,15 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = NO_DEBUG?'':implode(',', array
 	'wolo-pzn' => '85.221.134.155',
 ));
 
+// cli debug
+if (CLI)	{
+	#$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'] = '*';
+	#$GLOBALS['TYPO3_CONF_VARS']['SYS']['displayErrors'] = 2;
+	#$GLOBALS['TYPO3_CONF_VARS']['SYS']['exceptionalErrors'] = E_ALL;
+}
 
 $GLOBALS['TYPO3_CONF_VARS']['BE']['installToolPassword'] = DEV ? md5('123') : md5('KD84nx(B34899c3C#@h&');
+$GLOBALS['TYPO3_CONF_VARS']['BE']['lifetime'] = (LOCAL?7*24:3) * 3600;
 $GLOBALS['TYPO3_CONF_VARS']['BE']['debug'] = DEV ? TRUE : TRUE;
 
 $GLOBALS['TYPO3_CONF_VARS']['FE']['debug'] = DEV && NO_DEBUG==FALSE ? TRUE : FALSE;
@@ -93,7 +104,11 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['lifetime'] = (LOCAL?7*24:3) * 3600;
 //$GLOBALS['TYPO3_CONF_VARS']['BE']['adminOnly'] = 2;
 
 
-	// probably not used in 6 anymore
+// 404 page
+$GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFound_handling'] = 'REDIRECT:/404.html';
+
+
+	// not used in 6 anymore
 	// $GLOBALS['TYPO3_CONF_VARS']['EXT']['extCache'] = $GLOBALS['TYPO3_CONF_VARS']['FE']['debug'] ? 0 : 3;
 $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['beko_debugster'] = serialize(array('ip_mask'=>DEV?(NO_DEBUG?'':'*'):$GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask'], 'steps_back'=>3, 'useDevIpMask' => DEV?1:1));
 /*if (LOCAL)

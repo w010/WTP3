@@ -1,5 +1,7 @@
 <?php
 
+// move to Classes
+
 class tx_wtools_misc {
 	
 	/*
