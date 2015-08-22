@@ -45,7 +45,7 @@ config  {
 temp.pageTitle = COA
 temp.pageTitle	{
 	10 = TEXT
-	10.value = Cedris
+	10.value = WTP
 	10.stdWrap.noTrimWrap = ||: |
 
 	20 = TEXT

@@ -87,12 +87,12 @@ temp.lib.head-logo = COA
 temp.lib.head-logo {
 		1 = TEXT
 		1.typolink.parameter = 1
-		1.value = Cedris
+		1.value = WTP
 		1.wrap = <h1>|</h1>
 		1.innerWrap = <span>|</span>
 		2 = TEXT
 		2.typolink.parameter = 1
-		2.value = Cedris is de landelijke vereniging voor sociale werkgelegenheid en re-integratie
+		2.value = description
 		2.wrap = <h2>|</h2>
 }
 

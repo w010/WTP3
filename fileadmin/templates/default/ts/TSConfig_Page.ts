@@ -187,7 +187,7 @@ temp.plugin.tx_linkhandler {
 		parameter >
 		parameter.stdWrap.cObject = USER
 		parameter.stdWrap.cObject {
-			userFunc = tx_sitecedris_linkhandler_helper->main
+			userFunc = tx_siteNN_linkhandler_helper->main
 			userFunc {
 				# tt_news uid
 				uid = TEXT

@@ -154,7 +154,7 @@ class tx_wtools_pi3 extends tx_wtools_pibase    {
 
 					$updateArray = [
 						'city' => $city,
-						'tx_sitecedris_sw_citysecond' => implode(',', $cities)
+						'citysecond' => implode(',', $cities)
 					];
 
 					$counter += (int) $GLOBALS['TYPO3_DB']->exec_UPDATEquery ('fe_users','uid = '.$row['uid'], $updateArray);
