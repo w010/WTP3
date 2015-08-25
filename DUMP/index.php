@@ -52,7 +52,7 @@ $options = array(
 	'dontExecCommands' => 1,
 
 	// exec commands, but don't show them
-	'dontShowCommands' => 1,
+	'dontShowCommands' => 0,
 
 	// 'password'
 	 'version' => '0.7',
