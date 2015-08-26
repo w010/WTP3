@@ -5,7 +5,7 @@ return array(
 		'explicitADmode' => 'explicitAllow',
 		'fileCreateMask' => '0660',
 		'folderCreateMask' => '2770',
-		'installToolPassword' => '$P$CJlV6Sqyb/H2Cao2aPR/WVNtazqBvH0',
+		'installToolPassword' => '$P$Cts5iKL9psOsIjubFnms3.WybLwwKy.',
 		'loginSecurityLevel' => 'rsa',
 	),
 	'DB' => array(
@@ -56,6 +56,13 @@ return array(
 	),
 	'HTTP' => array(
 		'ssl_verify_peer' => 1,
+	),
+	'INSTALL' => array(
+		'wizardDone' => array(
+			'TYPO3\CMS\Install\Updates\FilemountUpdateWizard' => 1,
+			'TYPO3\CMS\Install\Updates\TceformsUpdateWizard' => 'tt_content:image,pages:media,pages_language_overlay:media',
+			'TYPO3\CMS\Install\Updates\TruncateSysFileProcessedFileTable' => 1,
+		),
 	),
 	'SYS' => array(
 		'UTF8filesystem' => '1',
