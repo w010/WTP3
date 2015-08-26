@@ -40,16 +40,21 @@ putenv("LOCAL=".intval(LOCAL));
 define('NO_DEBUG', (bool)$_GET['no_debug']);
 
 
-if (TESTDEVS)  {
-	//$GLOBALS['TYPO3_CONF_VARS']['DB']['username'] = 'admin833_xx';
-	//$GLOBALS['TYPO3_CONF_VARS']['DB']['password'] = '7DxxxaU';
-	//$GLOBALS['TYPO3_CONF_VARS']['DB']['database'] = 'baza833_aaaa';
-}
+
 
 // all DEV envs
 if (DEV)	{
 	//$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path'] = '/usr/bin/';
 	//$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path_lzw'] = '/usr/bin/';
+}
+
+// next environments should be after DEV, to overwrite own settings
+
+// DEVS env - test-devs server. probably also in DEV mode - see define above and comment proper line if required
+if (TESTDEVS)  {
+	//$GLOBALS['TYPO3_CONF_VARS']['DB']['username'] = 'admin833_xx';
+	//$GLOBALS['TYPO3_CONF_VARS']['DB']['password'] = '7DxxxaU';
+	//$GLOBALS['TYPO3_CONF_VARS']['DB']['database'] = 'baza833_aaaa';
 }
 
 // only localhost. defined last to overwrite DEV settings - possible is also in dev mode
