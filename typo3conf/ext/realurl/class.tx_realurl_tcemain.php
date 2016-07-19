@@ -35,12 +35,19 @@
  */
 class tx_realurl_tcemain {
 
+	/** @var tx_realurl_apiwrapper */
+	protected $apiWrapper;
+
 	/**
 	 * RealURL configuration for the current host
 	 *
 	 * @var array
 	 */
 	protected $config;
+
+	public function __construct() {
+		$this->apiWrapper = tx_realurl_apiwrapper::getInstance();
+	}
 
 	/**
 	 * Removes autoconfiguration file if table name is sys_domain
@@ -168,7 +175,7 @@ class tx_realurl_tcemain {
 	 * @return void
 	 */
 	protected function fetchRealURLConfiguration($pageId) {
-		$rootLine = t3lib_BEfunc::BEgetRootLine($pageId);
+		$rootLine = $this->apiWrapper->BEgetRootLine($pageId);
 		$rootPageId = $rootLine[1]['uid'];
 		$this->config = array();
 		if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
@@ -183,7 +190,7 @@ class tx_realurl_tcemain {
 			}
 		}
 		else {
-			t3lib_div::sysLog('RealURL is not configured! Please, configure it or uninstall.', 'RealURL', 3);
+			$this->apiWrapper->sysLog('RealURL is not configured! Please, configure it or uninstall.', 'RealURL', 3);
 		}
 	}
 
@@ -196,10 +203,10 @@ class tx_realurl_tcemain {
 	protected function getChildPages($pageId) {
 		$children  = array();
 
-		/** @var $tree t3lib_pageTree */
-		$tree = t3lib_div::makeInstance('t3lib_pageTree');
+		$tree = $this->apiWrapper->makePageTreeInstance();
+		/** @noinspection PhpUndefinedMethodInspection */
 		$tree->init('AND ' . $GLOBALS['BE_USER']->getPagePermsClause(1));
-		$this->makeHTML = FALSE;
+		$tree->makeHTML = FALSE;
 		$tree->getTree($pageId, 99, '');
 
 		foreach ($tree->tree as $data) {
@@ -256,7 +263,7 @@ class tx_realurl_tcemain {
 			}
 		}
 		$fieldList .= ',hidden';
-		return array_unique(t3lib_div::trimExplode(',', $fieldList, true));
+		return array_unique($this->apiWrapper->trimExplode(',', $fieldList, true));
 	}
 
 	/**
@@ -304,11 +311,12 @@ class tx_realurl_tcemain {
 	 * @param string $tableName
 	 * @param int $recordId
 	 * @param array $databaseData
+	 * @param t3lib_TCEmain $pObj
 	 * @return void
 	 * @todo Expire unique alias cache: how to get the proper timeout value easily here?
 	 */
-	public function processDatamap_afterDatabaseOperations($status, $tableName, $recordId, array $databaseData) {
-		$this->processContentUpdates($status, $tableName, $recordId, $databaseData);
+	public function processDatamap_afterDatabaseOperations($status, $tableName, $recordId, array $databaseData, $pObj) {
+		$this->processContentUpdates($status, $tableName, $recordId, $databaseData, $pObj);
 		$this->clearAutoConfiguration($tableName);
 	}
 
@@ -319,11 +327,15 @@ class tx_realurl_tcemain {
 	 * @param string $tableName
 	 * @param int $recordId
 	 * @param array $databaseData
+	 * @param t3lib_TCEmain $pObj
 	 * @return void
 	 * @todo Handle changes to tx_realurl_exclude recursively
 	 */
-	protected function processContentUpdates($status, $tableName, $recordId, array $databaseData) {
-		if ($status == 'update' && tx_realurl::testInt($recordId)) {
+	protected function processContentUpdates($status, $tableName, $recordId, array $databaseData, $pObj) {
+		if ($tableName !== 'pages' || $status == 'update') {
+			if (is_numeric($recordId)) {
+				$recordId = intval($pObj->substNEWwithIDs[$recordId]);
+			}
 			list($pageId, $languageId) = $this->getPageData($tableName, $recordId);
 			$this->fetchRealURLConfiguration($pageId);
 			if ($this->shouldFixCaches($tableName, $databaseData)) {
@@ -335,6 +347,7 @@ class tx_realurl_tcemain {
 				}
 				$this->clearOtherCaches($pageId);
 			}
+			$this->clearOtherCaches($pageId);
 		}
 	}
 
@@ -356,8 +369,7 @@ class tx_realurl_tcemain {
 
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realurl/class.tx_realurl_tcemain.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realurl/class.tx_realurl_tcemain.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realurl/class.tx_realurl_tcemain.php'])	{
+	/** @noinspection PhpIncludeInspection */
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realurl/class.tx_realurl_tcemain.php']);
 }
-
-?>

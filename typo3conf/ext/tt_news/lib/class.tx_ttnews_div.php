@@ -107,7 +107,7 @@ class tx_ttnews_div {
 	function getSubCategories($catlist,$addWhere='', $cc = 0) {
 
 		if (!$catlist) {
-			t3lib_div::devLog('EMPTY $catlist ('.__CLASS__.'::'.__FUNCTION__.')', 'tt_news', 3, array());
+			\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('EMPTY $catlist ('.__CLASS__.'::'.__FUNCTION__.')', 'tt_news', 3, array());
 		}
 
 
@@ -218,7 +218,7 @@ class tx_ttnews_div {
 			$includeCatArray = tx_ttnews_div::getIncludeCatArray();
 
 			if ($excludeList) {
-				$catlistWhere .= ' AND tt_news_cat.uid NOT IN ('.implode(t3lib_div::intExplode(',',$excludeList),',').')';
+				$catlistWhere .= ' AND tt_news_cat.uid NOT IN ('.implode(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$excludeList),',').')';
 			}
 			if (count($includeCatArray)) {
 				$catlistWhere .= ' AND tt_news_cat.uid IN ('.implode(',',$includeCatArray).')';
@@ -241,7 +241,7 @@ class tx_ttnews_div {
 			$includeList = $catmounts;
 		}
 
-		return t3lib_div::intExplode(',',$includeList, 1);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$includeList, 1);
 	}
 
 

@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "templavoila".
  *
- * Auto generated 13-03-2015 06:10
+ * Auto generated 27-08-2015 05:02
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'title' => 'TemplaVoila!',
 	'description' => 'Point-and-click, popular and easy template engine for TYPO3. Public free support is provided only through TYPO3 mailing lists! Contact by e-mail for commercial support.',
 	'category' => 'misc',
-	'version' => '1.9.3',
+	'version' => '2.0.4',
 	'state' => 'stable',
 	'uploadfolder' => true,
 	'createDirs' => 'uploads/tx_templavoila/',
@@ -26,11 +26,9 @@ $EM_CONF[$_EXTKEY] = array (
 	array (
 		'depends' => 
 		array (
-			'php' => '5.3.0-0.0.0',
-			'typo3' => '4.5.0-6.2.99',
+			'php' => '5.5.0-5.6.99',
+			'typo3' => '7.0.0-7.9.99',
 			'static_info_tables' => '',
-			'cms' => '',
-			'lang' => '',
 		),
 		'conflicts' => 
 		array (

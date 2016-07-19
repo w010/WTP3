@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "devlog".
  *
- * Auto generated 05-03-2015 07:22
+ * Auto generated 27-08-2015 05:21
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'title' => 'Developer Log',
 	'description' => 'The Developer log extension provides development logging/debugging functionality for usage of t3lib_div::devlog() and a BE module to browse the logs.',
 	'category' => 'misc',
-	'version' => '2.11.3',
+	'version' => '2.11.4w',
 	'state' => 'stable',
 	'uploadfolder' => true,
 	'createDirs' => '',
@@ -26,7 +26,7 @@ $EM_CONF[$_EXTKEY] = array (
 	array (
 		'depends' => 
 		array (
-			'typo3' => '4.5.0-6.2.99',
+			'typo3' => '4.5.0-7.9.99',
 			'cms' => '',
 		),
 		'conflicts' => 

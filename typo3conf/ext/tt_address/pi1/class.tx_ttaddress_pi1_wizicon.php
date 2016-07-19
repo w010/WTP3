@@ -62,11 +62,11 @@ class tx_ttaddress_pi1_wizicon {
 		switch (TYPO3_branch) {
 			case '4.5':
 				$llFile     = t3lib_extMgm::extPath('tt_address').'locallang.xml';
-				$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+				$LOCAL_LANG = \TYPO3\CMS\Core\Utility\GeneralUtility::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 				break;
 			default:
 				$llFile       = t3lib_extMgm::extPath('tt_address').'locallang.xml';
-				$llFileParser = t3lib_div::makeInstance('t3lib_l10n_parser_Llxml');
+				$llFileParser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_l10n_parser_Llxml');
 				$LOCAL_LANG   = $llFileParser->getParsedData($llFile, $GLOBALS['LANG']->lang);
 		}
 

@@ -19,21 +19,20 @@ $_realurl_conf = @unserialize($_EXTCONF);
 if (is_array($_realurl_conf)) {
 	$_realurl_conf_file = trim($_realurl_conf['configFile']);
 	if ($_realurl_conf_file && @file_exists(PATH_site . $_realurl_conf_file)) {
+		/** @noinspection PhpIncludeInspection */
 		require_once(PATH_site . $_realurl_conf_file);
 	}
 	unset($_realurl_conf_file);
 }
 
 define('TX_REALURL_AUTOCONF_FILE', 'typo3conf/realurl_autoconf.php');
-if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
+if ($_realurl_conf['enableAutoConf'] && !isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
+	/** @noinspection PhpIncludeInspection */
 	@include_once(PATH_site . TX_REALURL_AUTOCONF_FILE);
 }
 unset($_realurl_conf);
 
 define('TX_REALURL_SEGTITLEFIELDLIST_DEFAULT', 'tx_realurl_pathsegment,alias,nav_title,title,uid');
 define('TX_REALURL_SEGTITLEFIELDLIST_PLO', 'tx_realurl_pathsegment,nav_title,title,uid');
-
-// TYPO3 clean up handler
-//$GLOBALS ['TYPO3_CONF_VARS']['EXTCONF']['lowlevel']['cleanerModules'][$_EXTKEY] = array('EXT:' . $_EXTKEY . '/class.tx_realurl_cleanuphandler.php:tx_realurl_cleanuphandler');
 
 ?>

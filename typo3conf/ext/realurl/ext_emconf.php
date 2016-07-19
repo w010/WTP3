@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "realurl".
  *
- * Auto generated 05-03-2015 07:16
+ * Auto generated 27-08-2015 05:04
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -14,11 +14,11 @@ $EM_CONF[$_EXTKEY] = array (
 	'title' => 'RealURL: speaking paths for TYPO3',
 	'description' => 'Creates nice looking URLs for TYPO3 pages: converts http://example.com/index.phpid=12345&L=2 to http://example.com/path/to/your/page/. Please, ask for free support in TYPO3 mailing lists or contact the maintainer for paid support.',
 	'category' => 'fe',
-	'version' => '1.12.8',
+	'version' => '1.13.3',
 	'state' => 'stable',
-	'uploadfolder' => 0,
+	'uploadfolder' => true,
 	'createDirs' => '',
-	'clearcacheonload' => 1,
+	'clearcacheonload' => false,
 	'author' => 'Dmitry Dulepov',
 	'author_email' => 'dmitry.dulepov@gmail.com',
 	'author_company' => '',
@@ -27,7 +27,8 @@ $EM_CONF[$_EXTKEY] = array (
 		'depends' => 
 		array (
 			'php' => '5.3.2-5.999.999',
-			'typo3' => '4.5.0-6.2.999',
+			'typo3' => '4.5.40-7.1.999',
+			'lowlevel' => '1.0.0-100.0.0',
 		),
 		'conflicts' => 
 		array (

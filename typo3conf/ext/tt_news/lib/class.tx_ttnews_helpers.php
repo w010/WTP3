@@ -53,7 +53,7 @@ class tx_ttnews_helpers {
 	 */
 	function validateFields($fieldlist, $existingFields) {
 		$checkedFields = array();
-		$fArr = t3lib_div::trimExplode(',', $fieldlist, 1);
+		$fArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldlist, 1);
 		foreach ($fArr as $fN) {
 			if (in_array($fN, $existingFields)) {
 				$checkedFields[] = $fN;
@@ -72,7 +72,7 @@ class tx_ttnews_helpers {
 	 */
 	function checkRecords($recordlist) {
 		if ($recordlist) {
-			$tempRecs = t3lib_div::trimExplode(',', $recordlist, 1);
+			$tempRecs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $recordlist, 1);
 			// debug($temp);
 			$newtemp = array();
 			foreach ($tempRecs as $val) {
@@ -165,7 +165,7 @@ class tx_ttnews_helpers {
 	function makeMultiPageSView($bodytext, $lConf) {
 		$pointerName = $this->pObj->config['singleViewPointerName'];
 		$pagenum = $this->pObj->piVars[$pointerName] ? $this->pObj->piVars[$pointerName] : 0;
-		$textArr = t3lib_div::trimExplode($this->pObj->config['pageBreakToken'], $bodytext, 1);
+		$textArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($this->pObj->config['pageBreakToken'], $bodytext, 1);
 		$pagecount = count($textArr);
 		// render a pagebrowser for the single view
 		if ($pagecount > 1) {
@@ -270,7 +270,7 @@ class tx_ttnews_helpers {
 					$pArr[] = $w;
 					$isfirst = false;
 				} elseif ($cc >= $this->compatibility()->intInRange($wc, 0, $this->pObj->config['maxWordsInSingleView'])) { // more words than maxWordsInSingleView
-					if (t3lib_div::inList('.,!,?', substr($w, - 1))) {
+					if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('.,!,?', substr($w, - 1))) {
 						if ($this->pObj->conf['useParagraphAsPagebreak']) { // break at paragraph
 							$break = true;
 							$pArr[] = $w;
@@ -380,7 +380,7 @@ class tx_ttnews_helpers {
 					}
 				}
 			}
-			t3lib_div::devLog($lbl . ($time ? ' time: ' . $time . ' s' : ''), $this->pObj->extKey, (int) $sev, $msg);
+			\TYPO3\CMS\Core\Utility\GeneralUtility::devLog($lbl . ($time ? ' time: ' . $time . ' s' : ''), $this->pObj->extKey, (int) $sev, $msg);
 		} else {
 			debug($msg, $lbl, $code_line, $msg['file:'], 3);
 		}
@@ -429,7 +429,7 @@ class tx_ttnews_helpers {
 	function getCurrentVersion() {
 		$_EXTKEY = $this->pObj->extKey;
 		// require_once fails if the plugin is executed multiple times
-		require (t3lib_extMgm::extPath($_EXTKEY, 'ext_emconf.php'));
+		require (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY, 'ext_emconf.php'));
 		return $EM_CONF[$_EXTKEY]['version'];
 	}
 

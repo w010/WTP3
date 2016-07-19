@@ -1,68 +1,74 @@
 <?php
-/***************************************************************
- *  Copyright notice
+/*
+ * This file is part of the TYPO3 CMS project.
  *
- *  (c) 2003, 2004 Kasper Skaarhoj (kasper@typo3.com)
- *  All rights reserved
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-/**
- * Plugin 'Flexible Content' for the 'templavoila' extension.
- *
- * $Id$
- *
- * @author    Kasper Skaarhoj <kasper@typo3.com>
- * @coauthor  Robert Lemke <robert@typo3.org>
+ * The TYPO3 project - inspiring people to share!
  */
 
 /**
  * Plugin 'Flexible Content' for the 'templavoila' extension.
  *
- * @author    Kasper Skaarhoj <kasper@typo3.com>
- * @package TYPO3
- * @subpackage tx_templavoila
+ * @author Kasper Skaarhoj <kasper@typo3.com>
+ * @coauthor Robert Lemke <robert@typo3.org>
  */
-class tx_templavoila_pi1 extends tslib_pibase {
+class tx_templavoila_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
-	var $prefixId = 'tx_templavoila_pi1'; // Same as class name
-	var $scriptRelPath = 'pi1/class.tx_templavoila_pi1.php'; // Path to this script relative to the extension dir.
-	var $extKey = 'templavoila'; // The extension key.
+	/**
+	 * Same as class name
+	 *
+	 * @var string
+	 */
+	public $prefixId = 'tx_templavoila_pi1';
 
-	var $inheritValueFromDefault = 1; // If set, children-translations will take the value from the default if "false" (zero or blank)
+	/**
+	 * Path to this script relative to the extension dir.
+	 *
+	 * @var string
+	 */
+	public $scriptRelPath = 'pi1/class.tx_templavoila_pi1.php';
 
-	static $enablePageRenderer = TRUE;
+	/**
+	 * The extension key.
+	 *
+	 * @var string
+	 */
+	public $extKey = 'templavoila';
+
+	/**
+	 * If set, children-translations will take the value from the default if "false" (zero or blank)
+	 *
+	 * @var integer
+	 */
+	public $inheritValueFromDefault = 1;
+
+	/**
+	 * @var boolean
+	 */
+	static public $enablePageRenderer = TRUE;
 
 	/**
 	 * Markup object
 	 *
-	 * @var tx_templavoila_htmlmarkup
+	 * @var \Extension\Templavoila\Domain\Model\HtmlMarkup
 	 */
-	var $markupObj;
+	public $markupObj;
 
 	/**
 	 * Main function for rendering of Flexible Content elements of TemplaVoila
 	 *
-	 * @param    string        Standard content input. Ignore.
-	 * @param    array        TypoScript array for the plugin.
+	 * @param string $content Standard content input. Ignore.
+	 * @param array $conf TypoScript array for the plugin.
 	 *
-	 * @return    string        HTML content for the Flexible Content elements.
+	 * @return string HTML content for the Flexible Content elements.
 	 */
-	function main($content, $conf) {
+	public function main($content, $conf) {
 		$this->initVars($conf);
 
 		return $this->renderElement($this->cObj->data, 'tt_content');
@@ -78,16 +84,16 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	 * lib.members = CONTENT
 	 * lib.members {
 	 *    select {
-	 *        pidInList = {$styles.content.loginform.pid}
-	 *        orderBy = tx_lglalv_mysorting,uid
+	 * pidInList = {$styles.content.loginform.pid}
+	 * orderBy = tx_lglalv_mysorting,uid
 	 *    }
 	 *    table = fe_users
 	 *    renderObj = USER
 	 *    renderObj {
-	 *        userFunc = tx_templavoila_pi1->main_record
-	 *        ds = 2
-	 *        to = 4
-	 *        table = fe_users
+	 * userFunc = tx_templavoila_pi1->main_record
+	 * ds = 2
+	 * to = 4
+	 * table = fe_users
 	 *    }
 	 * }
 	 * </pre/></code>
@@ -108,7 +114,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	 * @todo Create TS element with this functionality?
 	 * @todo Support sheet selector?
 	 */
-	function main_record($content, $conf) {
+	public function main_record($content, $conf) {
 		$this->initVars($conf);
 
 		// Make a copy of the data, do not spoil original!
@@ -118,7 +124,8 @@ class tx_templavoila_pi1 extends tslib_pibase {
 		$data['tx_templavoila_ds'] = $conf['ds'];
 		$data['tx_templavoila_to'] = $conf['to'];
 
-		$dsRepo = t3lib_div::makeInstance('tx_templavoila_datastructureRepository');
+		/** @var \Extension\Templavoila\Domain\Repository\DataStructureRepository $dsRepo */
+		$dsRepo = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Extension\Templavoila\Domain\Repository\DataStructureRepository::class);
 
 		// prepare fake flexform
 		$values = array();
@@ -148,7 +155,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 			}
 			$values['data']['sDEF'][$lKey][$k][$vKey] = $v;
 		}
-		$ff = t3lib_div::makeInstance('t3lib_flexformtools');
+		$ff = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools::class);
 		$data['tx_templavoila_flex'] = $ff->flexArray2xml($values);
 
 		return $this->renderElement($data, $conf['table']);
@@ -157,12 +164,12 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	/**
 	 * Main function for rendering of Page Templates of TemplaVoila
 	 *
-	 * @param    string        Standard content input. Ignore.
-	 * @param    array        TypoScript array for the plugin.
+	 * @param string $content Standard content input. Ignore.
+	 * @param array $conf TypoScript array for the plugin.
 	 *
-	 * @return    string        HTML content for the Page Template elements.
+	 * @return string HTML content for the Page Template elements.
 	 */
-	function main_page($content, $conf) {
+	public function main_page($content, $conf) {
 		$this->initVars($conf);
 
 		// Current page record which we MIGHT manipulate a little:
@@ -200,11 +207,11 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	/**
 	 * Will set up various stuff in the class based on input TypoScript
 	 *
-	 * @param    array        TypoScript options
+	 * @param array $conf TypoScript options
 	 *
-	 * @return    void
+	 * @return void
 	 */
-	function initVars($conf) {
+	public function initVars($conf) {
 		$this->inheritValueFromDefault = $conf['dontInheritValueFromDefault'] ? 0 : 1;
 		// naming choosen to fit the regular TYPO3 integrators needs ;)
 		self::$enablePageRenderer = isset($conf['advancedHeaderInclusion']) ? $conf['advancedHeaderInclusion'] : self::$enablePageRenderer;
@@ -215,19 +222,21 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	 * Common function for rendering of the Flexible Content / Page Templates.
 	 * For Page Templates the input row may be manipulated to contain the proper reference to a data structure (pages can have those inherited which content elements cannot).
 	 *
-	 * @param    array        Current data record, either a tt_content element or page record.
-	 * @param    string        Table name, either "pages" or "tt_content".
+	 * @param array $row Current data record, either a tt_content element or page record.
+	 * @param string $table Table name, either "pages" or "tt_content".
 	 *
-	 * @return    string        HTML output.
+	 * @throws RuntimeException
+	 *
+	 * @return string HTML output.
 	 */
-	function renderElement($row, $table) {
+	public function renderElement($row, $table) {
 		global $TYPO3_CONF_VARS;
 
 		// First prepare user defined objects (if any) for hooks which extend this function:
 		$hookObjectsArr = array();
 		if (is_array($TYPO3_CONF_VARS['EXTCONF']['templavoila']['pi1']['renderElementClass'])) {
 			foreach ($TYPO3_CONF_VARS['EXTCONF']['templavoila']['pi1']['renderElementClass'] as $classRef) {
-				$hookObjectsArr[] = & t3lib_div::getUserObj($classRef);
+				$hookObjectsArr[] = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($classRef);
 			}
 		}
 
@@ -238,8 +247,9 @@ class tx_templavoila_pi1 extends tslib_pibase {
 			}
 		}
 
-		$dsRepo = t3lib_div::makeInstance('tx_templavoila_datastructureRepository');
+		$dsRepo = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Extension\Templavoila\Domain\Repository\DataStructureRepository::class);
 		try {
+			/** @var \Extension\Templavoila\Domain\Model\DataStructure $dsObj */
 			$dsObj = $dsRepo->getDatastructureByUidOrFilename($row['tx_templavoila_ds']);
 			$DS = $dsObj->getDataprotArray();
 		} catch (InvalidArgumentException $e) {
@@ -252,7 +262,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 			// Sheet Selector:
 			if ($DS['meta']['sheetSelector']) {
 				// <meta><sheetSelector> could be something like "EXT:user_extension/class.user_extension_selectsheet.php:&amp;user_extension_selectsheet"
-				$sheetSelector = & t3lib_div::getUserObj($DS['meta']['sheetSelector']);
+				$sheetSelector = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($DS['meta']['sheetSelector']);
 				$renderSheet = $sheetSelector->selectSheet();
 			} else {
 				$renderSheet = 'sDEF';
@@ -261,10 +271,10 @@ class tx_templavoila_pi1 extends tslib_pibase {
 			// Initialize:
 			$langChildren = $DS['meta']['langChildren'] ? 1 : 0;
 			$langDisabled = $DS['meta']['langDisable'] ? 1 : 0;
-			list ($dataStruct, $sheet, $singleSheet) = t3lib_div::resolveSheetDefInDS($DS, $renderSheet);
+			list ($dataStruct, $sheet, $singleSheet) = \TYPO3\CMS\Core\Utility\GeneralUtility::resolveSheetDefInDS($DS, $renderSheet);
 
 			// Data from FlexForm field:
-			$data = t3lib_div::xml2array($row['tx_templavoila_flex']);
+			$data = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($row['tx_templavoila_flex']);
 
 			$lKey = ($GLOBALS['TSFE']->sys_language_isocode && !$langDisabled && !$langChildren) ? 'l' . $GLOBALS['TSFE']->sys_language_isocode : 'lDEF';
 
@@ -281,8 +291,8 @@ class tx_templavoila_pi1 extends tslib_pibase {
 			}
 
 			// Init mark up object.
-			$this->markupObj = t3lib_div::makeInstance('tx_templavoila_htmlmarkup');
-			$this->markupObj->htmlParse = t3lib_div::makeInstance('t3lib_parsehtml');
+			$this->markupObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Extension\Templavoila\Domain\Model\HtmlMarkup::class);
+			$this->markupObj->htmlParse = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Html\HtmlParser::class);
 
 			// Get template record:
 			if ($row['tx_templavoila_to']) {
@@ -295,10 +305,10 @@ class tx_templavoila_pi1 extends tslib_pibase {
 							'conf' => is_array($this->conf['childTemplate.']) ? $this->conf['childTemplate.'] : array(),
 							'toRecord' => $row
 						);
-						$renderType = t3lib_div::callUserFunction(substr($renderType, 9), $conf, $this);
+						$renderType = \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction(substr($renderType, 9), $conf, $this);
 					}
 				} else { // Default:
-					$renderType = t3lib_div::_GP('print') ? 'print' : '';
+					$renderType = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('print') ? 'print' : '';
 				}
 
 				// Get Template Object record:
@@ -312,7 +322,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 						// Get local processing:
 						$TOproc = array();
 						if ($TOrec['localprocessing']) {
-							$TOproc = t3lib_div::xml2array($TOrec['localprocessing']);
+							$TOproc = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($TOrec['localprocessing']);
 							if (!is_array($TOproc)) {
 								// Must be a error!
 								// TODO log to TT the content of $TOproc (it is a error message now)
@@ -378,9 +388,10 @@ class tx_templavoila_pi1 extends tslib_pibase {
 
 						// Visual identification aids:
 
-						$feedit = is_object($GLOBALS['BE_USER']) && method_exists($GLOBALS['BE_USER'], 'isFrontendEditingActive') && $GLOBALS['BE_USER']->isFrontendEditingActive();
+						$feedit = is_object(\Extension\Templavoila\Utility\GeneralUtility::getBackendUser()) && method_exists(\Extension\Templavoila\Utility\GeneralUtility::getBackendUser(), 'isFrontendEditingActive') && \Extension\Templavoila\Utility\GeneralUtility::getBackendUser()->isFrontendEditingActive();
 
 						if ($GLOBALS['TSFE']->fePreview && $GLOBALS['TSFE']->beUserLogin && !$GLOBALS['TSFE']->workspacePreview && !$this->conf['disableExplosivePreview'] && !$feedit) {
+							throw new \RuntimeException('Further execution of code leads to PHP errors.', 1404750505);
 							$content = $this->visualID($content, $srcPointer, $DSrec, $TOrec, $row, $table);
 						}
 					} else {
@@ -410,15 +421,15 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	 * This will transform the data in the data array according to various rules before the data is merged with the template HTML
 	 * Notice that $dataValues is changed internally as a reference so the function returns no content but internally changes the passed variable for $dataValues.
 	 *
-	 * @param    array        The data values from the XML file (converted to array). Passed by reference.
-	 * @param    array        The data structure definition which the data in the dataValues array reflects.
-	 * @param    array        The local XML processing information found in associated Template Objects (TO)
-	 * @param    string        Value key
-	 * @param    mixed        Mapping information
+	 * @param array &$dataValues The data values from the XML file (converted to array). Passed by reference.
+	 * @param array $DSelements The data structure definition which the data in the dataValues array reflects.
+	 * @param array $TOelements The local XML processing information found in associated Template Objects (TO)
+	 * @param string $valueKey Value key
+	 * @param mixed $mappingInfo Mapping information
 	 *
-	 * @return    void
+	 * @return void
 	 */
-	function processDataValues(&$dataValues, $DSelements, $TOelements, $valueKey = 'vDEF', $mappingInfo = TRUE) {
+	public function processDataValues(&$dataValues, $DSelements, $TOelements, $valueKey = 'vDEF', $mappingInfo = TRUE) {
 		if (is_array($DSelements) && is_array($dataValues)) {
 
 			// Create local processing information array:
@@ -431,7 +442,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 						// Overlaying local processing:
 						if (is_array($TOelements[$key]['tx_templavoila'])) {
 							if (is_array($LP[$key])) {
-								$LP[$key] = t3lib_div::array_merge_recursive_overrule($LP[$key], $TOelements[$key]['tx_templavoila']);
+								$LP[$key] = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule($LP[$key], $TOelements[$key]['tx_templavoila']);
 							} else {
 								$LP[$key] = $TOelements[$key]['tx_templavoila'];
 							}
@@ -552,9 +563,9 @@ class tx_templavoila_pi1 extends tslib_pibase {
 						}
 					}
 
-					$tsparserObj = t3lib_div::makeInstance('t3lib_TSparser');
+					$tsparserObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class);
 
-					$cObj = t3lib_div::makeInstance('tslib_cObj');
+					$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 					$cObj->setParent($this->cObj->data, $this->cObj->currentRecord);
 					$cObj->start($dataRecord, '_NO_TABLE');
 
@@ -587,7 +598,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 										// If no value for this object path reference was found, get value:
 										if (!isset($GLOBALS['TSFE']->applicationData['tx_templavoila']['TO_constantCache'][$objPath])) {
 											// Get value from object path:
-											$cF = t3lib_div::makeInstance('t3lib_TSparser');
+											$cF = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class);
 											list($objPathValue) = $cF->getVal($objPath, $GLOBALS['TSFE']->tmpl->setup);
 											// Set value in cache table:
 											$GLOBALS['TSFE']->applicationData['tx_templavoila']['TO_constantCache'][$objPath] .= '' . $objPathValue;
@@ -614,7 +625,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 							// Copy current global TypoScript configuration except numerical objects:
 							if (is_array($GLOBALS['TSFE']->tmpl->setup)) {
 								foreach ($GLOBALS['TSFE']->tmpl->setup as $tsObjectKey => $tsObjectValue) {
-									if ($tsObjectKey !== intval($tsObjectKey)) {
+									if ($tsObjectKey !== (int)$tsObjectKey) {
 										$tsparserObj->setup[$tsObjectKey] = $tsObjectValue;
 									}
 								}
@@ -633,14 +644,14 @@ class tx_templavoila_pi1 extends tslib_pibase {
 					$pOptions = $LP[$key]['proc'];
 					if (is_array($pOptions)) {
 						if ($pOptions['int']) {
-							$dataValues[$key][$valueKey] = intval($dataValues[$key][$valueKey]);
+							$dataValues[$key][$valueKey] = (int)$dataValues[$key][$valueKey];
 						}
 						// HSC of all values by default:
 						if ($pOptions['HSC']) {
 							$dataValues[$key][$valueKey] = htmlspecialchars($dataValues[$key][$valueKey]);
 						}
 						if (trim($pOptions['stdWrap'])) {
-							$tsparserObj = t3lib_div::makeInstance('t3lib_TSparser');
+							$tsparserObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class);
 							// BUG HERE: should convert array to TypoScript...
 							$tsparserObj->parse($pOptions['stdWrap']);
 							$dataValues[$key][$valueKey] = $cObj->stdWrap($dataValues[$key][$valueKey], $tsparserObj->setup);
@@ -665,9 +676,9 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	 * Processing of language fallback values (inheritance/overlaying)
 	 * You never need to call this function when "$valueKey" is "vDEF"
 	 *
-	 * @param    array        Array where the values for language and default might be in as keys for "vDEF" and "vXXX"
-	 * @param    string        Language key, "vXXX"
-	 * @param    string        Overriding overlay mode from local processing in Data Structure / TO.
+	 * @param array $dV Array where the values for language and default might be in as keys for "vDEF" and "vXXX"
+	 * @param string $valueKey Language key, "vXXX"
+	 * @param string $overlayMode Overriding overlay mode from local processing in Data Structure / TO.
 	 *
 	 * @return string|array The value
 	 */
@@ -679,29 +690,28 @@ class tx_templavoila_pi1 extends tslib_pibase {
 				throw new \InvalidArgumentException(sprintf('Argument "%s" must be of type array, "%s" given', '$dV', gettype($dV)));
 			}
 
-			if (!isset($dV[$valueKey])) {
-				throw new RuntimeException(sprintf('Key "%s" of array "%s" doesn\'t exist', $valueKey, '\$dV'));
-			}
-
 			if (!isset($dV['vDEF'])) {
-				throw new RuntimeException(sprintf('Key "%vDEF" of array "%s" doesn\'t exist', '\$dV'));
+				throw new \RuntimeException('Key "vDEF" of array "$dV" doesn\'t exist');
 			}
 
 			if ($valueKey != 'vDEF') {
+				// Prevent PHP warnings
+				$defaultValue = isset($dV['vDEF']) ? $dV['vDEF'] : '';
+				$languageValue = isset($dV[$valueKey]) ? $dV[$valueKey] : '';
 
 				// Consider overlay modes:
 				switch ((string) $overlayMode) {
 					case 'ifFalse': // Normal inheritance based on whether the value evaluates false or not (zero or blank string)
-						$returnValue .= trim($dV[$valueKey]) ? $dV[$valueKey] : $dV['vDEF'];
+						$returnValue .= trim($languageValue) ? $languageValue : $defaultValue;
 						break;
 					case 'ifBlank': // Only if the value is truely blank!
-						$returnValue .= strcmp(trim($dV[$valueKey]), '') ? $dV[$valueKey] : $dV['vDEF'];
+						$returnValue .= strcmp(trim($languageValue), '') ? $languageValue : $defaultValue;
 						break;
 					case 'never':
-						$returnValue .= $dV[$valueKey]; // Always return its own value
+						$returnValue .= $languageValue; // Always return its own value
 						break;
 					case 'removeIfBlank':
-						if (!strcmp(trim($dV[$valueKey]), '')) {
+						if (!strcmp(trim($languageValue), '')) {
 							// Find a way to avoid returning an array here
 							return array('ERROR' => '__REMOVE');
 						}
@@ -709,7 +719,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 					default:
 						// If none of the overlay modes matched, simply use the default:
 						if ($this->inheritValueFromDefault) {
-							$returnValue .= trim($dV[$valueKey]) ? $dV[$valueKey] : $dV['vDEF'];
+							$returnValue .= trim($languageValue) ? $languageValue : $defaultValue;
 						}
 						break;
 				}
@@ -726,17 +736,17 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	/**
 	 * Creates an error message for frontend output
 	 *
-	 * @param    [type]        $string: ...
+	 * @param string $string
 	 *
-	 * @return    string        Error message output
-	 * @string    string        Error message input
+	 * @return string Error message output
+	 * @string string Error message input
 	 */
-	function formatError($string) {
+	public function formatError($string) {
 
 		// Set no-cache since the error message shouldn't be cached of course...
 		$GLOBALS['TSFE']->set_no_cache();
 
-		if (intval($this->conf['disableErrorMessages'])) {
+		if ((int)$this->conf['disableErrorMessages']) {
 			return '';
 		}
 		//
@@ -759,16 +769,16 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	/**
 	 * Creates a visual response to the TemplaVoila blocks on the page.
 	 *
-	 * @param    [type]        $content: ...
-	 * @param    [type]        $srcPointer: ...
-	 * @param    [type]        $DSrec: ...
-	 * @param    [type]        $TOrec: ...
-	 * @param    [type]        $row: ...
-	 * @param    [type]        $table: ...
+	 * @param string $content
+	 * @param string $srcPointer
+	 * @param array $DSrec
+	 * @param array $TOrec
+	 * @param array $row
+	 * @param string $table
 	 *
-	 * @return    [type]        ...
+	 * @return string
 	 */
-	function visualID($content, $srcPointer, $DSrec, $TOrec, $row, $table) {
+	public function visualID($content, $srcPointer, $DSrec, $TOrec, $row, $table) {
 
 		// Create table rows:
 		$tRows = array();
@@ -776,12 +786,12 @@ class tx_templavoila_pi1 extends tslib_pibase {
 		switch ($table) {
 			case 'pages':
 				$tRows[] = '<tr style="background-color: #ABBBB4;">
-						<td colspan="2"><b>Page:</b> ' . htmlspecialchars(t3lib_div::fixed_lgd_cs($row['title'], 30)) . ' <em>[UID:' . $row['uid'] . ']</em></td>
+						<td colspan="2"><b>Page:</b> ' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs($row['title'], 30)) . ' <em>[UID:' . $row['uid'] . ']</em></td>
 					</tr>';
 				break;
 			case 'tt_content':
 				$tRows[] = '<tr style="background-color: #ABBBB4;">
-						<td colspan="2"><b>Flexible Content:</b> ' . htmlspecialchars(t3lib_div::fixed_lgd_cs($row['header'], 30)) . ' <em>[UID:' . $row['uid'] . ']</em></td>
+						<td colspan="2"><b>Flexible Content:</b> ' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs($row['header'], 30)) . ' <em>[UID:' . $row['uid'] . ']</em></td>
 					</tr>';
 				break;
 			default:
@@ -795,7 +805,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 		if (is_numeric($srcPointer)) {
 			$tRows[] = '<tr>
 					<td valign="top"><b>Data Structure:</b></td>
-					<td>' . htmlspecialchars(t3lib_div::fixed_lgd_cs($DSrec['title'], 30)) . ' <em>[UID:' . $srcPointer . ']</em>' .
+					<td>' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs($DSrec['title'], 30)) . ' <em>[UID:' . $srcPointer . ']</em>' .
 				($DSrec['previewicon'] ? '<br/><img src="uploads/tx_templavoila/' . $DSrec['previewicon'] . '" alt="" />' : '') .
 				'</td>
 		</tr>';
@@ -809,7 +819,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 		// Template Object:
 		$tRows[] = '<tr>
 				<td valign="top"><b>Template Object:</b></td>
-				<td>' . htmlspecialchars(t3lib_div::fixed_lgd_cs($TOrec['title'], 30)) . ' <em>[UID:' . $TOrec['uid'] . ']</em>' .
+				<td>' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs($TOrec['title'], 30)) . ' <em>[UID:' . $TOrec['uid'] . ']</em>' .
 			($TOrec['previewicon'] ? '<br/><img src="uploads/tx_templavoila/' . $TOrec['previewicon'] . '" alt="" />' : '') .
 			'</td>
 	</tr>';
@@ -842,7 +852,7 @@ class tx_templavoila_pi1 extends tslib_pibase {
 						</table>';
 
 		// Compile information:
-		$id = 'templavoila-preview-' . t3lib_div::shortMD5(microtime());
+		$id = 'templavoila-preview-' . \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(microtime());
 		$content = '<div style="text-align: left; position: absolute; display:none; filter: alpha(Opacity=90);" id="' . $id . '">
 						' . $infoArray . '
 					</div>
@@ -864,8 +874,8 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	/**
 	 * Render section index for TV
 	 *
-	 * @param  $content
-	 * @param  $conf config of tt_content.menu.20.3
+	 * @param string $content
+	 * @param array $conf config of tt_content.menu.20.3
 	 *
 	 * @return string rendered section index
 	 */
@@ -877,19 +887,19 @@ class tx_templavoila_pi1 extends tslib_pibase {
 			: trim($conf['select.']['pidInList']);
 		$contentIds = array();
 		if ($pids) {
-			$pageIds = t3lib_div::trimExplode(',', $pids);
+			$pageIds = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $pids);
 			foreach ($pageIds as $pageId) {
 				$page = $GLOBALS['TSFE']->sys_page->checkRecord('pages', $pageId);
 				if (isset($page) && isset($page['tx_templavoila_flex'])) {
 					$flex = array();
 					$this->cObj->readFlexformIntoConf($page['tx_templavoila_flex'], $flex);
-					$contentIds = array_merge($contentIds, t3lib_div::trimExplode(',', $flex[$ceField]));
+					$contentIds = array_merge($contentIds, \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $flex[$ceField]));
 				}
 			}
 		} else {
 			$flex = array();
 			$this->cObj->readFlexformIntoConf($GLOBALS['TSFE']->page['tx_templavoila_flex'], $flex);
-			$contentIds = array_merge($contentIds, t3lib_div::trimExplode(',', $flex[$ceField]));
+			$contentIds = array_merge($contentIds, \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $flex[$ceField]));
 		}
 
 		if (count($contentIds) > 0) {
@@ -927,8 +937,4 @@ class tx_templavoila_pi1 extends tslib_pibase {
 	public function log($message, $severity) {
 		\TYPO3\CMS\Core\Utility\GeneralUtility::sysLog($message, 'templavoila', $severity);
 	}
-}
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/templavoila/pi1/class.tx_templavoila_pi1.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/templavoila/pi1/class.tx_templavoila_pi1.php']);
 }

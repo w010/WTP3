@@ -41,7 +41,7 @@ class tx_ttaddress_addfieldstosel {
 	function main(&$params, &$pObj)	{
 
 		if (version_compare(TYPO3_branch, '6.1', '<')) {
-			t3lib_div::loadTCA('tt_address');
+			\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('tt_address');
 		}
 
 			// TODO consolidate with list in pi1
@@ -49,7 +49,7 @@ class tx_ttaddress_addfieldstosel {
 			.'address, building, room, birthday, zip, city, region, country, email, www, phone, mobile, '
 			.'fax, addressgroup';
 
-		$sortFields = t3lib_div::trimExplode(',', $coreSortFields);
+		$sortFields = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $coreSortFields);
 
 		$selectOptions = array();
 		foreach($sortFields as $field) {

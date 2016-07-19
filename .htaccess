@@ -189,3 +189,7 @@ RewriteRule .* index.php [L]
 
 
 
+Order allow,deny
+Allow from all
+
+

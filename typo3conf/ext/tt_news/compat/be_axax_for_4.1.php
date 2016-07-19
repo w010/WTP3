@@ -40,18 +40,18 @@ define('TYPO3_MOD_PATH', '../typo3conf/ext/tt_news/compat/');
 $BACK_PATH=''; // this path is used later for tree icons when the tree class is executed from typo3/alt_doc.php
 
 require($BACK_PATH.'../../../../typo3/init.php');
-require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_typo3ajax.php');
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_typo3ajax.php');
 require_once(PATH_typo3.'sysext/lang/lang.php');
 
-$GLOBALS['LANG'] = t3lib_div::makeInstance('language');
+$GLOBALS['LANG'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('language');
 $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
 
 	// finding the script path from the variable
-$ajaxID = (string) t3lib_div::_GP('ajaxID');
+$ajaxID = (string) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('ajaxID');
 $ajaxScript = $TYPO3_CONF_VARS['BE']['AJAX'][$ajaxID];
 
 // instantiating the AJAX object
-$ajaxClassName = t3lib_div::makeInstanceClassName('tx_ttnews_typo3ajax');
+$ajaxClassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstanceClassName('tx_ttnews_typo3ajax');
 $ajaxObj = new $ajaxClassName($ajaxID);
 $ajaxParams = array();
 
@@ -62,7 +62,7 @@ if (empty($ajaxID)) {
 } else if (empty($ajaxScript)) {
 	$ajaxObj->setError('Registered backend function for ajaxID "'.$ajaxID.'" was not found.');
 } else {
-	$ret = t3lib_div::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
+	$ret = \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
 		if ($ret === false) {
 			$ajaxObj->setError('Registered backend function for ajaxID "'.$ajaxID.'" was not found.');
 		}

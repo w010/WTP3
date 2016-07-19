@@ -1,11 +1,8 @@
 <?php
 # PackageStates.php
 
-# This file is maintained by Flow's package management. Although you can edit it
-# manually, you should rather use the command line commands for maintaining packages.
-# You'll find detailed information about the typo3.flow:package:* commands in their
-# respective help screens.
-
+# This file is maintained by TYPO3's package management. Although you can edit it
+# manually, you should rather use the extension manager for maintaining packages.
 # This file will be regenerated automatically if it doesn't exist. Deleting this file
 # should, however, never become necessary if you use the package commands.
 
@@ -21,6 +18,62 @@ return array (
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
+      ),
+    ),
+    'extbase' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-extbase',
+      'state' => 'active',
+      'packagePath' => 'typo3/sysext/extbase/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'fluid' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-fluid',
+      'state' => 'active',
+      'packagePath' => 'typo3/sysext/fluid/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'install' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-install',
+      'state' => 'active',
+      'packagePath' => 'typo3/sysext/install/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'setup' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-setup',
+      'state' => 'active',
+      'packagePath' => 'typo3/sysext/setup/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'rtehtmlarea' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-rtehtmlarea',
+      'state' => 'active',
+      'packagePath' => 'typo3/sysext/rtehtmlarea/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+        0 => 'setup',
       ),
     ),
     'about' => 
@@ -133,23 +186,12 @@ return array (
       array (
       ),
     ),
-    'extra_page_cm_options' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-extra-page-cm-options',
-      'state' => 'active',
-      'packagePath' => 'typo3/sysext/extra_page_cm_options/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
     'felogin' => 
     array (
       'manifestPath' => '',
       'composerName' => 'typo3/cms-felogin',
       'state' => 'active',
-      'packagePath' => 'typo3/sysext/felogin/',
+      'packagePath' => 'typo3conf/ext/felogin/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -177,17 +219,6 @@ return array (
       array (
       ),
     ),
-    'cms' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-cms',
-      'state' => 'active',
-      'packagePath' => 'typo3/sysext/cms/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
     'frontend' => 
     array (
       'manifestPath' => '',
@@ -205,17 +236,6 @@ return array (
       'composerName' => 'typo3/cms-func',
       'state' => 'active',
       'packagePath' => 'typo3/sysext/func/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'func_wizards' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-func-wizards',
-      'state' => 'active',
-      'packagePath' => 'typo3/sysext/func_wizards/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -254,39 +274,6 @@ return array (
       array (
       ),
     ),
-    'extbase' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-extbase',
-      'state' => 'active',
-      'packagePath' => 'typo3/sysext/extbase/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'fluid' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-fluid',
-      'state' => 'active',
-      'packagePath' => 'typo3/sysext/fluid/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'install' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-install',
-      'state' => 'active',
-      'packagePath' => 'typo3/sysext/install/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
     'lang' => 
     array (
       'manifestPath' => '',
@@ -315,17 +302,6 @@ return array (
       'composerName' => 'typo3/cms-opendocs',
       'state' => 'active',
       'packagePath' => 'typo3/sysext/opendocs/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'perm' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-perm',
-      'state' => 'active',
-      'packagePath' => 'typo3/sysext/perm/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -373,29 +349,6 @@ return array (
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
-      ),
-    ),
-    'setup' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-setup',
-      'state' => 'active',
-      'packagePath' => 'typo3/sysext/setup/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'rtehtmlarea' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-rtehtmlarea',
-      'state' => 'active',
-      'packagePath' => 'typo3/sysext/rtehtmlarea/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-        0 => 'setup',
       ),
     ),
     'saltedpasswords' => 
@@ -508,10 +461,73 @@ return array (
       array (
       ),
     ),
-    'tt_news' => 
+    'beko_debugster' => 
     array (
       'state' => 'active',
-      'packagePath' => 'typo3conf/ext/tt_news/',
+      'packagePath' => 'typo3conf/ext/beko_debugster/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'devlog' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/devlog/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'extension_builder' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/extension_builder/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'hi_basetag' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/hi_basetag/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'hi_misc' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/hi_misc/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'kb_tv_cont_slide' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/kb_tv_cont_slide/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'realurl' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/realurl/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'static_info_tables' => 
+    array (
+      'state' => 'active',
+      'packagePath' => 'typo3conf/ext/static_info_tables/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -528,145 +544,19 @@ return array (
       array (
       ),
     ),
-    't3jquery' => 
+    'tt_news' => 
     array (
       'state' => 'active',
-      'packagePath' => 'typo3conf/ext/t3jquery/',
+      'packagePath' => 'typo3conf/ext/tt_news/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
       ),
     ),
-    'static_info_tables' => 
+    'w_tools' => 
     array (
       'state' => 'active',
-      'packagePath' => 'typo3conf/ext/static_info_tables/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'realurl' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/realurl/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'ods_plaintext' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/ods_plaintext/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'kb_tv_cont_slide' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/kb_tv_cont_slide/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'hi_misc' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/hi_misc/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'hi_basetag' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/hi_basetag/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'formhandler' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/formhandler/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'extension_builder' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/extension_builder/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'tt_address' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/tt_address/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'direct_mail' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/direct_mail/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'direct_mail_userfunc' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/direct_mail_userfunc/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'direct_mail_subscription' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/direct_mail_subscription/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'devlog' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/devlog/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'beko_debugster' => 
-    array (
-      'state' => 'active',
-      'packagePath' => 'typo3conf/ext/beko_debugster/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'kickstarter' => 
-    array (
-      'state' => 'inactive',
-      'packagePath' => 'typo3conf/ext/kickstarter/',
+      'packagePath' => 'typo3conf/ext/w_tools/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -683,12 +573,48 @@ return array (
       array (
       ),
     ),
+    'compatibility6' => 
+    array (
+      'composerName' => 'typo3/cms-compatibility6',
+      'state' => 'inactive',
+      'packagePath' => 'typo3/sysext/compatibility6/',
+      'suggestions' => 
+      array (
+      ),
+    ),
     'dbal' => 
     array (
       'manifestPath' => '',
       'composerName' => 'typo3/cms-dbal',
       'state' => 'inactive',
       'packagePath' => 'typo3/sysext/dbal/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'direct_mail' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/direct_mail/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'direct_mail_subscription' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/direct_mail_subscription/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'direct_mail_userfunc' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/direct_mail_userfunc/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -716,6 +642,15 @@ return array (
       array (
       ),
     ),
+    'formhandler' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/formhandler/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
     'indexed_search' => 
     array (
       'manifestPath' => '',
@@ -738,96 +673,10 @@ return array (
       array (
       ),
     ),
-    'linkvalidator' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-linkvalidator',
-      'state' => 'inactive',
-      'packagePath' => 'typo3/sysext/linkvalidator/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'openid' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-openid',
-      'state' => 'inactive',
-      'packagePath' => 'typo3/sysext/openid/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'sys_action' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-sys-action',
-      'state' => 'inactive',
-      'packagePath' => 'typo3/sysext/sys_action/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'taskcenter' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-taskcenter',
-      'state' => 'inactive',
-      'packagePath' => 'typo3/sysext/taskcenter/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'version' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-version',
-      'state' => 'inactive',
-      'packagePath' => 'typo3/sysext/version/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'workspaces' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'typo3/cms-workspaces',
-      'state' => 'inactive',
-      'packagePath' => 'typo3/sysext/workspaces/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'w_ttcontent' => 
+    'kickstarter' => 
     array (
       'state' => 'inactive',
-      'packagePath' => 'typo3conf/ext/w_ttcontent/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'templavoila_old' => 
-    array (
-      'manifestPath' => '',
-      'composerName' => 'templavoila/templavoila',
-      'state' => 'inactive',
-      'packagePath' => 'typo3conf/ext/templavoila_old/',
-      'classesPath' => 'Classes/',
-      'suggestions' => 
-      array (
-      ),
-    ),
-    'w_rawhtml' => 
-    array (
-      'state' => 'inactive',
-      'packagePath' => 'typo3conf/ext/w_rawhtml/',
+      'packagePath' => 'typo3conf/ext/kickstarter/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (
@@ -844,6 +693,46 @@ return array (
       array (
       ),
     ),
+    'linkvalidator' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-linkvalidator',
+      'state' => 'inactive',
+      'packagePath' => 'typo3/sysext/linkvalidator/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'mediace' => 
+    array (
+      'composerName' => 'typo3/cms-mediace',
+      'state' => 'inactive',
+      'packagePath' => 'typo3/sysext/mediace/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'ods_plaintext' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/ods_plaintext/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'openid' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-openid',
+      'state' => 'inactive',
+      'packagePath' => 'typo3/sysext/openid/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
     'scriptmerger' => 
     array (
       'state' => 'inactive',
@@ -853,10 +742,81 @@ return array (
       array (
       ),
     ),
-    'w_tools' => 
+    'sys_action' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-sys-action',
+      'state' => 'inactive',
+      'packagePath' => 'typo3/sysext/sys_action/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    't3jquery' => 
     array (
       'state' => 'inactive',
-      'packagePath' => 'typo3conf/ext/w_tools/',
+      'packagePath' => 'typo3conf/ext/t3jquery/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'taskcenter' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-taskcenter',
+      'state' => 'inactive',
+      'packagePath' => 'typo3/sysext/taskcenter/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'tt_address' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/tt_address/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'version' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-version',
+      'state' => 'inactive',
+      'packagePath' => 'typo3/sysext/version/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'w_rawhtml' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/w_rawhtml/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'w_ttcontent' => 
+    array (
+      'state' => 'inactive',
+      'packagePath' => 'typo3conf/ext/w_ttcontent/',
+      'classesPath' => 'Classes/',
+      'suggestions' => 
+      array (
+      ),
+    ),
+    'workspaces' => 
+    array (
+      'manifestPath' => '',
+      'composerName' => 'typo3/cms-workspaces',
+      'state' => 'inactive',
+      'packagePath' => 'typo3/sysext/workspaces/',
       'classesPath' => 'Classes/',
       'suggestions' => 
       array (

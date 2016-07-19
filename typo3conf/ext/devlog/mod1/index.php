@@ -42,10 +42,10 @@ require('conf.php');
 $TYPO3_CONF_VARS['EXTCONF']['devlog']['nolog'] = TRUE;
 
 $GLOBALS['LANG']->includeLLFile('EXT:devlog/mod1/locallang.xml');
-$BE_USER->modAccess($MCONF, 1);	// This checks permissions and exits if the users has no permission for entry.
+$GLOBALS['BE_USER']->modAccess($MCONF, 1);	// This checks permissions and exits if the users has no permission for entry.
 	// DEFAULT initialization of a module [END]
 
-class tx_devlog_module1 extends t3lib_SCbase {
+class tx_devlog_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	var $pageinfo;
 
 	var $logRuns = array(); // List of all log runs
@@ -81,7 +81,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 		if ($this->extConf['autoCleanup']) $this->logGC();
 
 			// Get and store the GET and POST variables
-		$this->setVars = t3lib_div::_GP('SET');
+		$this->setVars = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('SET');
 
 		parent::init();
 
@@ -90,7 +90,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 			// Set key for CSH
 		$this->cshKey = '_MOD_'.$MCONF['name'];
 		// Assemble a base URL, without parameters, but with CSRF token
-		$this->baseUrl = t3lib_BEfunc::getModuleUrl(
+		$this->baseUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl(
 			$GLOBALS['MCONF']['name']
 		);
 	}
@@ -123,7 +123,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 			'expandAllExtraData' => 0,
 			'sword' => '',
 		);
-		$this->MOD_MENU['logrun'] = t3lib_div::array_merge($this->recentRuns, $this->MOD_MENU['logrun']);
+		$this->MOD_MENU['logrun'] = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge($this->recentRuns, $this->MOD_MENU['logrun']);
 
 			// If the clear button has been clicked, empty all filters
 		if (!empty($this->setVars['clear'])) {
@@ -163,7 +163,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 		if ($GLOBALS['BE_USER']->user['admin'])	{
 
 				// Draw the header.
-			$this->doc = t3lib_div::makeInstance('template');
+			$this->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('template');
 			$this->doc->backPath = $BACK_PATH;
 
 				// JavaScript
@@ -173,7 +173,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 				$pathToPrototype = $BACK_PATH.'contrib/prototype/prototype.js';
 			}
 			elseif (isset($this->extConf['prototypePath'])) {
-				$testPath = t3lib_div::getFileAbsFileName($this->extConf['prototypePath']);
+				$testPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->extConf['prototypePath']);
 				if (file_exists($testPath)) $pathToPrototype = $BACK_PATH.'../'.$this->extConf['prototypePath'];
 			}
 			if (!empty($pathToPrototype)) $this->doc->JScode .= '<script type="text/javascript" src="'.$pathToPrototype.'"></script>'."\n";
@@ -240,7 +240,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 			$headerSection ='';
 			if ($this->MOD_SETTINGS['function'] == 'showlog') {
 				$optMenu = array ();
-				$optMenu['sellogrun'] = t3lib_BEfunc::getFuncMenu($this->id, 'SET[logrun]', $this->MOD_SETTINGS['logrun'], $this->MOD_MENU['logrun']);
+				$optMenu['sellogrun'] = \TYPO3\CMS\Backend\Utility\BackendUtility::getFuncMenu($this->id, 'SET[logrun]', $this->MOD_SETTINGS['logrun'], $this->MOD_MENU['logrun']);
 				if ($this->MOD_SETTINGS['logrun'] <= 1000) {
 					$optMenu['autorefresh'] = '<input type="hidden" name="SET[autorefresh]" value="0">';
 					$onClick = 'toggleReload(this.checked);';
@@ -267,7 +267,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 			$this->content .= $this->doc->startPage($GLOBALS['LANG']->getLL('title'));
 			$this->content .= $this->doc->header($GLOBALS['LANG']->getLL('title'));
 			$this->content .= $this->doc->spacer(5);
-			$this->content .= '<form name="options" action="' . $this->baseUrl . '" method="POST">'.$this->doc->section('', $this->doc->funcMenu($headerSection, t3lib_BEfunc::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'], $this->MOD_MENU['function']).'&nbsp;&nbsp;&nbsp;'.$this->openNewView())).'</form>';
+			$this->content .= '<form name="options" action="' . $this->baseUrl . '" method="POST">'.$this->doc->section('', $this->doc->funcMenu($headerSection, \TYPO3\CMS\Backend\Utility\BackendUtility::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'], $this->MOD_MENU['function']).'&nbsp;&nbsp;&nbsp;'.$this->openNewView())).'</form>';
 			$this->content .= $this->doc->divider(5);
 
 			// Render content:
@@ -283,7 +283,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 		else {
 				// If no access
 
-			$this->doc = t3lib_div::makeInstance('mediumDoc');
+			$this->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('mediumDoc');
 			$this->doc->backPath = $BACK_PATH;
 
 			$this->content .= $this->doc->startPage($GLOBALS['LANG']->getLL('title'));
@@ -455,10 +455,10 @@ class tx_devlog_module1 extends t3lib_SCbase {
 
 			// return rendered table and pagination
 		if ($startDate == $endDate) {
-			$content .= '<p>'.$GLOBALS['LANG']->getLL('log_period').': '.t3lib_befunc::dateTimeAge($startDate).'</p>';
+			$content .= '<p>'.$GLOBALS['LANG']->getLL('log_period').': '.\TYPO3\CMS\Backend\Utility\BackendUtility::dateTimeAge($startDate).'</p>';
 		}
 		else {
-			$content .= '<p>'.$GLOBALS['LANG']->getLL('log_period').': '.t3lib_befunc::dateTimeAge($startDate).' - '.t3lib_befunc::dateTimeAge($endDate).'</p>';
+			$content .= '<p>'.$GLOBALS['LANG']->getLL('log_period').': '.\TYPO3\CMS\Backend\Utility\BackendUtility::dateTimeAge($startDate).' - '.\TYPO3\CMS\Backend\Utility\BackendUtility::dateTimeAge($endDate).'</p>';
 		}
 		$content .= $this->doc->divider(5);
 			// Add warning about filtered entries if any
@@ -548,7 +548,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 			if ($i == $this->MOD_SETTINGS['page']) {
 				$item = '<strong>' . $text . '</strong>';
 			} else {
-				$url = t3lib_BEfunc::getModuleUrl(
+				$url = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl(
 					$GLOBALS['MCONF']['name'],
 					array(
 						'SET' => array(
@@ -569,7 +569,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 	 * @return	string	list of pages with links
 	 */
 	function renderBrowseLinks() {
-//t3lib_div::debug($this->selectedLog);
+//\TYPO3\CMS\Core\Utility\GeneralUtility::debug($this->selectedLog);
 		$logTimestamps = array_keys($this->logRuns);
 
 			// Extract first and last run
@@ -662,7 +662,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 	 */
 	function renderCsh($str) {
 		global $BACK_PATH;
-		return t3lib_BEfunc::cshItem($this->cshKey, $str, $BACK_PATH, '|', false, 'margin-bottom:0px;');
+		return \TYPO3\CMS\Backend\Utility\BackendUtility::cshItem($this->cshKey, $str, $BACK_PATH, '|', false, 'margin-bottom:0px;');
 	}
 
 	/**
@@ -675,12 +675,15 @@ class tx_devlog_module1 extends t3lib_SCbase {
 		$content .= $this->doc->spacer(20);
 
 			// Act on clear commands
-		if (($clearParameters = t3lib_div::_GP('clear'))) {
+		if (($clearParameters = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('clear'))) {
 			$where = '';
 			if (isset($clearParameters['extension'])) {
-				$where = "extkey = '".$clearParameters['extension']."'";
+				$where = 'extkey = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr(
+					$clearParameters['extension'],
+					'tx_devlog'
+				);
 			} elseif (isset($clearParameters['period'])) {
-				$where = "crdate <= '".$clearParameters['period']."'";
+				$where = 'crdate <= ' . intval($clearParameters['period']);
 			}
 			$GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_devlog', $where);
 			$affectedRows = $GLOBALS['TYPO3_DB']->sql_affected_rows();
@@ -780,7 +783,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 			// Assemble those runs in an associative array with run timestamp as a key
 		$counter = 0;
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbres)) {
-			$formattedDate = t3lib_befunc::dateTimeAge($row['crdate']);
+			$formattedDate = \TYPO3\CMS\Backend\Utility\BackendUtility::dateTimeAge($row['crdate']);
 			$this->logRuns[$row['crmsec']] = $formattedDate;
 			if ($runLimit != 0 && $counter < $runLimit) {
 				$this->recentRuns[$row['crmsec']] = $formattedDate;
@@ -799,14 +802,14 @@ class tx_devlog_module1 extends t3lib_SCbase {
 
 			// Select only the logs from a single run
 		if ($this->selectedLog > 1000) {
-			$dbres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_devlog', 'crmsec = '.$this->selectedLog, $groupBy='', $orderBy='uid', $limit='');
+			$dbres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_devlog', 'crmsec = ' . intval($this->selectedLog), $groupBy='', $orderBy='uid', $limit='');
 		}
 			// Select all log entries, but taking pagination into account
 		elseif ($this->selectedLog == -1) {
 
 				// Assemble the SQL condition from filters and an eventual search criteria
 			$whereClause = '';
-//t3lib_div::debug($this->MOD_SETTINGS);
+//\TYPO3\CMS\Core\Utility\GeneralUtility::debug($this->MOD_SETTINGS);
 			if (is_array($this->selectedFilters)) {
 				foreach ($this->selectedFilters as $key => $value) {
 					if ($value  != '*') {
@@ -832,13 +835,15 @@ class tx_devlog_module1 extends t3lib_SCbase {
 				// Calculate start page
 				// If start is larger than entries count, revert to first page (0)
 			$start = $page * $this->extConf['entriesPerPage'];
-			if ($start > $this->totalLogEntries) $start = 0;
-			$limit = $start.','.$this->extConf['entriesPerPage'];
+			if ($start > $this->totalLogEntries) {
+				$start = 0;
+			}
+			$limit = intval($start) . ',' . intval($this->extConf['entriesPerPage']);
 			$dbres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_devlog', $whereClause, $groupBy='', $orderBy='uid DESC', $limit);
 		}
 			// Select the latest log entries up to the selected limit
 		else {
-			$dbres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_devlog', '', $groupBy='', $orderBy='uid DESC', $limit=$this->selectedLog);
+			$dbres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_devlog', '', $groupBy='', $orderBy='uid DESC', intval($this->selectedLog));
 		}
 		return $dbres;
 	}
@@ -879,9 +884,9 @@ class tx_devlog_module1 extends t3lib_SCbase {
 		$this->records['pages'] = array();
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbres)) {
 			if (!empty($row['pid'])) {
-				$page = t3lib_BEfunc::getRecord('pages', $row['pid']);
-				$elementTitle = t3lib_BEfunc::getRecordTitle('pages', $page, 1);
-				$page['t3lib_BEfunc::title'] = $elementTitle;
+				$page = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('pages', $row['pid']);
+				$elementTitle = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordTitle('pages', $page, 1);
+				$page['\TYPO3\CMS\Backend\Utility\BackendUtility::title'] = $elementTitle;
 				$this->records['pages'][$row['pid']] = $page;
 				$this->filters['pid'][$row['pid']] = $elementTitle;
 			}
@@ -894,9 +899,9 @@ class tx_devlog_module1 extends t3lib_SCbase {
 		$this->records['be_users'] = array();
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbres)) {
 			if (!empty($row['cruser_id'])) {
-				$record = t3lib_BEfunc::getRecord('be_users', $row['cruser_id']);
-				$elementTitle = t3lib_BEfunc::getRecordTitle('be_users', $record, 1);
-				$record['t3lib_BEfunc::title'] = $elementTitle;
+				$record = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('be_users', $row['cruser_id']);
+				$elementTitle = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordTitle('be_users', $record, 1);
+				$record['\TYPO3\CMS\Backend\Utility\BackendUtility::title'] = $elementTitle;
 				$this->records['be_users'][$row['cruser_id']] = $record;
 				$this->filters['cruser_id'][$row['cruser_id']] = $elementTitle;
 			}
@@ -969,7 +974,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 	 * @return    string
 	 */
 	function linkLogRun($str, $logRun) {
-		$url = t3lib_BEfunc::getModuleUrl(
+		$url = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl(
 			$GLOBALS['MCONF']['name'],
 			array(
 				'SET' => array(
@@ -996,14 +1001,14 @@ class tx_devlog_module1 extends t3lib_SCbase {
 				// Retrieve the stored page information
 				// (pages were already fetched in getLogFilters)
 			$row = $this->records['pages'][$uid];
-			$iconAltText = t3lib_BEfunc::getRecordIconAltText($row, 'pages');
+			$iconAltText = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordIconAltText($row, 'pages');
 
 				// Create icon for record
 			$elementIcon = t3lib_iconWorks::getSpriteIconForRecord('pages', $row, array('title' => $iconAltText));
 
 				// Return item with edit link
 			$editOnClick = 'top.loadEditId(' . $uid . ')';
-			$string = '<a href="#" onclick="' . htmlspecialchars($editOnClick) . '">' . $elementIcon . $row['t3lib_BEfunc::title'] . '</a>';
+			$string = '<a href="#" onclick="' . htmlspecialchars($editOnClick) . '">' . $elementIcon . $row['\TYPO3\CMS\Backend\Utility\BackendUtility::title'] . '</a>';
 			return $string;
 		}
     }
@@ -1025,10 +1030,10 @@ class tx_devlog_module1 extends t3lib_SCbase {
 			if (isset($this->records[$table][$uid])) {
 				$row = $this->records[$table][$uid];
 			} else {
-				$row = t3lib_BEfunc::getRecord($table, $uid);
+				$row = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $uid);
 			}
-	        $iconAltText = t3lib_BEfunc::getRecordIconAltText($row, $table);
-            $elementTitle = t3lib_BEfunc::getRecordTitle($table, $row, 1);
+	        $iconAltText = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordIconAltText($row, $table);
+            $elementTitle = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordTitle($table, $row, 1);
 	        $elementIcon = t3lib_iconworks::getIconImage($table, $row, $BACK_PATH, 'class="c-recicon" title="' . $iconAltText . '"');
 			return $elementIcon.$elementTitle;
 		}
@@ -1046,7 +1051,7 @@ class tx_devlog_module1 extends t3lib_SCbase {
 		if (class_exists('t3lib_utility_Debug')) {
 			return t3lib_utility_Debug::viewArray($array);
 		} else {
-			t3lib_div::view_array($array);
+			\TYPO3\CMS\Core\Utility\GeneralUtility::view_array($array);
 		}
 	}
 }
@@ -1062,7 +1067,7 @@ if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/devlog/
 
 	// Make instance:
 	/** @var $SOBE tx_devlog_module1 */
-$SOBE = t3lib_div::makeInstance('tx_devlog_module1');
+$SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_devlog_module1');
 $SOBE->init();
 $SOBE->main();
 $SOBE->printContent();

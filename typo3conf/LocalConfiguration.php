@@ -5,7 +5,7 @@ return array(
 		'explicitADmode' => 'explicitAllow',
 		'fileCreateMask' => '0660',
 		'folderCreateMask' => '2770',
-		'installToolPassword' => '$P$Cts5iKL9psOsIjubFnms3.WybLwwKy.',
+		'installToolPassword' => '$P$CvnS9Pt4wnT4/3B8eB/1Os9LyX1Iyx.',
 		'loginSecurityLevel' => 'rsa',
 	),
 	'DB' => array(
@@ -32,6 +32,7 @@ return array(
 			't3jquery' => 'a:14:{s:15:"alwaysIntegrate";s:1:"1";s:17:"integrateToFooter";s:1:"0";s:17:"enableStyleStatic";s:1:"1";s:18:"dontIntegrateOnUID";s:0:"";s:23:"dontIntegrateInRootline";s:0:"";s:13:"jqLibFilename";s:23:"jquery-###VERSION###.js";s:9:"configDir";s:19:"uploads/tx_t3jquery";s:13:"jQueryVersion";s:5:"1.9.x";s:15:"jQueryUiVersion";s:5:"1.9.x";s:18:"jQueryTOOLSVersion";s:0:"";s:22:"jQueryBootstrapVersion";s:0:"";s:16:"integrateFromCDN";s:1:"0";s:11:"locationCDN";s:6:"jquery";s:13:"updateMessage";s:1:"0";}',
 			'templavoila' => 'a:3:{s:7:"enable.";a:3:{s:13:"oldPageModule";s:1:"0";s:19:"selectDataStructure";s:1:"0";s:15:"renderFCEHeader";s:1:"0";}s:9:"staticDS.";a:3:{s:6:"enable";s:1:"0";s:8:"path_fce";s:27:"fileadmin/templates/ds/fce/";s:9:"path_page";s:28:"fileadmin/templates/ds/page/";}s:13:"updateMessage";s:1:"0";}',
 			'tt_address' => 'a:2:{s:24:"disableCombinedNameField";s:1:"0";s:21:"backwardsCompatFormat";s:9:"%1$s %3$s";}',
+			'w_tools' => 'a:0:{}',
 		),
 	),
 	'EXTCONF' => array(
@@ -40,7 +41,6 @@ return array(
 		),
 	),
 	'FE' => array(
-		'activateContentAdapter' => FALSE,
 		'addAllowedPaths' => 'images/',
 		'debug' => TRUE,
 		'loginSecurityLevel' => 'rsa',
@@ -59,9 +59,9 @@ return array(
 	),
 	'INSTALL' => array(
 		'wizardDone' => array(
-			'TYPO3\CMS\Install\Updates\FilemountUpdateWizard' => 1,
-			'TYPO3\CMS\Install\Updates\TceformsUpdateWizard' => 'tt_content:image,pages:media,pages_language_overlay:media',
-			'TYPO3\CMS\Install\Updates\TruncateSysFileProcessedFileTable' => 1,
+			'TYPO3\CMS\Install\Updates\BackendUserStartModuleUpdate' => 1,
+			'TYPO3\CMS\Install\Updates\LanguageIsoCodeUpdate' => 1,
+			'TYPO3\CMS\Install\Updates\ProcessedFileChecksumUpdate' => 1,
 		),
 	),
 	'SYS' => array(
@@ -81,14 +81,13 @@ return array(
 			),
 		),
 		'clearCacheSystem' => TRUE,
-		'compat_version' => '6.2',
 		'devIPmask' => '*',
 		'displayErrors' => 1,
 		'enableDeprecationLog' => 'file',
-		'encryptionKey' => '205a2327aae995761d9b0811843ef95f47c976dc92afe49acdd25b45910115ca0f464b2c68ef2ba8f0941bbec6030f36',
+		'encryptionKey' => 'e7c098f7f0b948d1e49664f2ed7f7088d992e30096e325c10de065ce4bbb9224b9230fed93412489f777ee8f4636a3f2',
 		'exceptionalErrors' => 28674,
 		'isInitialInstallationInProgress' => FALSE,
-		'sitename' => 'WTP2',
+		'sitename' => 'WTP3',
 		'sqlDebug' => 0,
 		'systemLogLevel' => 0,
 		't3lib_cs_convMethod' => 'mbstring',
