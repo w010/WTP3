@@ -103,8 +103,15 @@ $TCA['tt_news'] = Array (
 						'type' => 'popup',
 						'title' => 'Link',
 						'icon' => 'link_popup.gif',
-						'script' => 'browse_links.php?mode=wizard',
-						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
+						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+						//'script' => 'browse_links.php?mode=wizard',
+						// https://wiki.typo3.org/Exception/CMS/1437750231
+						'module' => array(
+							'name' => 'wizard_element_browser',
+							'urlParameters' => array(
+								'mode' => 'wizard',
+							)
+						)
 					)
 				)
 			)
@@ -125,7 +132,10 @@ $TCA['tt_news'] = Array (
 						'type' => 'script',
 						'title' => 'LLL:EXT:cms/locallang_ttc.php:bodytext.W.RTE',
 						'icon' => 'wizard_rte2.gif',
-						'script' => 'wizard_rte.php',
+						//'script' => 'wizard_rte.php',
+						'module' => array(
+							'name' => 'wizard_rte'
+						)
 					),
 				)
 			)
@@ -420,7 +430,8 @@ $TCA['tt_news'] = Array (
 	),
 	'types' => Array (
 		'0' => Array('showitem' =>
-			'hidden, type;;;;1-1-1,title;;;;2-2-2,short,bodytext;;2;richtext:rte_transform[flag=rte_enabled|mode=ts];4-4-4,
+			//'hidden, type;;;;1-1-1,title;;;;2-2-2,short,bodytext;;2;richtext:rte_transform[flag=rte_enabled|mode=ts];4-4-4,
+			'hidden, type;;;;1-1-1,title;;;;2-2-2,short,bodytext;;2;;4-4-4,
 			--div--;LLL:EXT:tt_news/locallang_tca.xml:tt_news.tabs.special, datetime;;;;2-2-2,archivedate,author;;3;; ;;;;2-2-2,
 				keywords;;;;2-2-2,sys_language_uid;;1;;3-3-3,
 			--div--;LLL:EXT:tt_news/locallang_tca.xml:tt_news.tabs.media, image;;;;1-1-1,imagecaption;;5;;,links;;;;2-2-2,news_files;;;;4-4-4,
@@ -461,6 +472,8 @@ $TCA['tt_news'] = Array (
 	)
 );
 
+$TCA['tt_news']['types']['0']['columnsOverrides']['bodytext']['defaultExtras'] = 'richtext:rte_transform[flag=rte_enabled|mode=ts]';
+//richtext:rte_transform[flag=rte_enabled|mode=ts]
 
 
 // ******************************************************************

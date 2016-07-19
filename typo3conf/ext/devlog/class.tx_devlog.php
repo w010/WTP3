@@ -84,7 +84,7 @@ class tx_devlog {
 		}
 
 			// If the key is in the list of keys to exclude, don't log the entry
-		if (t3lib_div::inList($this->extConf['excludeKeys'], $logArr['extKey'])) {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($this->extConf['excludeKeys'], $logArr['extKey'])) {
 			return;
 		}
 
@@ -112,7 +112,7 @@ class tx_devlog {
 			// If possible use RemoveXSS (TYPO3 4.2+), otherwise strip all tags
 		$message = '';
 		if (method_exists('t3lib_div', 'removeXSS')) {
-			$message = t3lib_div::removeXSS($logArr['msg']);
+			$message = \TYPO3\CMS\Core\Utility\GeneralUtility::removeXSS($logArr['msg']);
 		} else {
 			$message = strip_tags($logArr['msg']);
 		}

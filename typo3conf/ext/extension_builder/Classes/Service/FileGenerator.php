@@ -25,6 +25,7 @@ namespace EBT\ExtensionBuilder\Service;
  ***************************************************************/
 
 use EBT\ExtensionBuilder\Domain\Model\DomainObject;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
@@ -315,10 +316,28 @@ class FileGenerator implements \TYPO3\CMS\Core\SingletonInterface {
 				if (!$domainObject->getMapToTable()) {
 					$fileContents = $this->generateTCA($domainObject);
 					$this->writeFile(
-						$this->configurationDirectory . 'TCA/' . $domainObject->getName() . '.php',
+						$this->configurationDirectory . 'TCA/' . $domainObject->getDatabaseTableName() . '.php',
 						$fileContents
 					);
 				}
+			}
+			$domainObjectsNeedingOverrides = array();
+			foreach($this->extension->getDomainObjectsInHierarchicalOrder() as $domainObject) {
+				if($domainObject->isMappedToExistingTable() || $domainObject->getHasChildren()) {
+					if(!isset($domainObjectsNeedingOverrides[$domainObject->getDatabaseTableName()])) {
+						$domainObjectsNeedingOverrides[$domainObject->getDatabaseTableName()] = array();
+					}
+					$domainObjectsNeedingOverrides[$domainObject->getDatabaseTableName()][] = $domainObject;
+				}
+			}
+			$tablesNeedingTypeFields = $this->extension->getTablesForTypeFieldDefinitions();
+			foreach($domainObjectsNeedingOverrides as $tableName => $domainObjects) {
+				$addRecordTypeField = in_array($tableName, $tablesNeedingTypeFields);
+				$fileContents = $this->generateTCAOverride($domainObjects, $addRecordTypeField);
+				$this->writeFile(
+					$this->configurationDirectory . 'TCA/Overrides/' . $tableName . '.php',
+					$fileContents
+				);
 			}
 
 		} catch (\Exception $e) {
@@ -621,6 +640,9 @@ class FileGenerator implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	protected function copyStaticFiles() {
 		try {
 			$this->upload_copy_move(
@@ -636,10 +658,18 @@ class FileGenerator implements \TYPO3\CMS\Core\SingletonInterface {
 			$publicResourcesDirectory = $this->extensionDirectory . 'Resources/Public/';
 			$this->mkdir_deep($publicResourcesDirectory, 'Icons');
 			$this->iconsDirectory = $publicResourcesDirectory . 'Icons/';
-			$this->upload_copy_move(
-				ExtensionManagementUtility::extPath('extension_builder') . 'Resources/Private/Icons/relation.gif',
-				$this->iconsDirectory . 'relation.gif'
-			);
+			$needsRelationIcon = FALSE;
+			foreach($this->extension->getDomainObjects() as $domainObject) {
+				if ($domainObject->hasRelations()) {
+					$needsRelationIcon = TRUE;
+				}
+			}
+			if ($needsRelationIcon) {
+				$this->upload_copy_move(
+					ExtensionManagementUtility::extPath('extension_builder') . 'Resources/Private/Icons/relation.gif',
+					$this->iconsDirectory . 'relation.gif'
+				);
+			}
 		} catch (\Exception $e) {
 			throw new \Exception('Could not create public resources folder, error: ' . $e->getMessage());
 		}
@@ -691,9 +721,9 @@ class FileGenerator implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function renderTemplate($filePath, $variables) {
 		$variables['settings'] = $this->settings;
-		$standAloneView = $this->objectManager->get('\\TYPO3\\CMS\\Fluid\\View\\StandaloneView');
-		$standAloneView->setLayoutRootPath($this->codeTemplateRootPath);
-		$standAloneView->setPartialRootPath($this->codeTemplateRootPath . '/Partials');
+		$standAloneView = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$standAloneView->setLayoutRootPaths(array($this->codeTemplateRootPath));
+		$standAloneView->setPartialRootPaths(array($this->codeTemplateRootPath . '/Partials'));
 		$standAloneView->setFormat('txt');
 		$templatePathAndFilename = $this->codeTemplateRootPath .  $filePath;
 		$standAloneView->setTemplatePathAndFilename($templatePathAndFilename);
@@ -757,10 +787,10 @@ class FileGenerator implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return string
 	 */
 	protected function renderClassFile($classObject) {
-		$nameSpace = $this->objectManager->get('\\EBT\\ExtensionBuilder\\Domain\\Model\\NamespaceObject', $classObject->getNamespaceName());
+		$nameSpace = $this->objectManager->get('EBT\\ExtensionBuilder\\Domain\\Model\\NamespaceObject', $classObject->getNamespaceName());
 		$this->addLicenseHeader($classObject);
 		$nameSpace->addClass($classObject);
-		$classFile = $this->objectManager->get('\\EBT\\ExtensionBuilder\\Domain\\Model\\File');
+		$classFile = $this->objectManager->get('EBT\\ExtensionBuilder\\Domain\\Model\\File');
 		$classFile->addNamespace($nameSpace);
 		return $this->printerService->renderFileObject($classFile, TRUE);
 	}
@@ -912,7 +942,7 @@ class FileGenerator implements \TYPO3\CMS\Core\SingletonInterface {
 		$languageLabels = array();
 		if ($variableName == 'domainObject') {
 			$languageLabels = $this->localizationService->prepareLabelArrayForContextHelp($variable);
-		} elseif($variableName == 'backendModule') {
+		} elseif ($variableName == 'backendModule') {
 			$languageLabels = $this->localizationService->prepareLabelArrayForBackendModule($variable);
 		} else {
 			$languageLabels = $this->localizationService->prepareLabelArray($this->extension, 'locallang' . $fileNameSuffix);
@@ -935,10 +965,13 @@ class FileGenerator implements \TYPO3\CMS\Core\SingletonInterface {
 					$existingLabels
 				);
 				if (is_array($existingLabels)) {
-					$languageLabels = GeneralUtility::array_merge_recursive_overrule($languageLabels, $existingLabels);
+					ArrayUtility::mergeRecursiveWithOverrule($languageLabels, $existingLabels);
 				}
 
 			}
+		}
+		if (empty($languageLabels)) {
+			return '';
 		}
 		$variableArray['labelArray'] = $languageLabels;
 		return $this->renderTemplate('Resources/Private/Language/locallang.xlf' . 't', $variableArray);
@@ -950,10 +983,29 @@ class FileGenerator implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function generateTCA(\EBT\ExtensionBuilder\Domain\Model\DomainObject $domainObject) {
 		return $this->renderTemplate(
-			'Configuration/TCA/domainObject.phpt',
+			'Configuration/TCA/tableName.phpt',
 			array(
 				'extension' => $this->extension,
 				'domainObject' => $domainObject
+			)
+		);
+	}
+
+	/**
+	 * Overrides are needed for single table inheritance
+	 *
+	 * @param array $domainObjects
+	 * @param $addRecordTypeField
+	 * @return mixed
+	 */
+	public function generateTCAOverride(array $domainObjects, $addRecordTypeField) {
+		return $this->renderTemplate(
+			'Configuration/TCA/Overrides/tableName.phpt',
+			array(
+				'extension' => $this->extension,
+				'rootDomainObject' => reset($domainObjects),
+				'domainObjects' => $domainObjects,
+				'addRecordTypeField' => $addRecordTypeField
 			)
 		);
 	}
@@ -1094,6 +1146,7 @@ class FileGenerator implements \TYPO3\CMS\Core\SingletonInterface {
 				0,
 				$this->settings
 			);
+			return;
 		}
 		$success = \TYPO3\CMS\Core\Utility\GeneralUtility::writeFile($targetFile, $fileContents);
 		if (!$success) {

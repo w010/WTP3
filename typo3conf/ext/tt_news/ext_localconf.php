@@ -23,7 +23,7 @@ $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['pro
 
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
-if (t3lib_extMgm::isLoaded('version')) {
+if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('version')) {
 	// If the extension "version" is loaded, this line adds the code VERSION_PREVIEW to the "what_to_display" section in the tt_news content element
 	$TYPO3_CONF_VARS['EXTCONF']['tt_news']['what_to_display'][] = array('Preview of non-public article versions (VERSION_PREVIEW)', 'VERSION_PREVIEW');
 }
@@ -37,11 +37,11 @@ $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_ttnews_templateeval'] = '
 
 // register Ajax scripts
 $TYPO3_CONF_VARS['FE']['eID_include']['tt_news'] = 'EXT:tt_news/pi/fe_index.php';
-$TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::expandCollapse'] = t3lib_extMgm::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxExpandCollapse';
-$TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::loadList'] = t3lib_extMgm::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxLoadList';
-$TYPO3_CONF_VARS['BE']['AJAX']['tceFormsCategoryTree::expandCollapse'] = t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_TCAform_selectTree.php:tx_ttnews_TCAform_selectTree->ajaxExpandCollapse';
+$TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::expandCollapse'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxExpandCollapse';
+$TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::loadList'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxLoadList';
+$TYPO3_CONF_VARS['BE']['AJAX']['tceFormsCategoryTree::expandCollapse'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_TCAform_selectTree.php:tx_ttnews_TCAform_selectTree->ajaxExpandCollapse';
 
-require_once (t3lib_extMgm::extPath('tt_news').'class.tx_ttnews_compatibility.php');
+require_once (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'class.tx_ttnews_compatibility.php');
 
 $t3version = tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version);
 
@@ -60,16 +60,25 @@ if ($t3version < 4006000) {
 	}
 } else {
 	// caching framework configuration
+	// for 7 - not tested in 6, maybe is needed to adjust in another ver condition
 	if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = array(
-			'frontend' => 't3lib_cache_frontend_StringFrontend',
-			'backend' => 't3lib_cache_backend_DbBackend',
-			'options' => array()
+			// wolo mod
+			//'frontend' => 'TYPO3\\CMS\\Core\\Cache\\Frontend\\StringFrontend',
+			'frontend' => 'TYPO3\\CMS\\Core\\Cache\\Frontend\\VariableFrontend',
+			// these are afaiu not needed anymore, database and those tablenames are set by default
+			/*'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\DatabaseBackend',
+			'options' => array(
+				'cacheTable' => 'tt_news_cache',
+				'tagsTable' => 'tt_news_cache_tags'
+			)*/
 		);
 	}
 }
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['frontend'] = 't3lib_cache_frontend_VariableFrontend';
+// what is this supposed to do? why this way? - set in config above
+//$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['frontend'] = 't3lib_cache_frontend_VariableFrontend';
 
+// seems like this option is not used anymore?
 // register news cache table for "clear all caches"
 if ($confArr['cachingMode']=='normal') {
 	$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['tt_news_cache'] = 'tt_news_cache';

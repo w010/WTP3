@@ -3,38 +3,35 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "extension_builder".
  *
- * Auto generated 05-03-2015 07:20
+ * Auto generated 13-05-2014 05:27
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
  * writing. "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array (
+$EM_CONF[$_EXTKEY] = array(
 	'title' => 'Extension Builder',
 	'description' => 'The Extension Builder helps you build and manage your Extbase based TYPO3 extensions.',
 	'category' => 'module',
-	'version' => '6.2.0',
-	'state' => 'beta',
-	'uploadfolder' => true,
-	'createDirs' => 'uploads/tx_extensionbuilder/backups',
-	'clearcacheonload' => false,
 	'author' => 'Nico de Haen',
 	'author_email' => 'mail@ndh-websolutions.de',
-	'author_company' => '',
-	'constraints' => 
-	array (
-		'depends' => 
-		array (
-			'typo3' => '6.1.0-6.2.99',
+	'shy' => '',
+	'state' => 'beta',
+	'uploadfolder' => 1,
+	'createDirs' => 'uploads/tx_extensionbuilder/backups',
+	'modify_tables' => '',
+	'clearCacheOnLoad' => 0,
+	'lockType' => '',
+	'version' => '7.1.0',
+	'constraints' => array(
+		'depends' => array(
+			'typo3' => '6.2.2-7.1.99'
 		),
-		'suggests' => 
-		array (
+		'conflicts' => array(
+		),
+		'suggests' => array(
 			'phpunit' => '',
-		),
-		'conflicts' => 
-		array (
 		),
 	),
 );
-

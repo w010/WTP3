@@ -4,12 +4,12 @@ if (!defined ('TYPO3_MODE')) {
 }
 
 /**
- * WTP2 v2.62.3
+ * WTP3 v3.74.1
  * Wolo TYPO3 Pack
  * 2015-08
  * wolo.pl '.' studio
  *
- * (version convention explain: vA.B.C means: A=2 because WTP2,  B=nn is like T3-branch n.n,  C is WTP version itself.)
+ * (version convention explain: vA.B.C means: A=3 because WTP3,  B=nn is like T3-branch n.n,  C is WTP version itself.)
  */
 
 // global statics define, do not touch
@@ -64,7 +64,8 @@ if (LOCAL)  {
 	$GLOBALS['TYPO3_CONF_VARS']['DB']['password'] = '';
 	$GLOBALS['TYPO3_CONF_VARS']['DB']['database'] = 'baza833_';*/
 
-	$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'sendmail';
+	$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'mbox';
+	$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] = PATH_site.'mails-out.txt';
 
 	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path'] = 'D:\xampp\ImageMagick-6.8.1-9\\';
 	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path_lzw'] = 'D:\xampp\ImageMagick-6.8.1-9\\';
@@ -97,7 +98,7 @@ if (CLI)	{
 	#$GLOBALS['TYPO3_CONF_VARS']['SYS']['exceptionalErrors'] = E_ALL;
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['BE']['installToolPassword'] = DEV ? md5('123') : md5('KD84nx(B34899c3C#@h&');
+$GLOBALS['TYPO3_CONF_VARS']['BE']['installToolPassword'] = DEV ? md5('123') : md5('KD8456H#(*Y36nd-c3C#@h&');
 $GLOBALS['TYPO3_CONF_VARS']['BE']['lifetime'] = (LOCAL?7*24:3) * 3600;
 $GLOBALS['TYPO3_CONF_VARS']['BE']['debug'] = DEV ? TRUE : TRUE;
 
@@ -119,6 +120,9 @@ $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['beko_debugster'] = serialize(arra
 /*if (LOCAL)
 	$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['beko_debugster'] = serialize(array('ip_mask'=>'*', 'steps_back'=>3, 'useDevIpMask' => 1));*/
 
+
+// disable typo3temp/Cache autoload class caching (and conf?)
+//$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['cache_phpcode']['backend'] = 'TYPO3\CMS\Core\Cache\Backend\NullBackend';
 
 // enable memcache in 6.2
 /*

@@ -1,43 +1,42 @@
 <?php
-/***************************************************************
- *  Copyright notice
+/*
+ * This file is part of the TYPO3 CMS project.
  *
- *  (c) 2003, 2004, 2005 Kasper Skaarhoj (kasperYYYY@typo3.com)
- *  All rights reserved
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * The TYPO3 project - inspiring people to share!
+ */
 
 /**
  * Submodule 'eTypes' for the mapping module
  *
  * $Id: index.php 17597 2009-03-08 17:59:14Z steffenk $
  *
- * @author        Kasper Skaarhoj <kasperYYYY@typo3.com>
+ * @author Kasper Skaarhoj <kasperYYYY@typo3.com>
  * @co-author    Robert Lemke <robert@typo3.org>
  * @co-author    Steffen kamper <info@sk-typo3.de>
  */
 class tx_templavoila_cm1_eTypes {
 
-	var $pObj;
+	/**
+	 * @var \tx_templavoila_cm1
+	 */
+	public $pObj;
 
-	var $eTypeArray;
+	/**
+	 * @var array
+	 */
+	public $eTypeArray;
 
-	function init($pObj) {
+	/**
+	 * @param \tx_templavoila_cm1 $pObj
+	 */
+	public function init($pObj) {
 		$this->pObj = $pObj;
 	}
 
@@ -46,19 +45,14 @@ class tx_templavoila_cm1_eTypes {
 	 * Typically called like: ->substEtypeWithRealStuff($storeDataStruct['ROOT']['el'],$contentSplittedByMapping['sub']['ROOT']);
 	 * Notice: this function is used to preview XML also. In this case it is always called with $scope=0, so XML for 'ce' type will not contain wrap with TYPO3SEARCH_xxx. Currently there is no way to avoid it.
 	 *
-	 * @param    array $elArray : Data Structure, passed by reference!
-	 * @param    array $v_sub : Actual template content splitted by Data Structure
-	 * @param    int $scope : Scope as defined in tx_templavoila_datastructure.scope
+	 * @param array $elArray Data Structure, passed by reference!
+	 * @param array $v_sub Actual template content splitted by Data Structure
+	 * @param integer $scope Scope as defined in tx_templavoila_datastructure.scope
 	 *
-	 * @return    void        Note: The result is directly written in $elArray
+	 * @return void Note: The result is directly written in $elArray
 	 * @see renderFile()
 	 */
-	function substEtypeWithRealStuff(&$elArray, $v_sub = array(), $scope = 0) {
-
-		$eTypeCECounter = 0;
-
-		t3lib_div::loadTCA('tt_content');
-
+	public function substEtypeWithRealStuff(&$elArray, $v_sub = array(), $scope = 0) {
 		// Traverse array
 		foreach ($elArray as $key => $value) {
 			// this MUST not ever enter the XMLs (it will break TV)
@@ -114,7 +108,7 @@ class tx_templavoila_cm1_eTypes {
 
 					$bef = $elArray[$key]['tx_templavoila']['TypoScript'];
 
-					t3lib_div::callUserFunction($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['templavoila']['cm1']['eTypesConfGen'][$elArray[$key]['tx_templavoila']['eType']], $_params, $this, '');
+					\TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['templavoila']['cm1']['eTypesConfGen'][$elArray[$key]['tx_templavoila']['eType']], $_params, $this, '');
 
 					if (!$reset && trim($bef)) {
 						$elArray[$key]['tx_templavoila']['TypoScript'] = $bef;
@@ -400,18 +394,18 @@ class tx_templavoila_cm1_eTypes {
 	 * Analyzes the input content for various stuff which can be used to generate the DS.
 	 * Basically this tries to intelligently guess some settings.
 	 *
-	 * @param    string        HTML Content string
+	 * @param string $content HTML Content string
 	 *
-	 * @return    array        Configuration
+	 * @return array Configuration
 	 * @see substEtypeWithRealStuff()
 	 */
-	function substEtypeWithRealStuff_contentInfo($content) {
+	public function substEtypeWithRealStuff_contentInfo($content) {
 		if ($content) {
 			if (substr($content, 0, 4) == '<img') {
-				$attrib = t3lib_div::get_tag_attributes($content);
+				$attrib = \TYPO3\CMS\Core\Utility\GeneralUtility::get_tag_attributes($content);
 				if ((!$attrib['width'] || !$attrib['height']) && $attrib['src']) {
-					$pathWithNoDots = t3lib_div::resolveBackPath($attrib['src']);
-					$filePath = t3lib_div::getFileAbsFileName($pathWithNoDots);
+					$pathWithNoDots = \TYPO3\CMS\Core\Utility\GeneralUtility::resolveBackPath($attrib['src']);
+					$filePath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($pathWithNoDots);
 					if ($filePath && @is_file($filePath)) {
 						$imgInfo = @getimagesize($filePath);
 
@@ -434,9 +428,9 @@ class tx_templavoila_cm1_eTypes {
 	/**
 	 * Defined eTypes for field creation
 	 *
-	 * @return    array    Array with default eTypes
+	 * @return array Array with default eTypes
 	 */
-	function defaultEtypes() {
+	public function defaultEtypes() {
 		// formFields: input, input_h, input_g, text, rte, link, int, image, imagefixed, select, ce
 		// typoscriptElements: TypoScriptObject, none
 		// misc: custom
@@ -456,25 +450,18 @@ class tx_templavoila_cm1_eTypes {
 			'size' => '48',
 			'eval' => 'trim',
 		);
-		$eTypes['eType']['input']['label'] = $GLOBALS['LANG']->getLL('mapPresets_plainInput');
+		$eTypes['eType']['input']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_plainInput');
 
 		// input_h
 		$eTypes['eType']['input_h']['TCEforms']['config'] = $eTypes['eType']['input']['TCEforms']['config'];
-		$eTypes['eType']['input_h']['label'] = $GLOBALS['LANG']->getLL('mapPresets_headerField');
+		$eTypes['eType']['input_h']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_headerField');
 		$eTypes['eType']['input_h']['Typoscript'] = '
 10 = TEXT
 10.current = 1';
 
 		// input_g
 		$eTypes['eType']['input_g']['TCEforms']['config'] = $eTypes['eType']['input']['TCEforms']['config'];
-		$eTypes['eType']['input_g']['label'] = $GLOBALS['LANG']->getLL('mapPresets_gHederField');
-
-		if (tx_templavoila_div::convertVersionNumberToInteger(TYPO3_version) > 6100000) {
-			$fontLocation = 'typo3/sysext/install/Resources/Private/Font/vera.ttf';
-		} else {
-			$fontLocation = 't3lib/fonts/vera.ttf';
-		}
-
+		$eTypes['eType']['input_g']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_gHederField');
 		$eTypes['eType']['input_g']['Typoscript'] = '
 10 = IMAGE
 10.file = GIFBUILDER
@@ -485,7 +472,7 @@ backColor = #999999
 	10.text.current = 1
 	10.text.case = upper
 	10.fontColor = #FFCC00
-	10.fontFile = ' . $fontLocation . '
+	10.fontFile = typo3/sysext/install/Resources/Private/Font/vera.ttf
 	10.niceText = 0
 	10.offset = 0,14
 	10.fontSize = 14
@@ -499,7 +486,7 @@ backColor = #999999
 			'cols' => '48',
 			'rows' => '5',
 		);
-		$eTypes['eType']['text']['label'] = $GLOBALS['LANG']->getLL('mapPresets_textarea');
+		$eTypes['eType']['text']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_textarea');
 
 		// rte
 		$eTypes['eType']['rte']['TCEforms']['config'] = array(
@@ -511,7 +498,7 @@ backColor = #999999
 					'typolink_tag,images,email[subst],url'),
 		);
 		$eTypes['eType']['rte']['TCEforms']['defaultExtras'] = 'richtext:rte_transform[flag=rte_enabled|mode=ts_css]';
-		$eTypes['eType']['rte']['label'] = $GLOBALS['LANG']->getLL('mapPresets_rte');
+		$eTypes['eType']['rte']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_rte');
 		$eTypes['eType']['rte']['Typoscript'] = '
 10 = TEXT
 10.current = 1
@@ -535,7 +522,7 @@ backColor = #999999
 				)
 			)
 		);
-		$eTypes['eType']['link']['label'] = $GLOBALS['LANG']->getLL('mapPresets_linkField');
+		$eTypes['eType']['link']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_linkField');
 		$eTypes['eType']['link']['Typoscript'] = '
 10 = TEXT
 10.typolink.parameter.current = 1';
@@ -553,7 +540,7 @@ backColor = #999999
 			),
 			'default' => 0
 		);
-		$eTypes['eType']['int']['label'] = $GLOBALS['LANG']->getLL('mapPresets_integer');
+		$eTypes['eType']['int']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_integer');
 
 		// image
 		$eTypes['eType']['image']['TCEforms']['config'] = array(
@@ -567,7 +554,7 @@ backColor = #999999
 			'maxitems' => '1',
 			'minitems' => '0'
 		);
-		$eTypes['eType']['image']['label'] = $GLOBALS['LANG']->getLL('mapPresets_image');
+		$eTypes['eType']['image']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_image');
 		$eTypes['eType']['image']['Typoscript'] = '
 10 = IMAGE
 10.file.import = uploads/tx_templavoila/
@@ -579,7 +566,7 @@ backColor = #999999
 
 		// imagefixed
 		$eTypes['eType']['imagefixed']['TCEforms']['config'] = $eTypes['eType']['image']['TCEforms']['config'];
-		$eTypes['eType']['imagefixed']['label'] = $GLOBALS['LANG']->getLL('mapPresets_imageFixed');
+		$eTypes['eType']['imagefixed']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_imageFixed');
 		$eTypes['eType']['imagefixed']['Typoscript'] = '
 10 = IMAGE
 10.file.XY = MAXW,MAXH
@@ -604,14 +591,14 @@ backColor = #999999
 			),
 			'default' => '0'
 		);
-		$eTypes['eType']['select']['label'] = $GLOBALS['LANG']->getLL('mapPresets_select');
+		$eTypes['eType']['select']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_select');
 
 		// check
 		$eTypes['eType']['check']['TCEforms']['config'] = array(
 			'type' => 'check',
 			'default' => 0,
 		);
-		$eTypes['eType']['check']['label'] = $GLOBALS['LANG']->getLL('mapPresets_check');
+		$eTypes['eType']['check']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_check');
 
 		// ce
 		$eTypes['eType']['ce']['TCEforms']['config'] = array(
@@ -624,23 +611,23 @@ backColor = #999999
 			'multiple' => '1',
 			'show_thumbs' => '1',
 		);
-		$eTypes['eType']['ce']['label'] = $GLOBALS['LANG']->getLL('mapPresets_ce');
+		$eTypes['eType']['ce']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_ce');
 		$eTypes['eType']['ce']['Typoscript'] = '
 10= RECORDS
 10.source.current=1
 10.tables = tt_content';
 
 		/* Typoscript Elements */
-		$eTypes['eType']['TypoScriptObject']['label'] = $GLOBALS['LANG']->getLL('mapPresets_TSobjectPath');
-		$eTypes['eType']['none']['label'] = $GLOBALS['LANG']->getLL('mapPresets_none');
+		$eTypes['eType']['TypoScriptObject']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_TSobjectPath');
+		$eTypes['eType']['none']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_none');
 
 		/* Misc */
-		$eTypes['eType']['custom']['label'] = $GLOBALS['LANG']->getLL('mapPresets_customTCA');
+		$eTypes['eType']['custom']['label'] = \Extension\Templavoila\Utility\GeneralUtility::getLanguageService()->getLL('mapPresets_customTCA');
 
 		// merge with tsConfig
-		$config = $GLOBALS['BE_USER']->getTSConfigProp('templavoila.eTypes');
+		$config = \Extension\Templavoila\Utility\GeneralUtility::getBackendUser()->getTSConfigProp('templavoila.eTypes');
 		if (is_array($config)) {
-			$config = t3lib_div::removeDotsFromTS($config);
+			$config = \TYPO3\CMS\Core\Utility\GeneralUtility::removeDotsFromTS($config);
 			$eTypes = $this->pObj->array_merge_recursive_overrule($eTypes, $config);
 		}
 
@@ -653,14 +640,10 @@ backColor = #999999
 				'defaultTypes_misc' => &$eTypes['defaultTypes_misc']
 			);
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['templavoila']['eTypes'] as $hook) {
-				t3lib_div::callUserFunction($hook, $params, $this);
+				\TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($hook, $params, $this);
 			}
 		}
 
 		return $eTypes;
 	}
-}
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/templavoila/cm1/class.tx_templavoila_cm1_etypes.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/templavoila/cm1/class.tx_templavoila_cm1_etypes.php']);
 }

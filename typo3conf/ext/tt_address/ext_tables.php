@@ -85,7 +85,7 @@ t3lib_extMgm::addLLrefForTCAdescr('tt_address','EXT:tt_address/locallang_csh_tta
 
 // add flexform to pi1
 if (version_compare(TYPO3_branch, '6.1', '<')) {
-	t3lib_div::loadTCA('tt_content');
+	\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('tt_content');
 }
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_pi1'] = 'pi_flexform';
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1'] = 'layout,select_key,pages,recursive';

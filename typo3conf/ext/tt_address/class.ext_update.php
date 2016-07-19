@@ -39,7 +39,7 @@ class ext_update {
 	 */
 	function main() {
 		
-		$onclick = 'document.forms[\'pageform\'].action = \''.t3lib_div::linkThisScript(array()).'\';document.forms[\'pageform\'].submit();return false;';
+		$onclick = 'document.forms[\'pageform\'].action = \''.\TYPO3\CMS\Core\Utility\GeneralUtility::linkThisScript(array()).'\';document.forms[\'pageform\'].submit();return false;';
 		$content = '';
 		
 		
@@ -68,7 +68,7 @@ class ext_update {
 			);
 		}
 		
-		if(!t3lib_div::_GP('do_update')){
+		if(!\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('do_update')){
 				// init
 			$count = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
 			
