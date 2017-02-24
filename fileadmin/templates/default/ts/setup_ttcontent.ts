@@ -279,3 +279,12 @@ temp.tt_content.uploads {
 
 
 # http://typo3.org/news/article/responsive-image-rendering-in-typo3-cms-62/
+
+
+# remove wrap around raw HTML content
+tt_content.html.prefixComment = 0 | 0
+tt_content.stdWrap.innerWrap.override = |
+tt_content.stdWrap.innerWrap.override.if {
+    equals = html
+    value.field = CType
+}

@@ -14,7 +14,7 @@ lib.page-menu.9.value (
 		       <span class="icon-bar"></span>
 		       <span class="icon-bar"></span>
 		   </button>
-		   <a class="navbar-brand" href="/">wtp2</a>
+		   <a class="navbar-brand" href="/">wtp3</a>
 		</div>
 
 )

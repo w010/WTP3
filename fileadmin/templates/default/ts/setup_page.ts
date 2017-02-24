@@ -32,7 +32,7 @@ page.config {
       sendCacheHeaders = 1
       #additionalHeaders = Cache-Control: no-cache, must-revalidate, max-age=0|Expires: Mon, 2 Jan 2006 01:00:00 GMT|Pragma: no-cache
       index_enable = 1
-      headerComment = WTP2 (Wolo.pl T3 Pack) - TYPO3-based CMS by wolo.pl '.' studio / A. wolo Wolski
+      headerComment = WTP3 (Wolo.pl T3 Pack) - TYPO3-based CMS by wolo.pl '.' studio / A. wolo Wolski
       message_preview = <div id="message-preview">PREVIEW</div>
 }
 

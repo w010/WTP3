@@ -142,7 +142,7 @@ lib.page-foot {
 		10.value = <p class="pull-left"> wolo.pl TYPO3 pack <br> Preconfigured web system starter</p>
 
 		20 = TEXT
-		20.value = <p class="pull-right text-right"> {date:Y} - WTP 2.62.3<br>  <a href="http://wolo.pl">wolo.pl '.' studio</a> </p>
+		20.value = <p class="pull-right text-right"> {date:Y} - WTP 3.76.1<br>  <a href="http://wolo.pl">wolo.pl '.' studio</a> </p>
 		20.insertData = 1
 		
 		#20 < lib.CE

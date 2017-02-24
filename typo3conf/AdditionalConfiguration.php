@@ -4,9 +4,9 @@ if (!defined ('TYPO3_MODE')) {
 }
 
 /**
- * WTP3 v3.74.1
+ * WTP3 v3.76.1
  * Wolo TYPO3 Pack
- * 2015-08
+ * 2016-10
  * wolo.pl '.' studio
  *
  * (version convention explain: vA.B.C means: A=3 because WTP3,  B=nn is like T3-branch n.n,  C is WTP version itself.)
@@ -67,8 +67,8 @@ if (LOCAL)  {
 	$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] = 'mbox';
 	$GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] = PATH_site.'mails-out.txt';
 
-	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path'] = 'D:\xampp\ImageMagick-6.8.1-9\\';
-	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path_lzw'] = 'D:\xampp\ImageMagick-6.8.1-9\\';
+	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path'] = 'D:\xampp\ImageMagick-6.9.1-3\\';
+	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path_lzw'] = 'D:\xampp\ImageMagick-6.9.1-3\\';
 	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_version_5'] = '6';
 	$GLOBALS['TYPO3_CONF_VARS']['GFX']['colorspace'] = 'sRGB';
 
