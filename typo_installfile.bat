@@ -1,0 +1,1 @@
+copy /y nul ENABLE_INSTALL_TOOL

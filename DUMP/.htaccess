@@ -1,0 +1,11 @@
+
+# ACCESS
+
+AuthType Basic
+AuthName "wtp dump: admin only"
+#AuthUserFile /srv/www/vhosts/kunden.q3i.de/htdocs/kultur_bergisches_land/DUMP/.htpasswd
+#AuthUserFile /kunden/kreis_mettmann/kultur_bergisches_land/DUMP/.htpasswd
+AuthUserFile "/var/www/htdocs/DUMP/.htpasswd"
+#AuthUserFile "D:\WORK\___projects\__Q3i - Kultur\htdocs\DUMP\.htpasswd"
+#Require valid-user
+Require user dump
