@@ -13,13 +13,15 @@ $optionsCustom = [
 	'dontExecCommands' => defined('LOCAL') && LOCAL ? 0 :   0,
 
 	// exec commands, but don't show them on PUB
-	'dontShowCommands' => defined('LOCAL') && LOCAL ? 0 :   !DEV?1: 0,
+	'dontShowCommands' => defined('LOCAL') && LOCAL ? 0 :   0,
 
 	//'defaultOmitTables' => [],
 
+	'defaultProjectName' => 'myproject',
+
 	'docker' => INSTANCE_CONTEXT == 'local-docker' ? 'true' : false,
 
-	'docker_containerSql' => INSTANCE_CONTEXT == 'local-docker' ?  'berglanddev_mysql_1'  : ''
+	'docker_containerSql' => INSTANCE_CONTEXT == 'local-docker' ?  'myprojectdev_mysql_1'  : ''
 ];
 
 

@@ -4,7 +4,7 @@
 
 // WTP DUMP/BACKUP TOOL FOR TYPO3 - wolo.pl '.' studio
 // 2013-2017
-define ('SCRIPT_VERSION', '1.2.0');
+define ('SCRIPT_VERSION', '1.3.0');
 //
 // dump / ..za....ka si tr lub o dw
 // you should change default password!
@@ -72,6 +72,9 @@ $optionsDefault = [
 	// default tables for "Dump with omit" action, if not specified
 	'defaultOmitTables' => ['index_rel', 'sys_log'],
 
+	// default project name is generated from subdomain, but it's not always ok
+	'defaultProjectName' => '',
+
 	// adds docker exec on container to command line
 	'docker' => false,
 
@@ -83,7 +86,6 @@ $optionsDefault = [
 $optionsCustom = [];
 include_once ('conf.php');
 $options = array_replace($optionsDefault, $optionsCustom);
-
 
 
 //if (!DEV)
@@ -143,21 +145,25 @@ class Dump  {
 		$this->action = $_POST['action'];
 		$this->dbFilename = $_POST['dbFilename'] ? $_POST['dbFilename'] : $_POST['dbFilenameSel'];
 
-		// predicted project name, taken from domain name (only when not submitted, on first run)
-		if (!$_POST['submit'] && !$_POST['name'])
+		// predicted project name, taken from domain name or conf (only when not submitted, on first run)
+		if (!$_POST['submit']  &&  !$_POST['name']) {
 			list($this->projectName) = preg_split('@\.@', $_SERVER['HTTP_HOST']);
+			if ($this->options['defaultProjectName'])
+				$this->projectName = $this->options['defaultProjectName'];
+		}
 
-
+		// add some header system & conf informations
 		$this->contentHeader .= '<p>- database: <span class="info"><b>' . $typo_db . '</b></span></p>';
 		if (INSTANCE_CONTEXT)
 			$this->contentHeader .= '<p>- instance: <span class="info"><b>' . INSTANCE_CONTEXT . '</b></span></p>';
 		if ($this->options['docker_containerSql'])
 			$this->contentHeader .= '<p>- docker: <span class="info"><b>' . $this->options['docker_containerSql'] . '</b></span></p>';
 
+		// check if action is given if submitted
 		if (!$_POST['submit']  ||  ($_POST['submit'] && !$this->paramsRequiredPass(['action' => $this->action])))
 			return;
 
-		$this->contentHeader .= '<p>- action: <span class="info"><b>' . $this->action . '</b></span></p>';
+		$this->contentHeader .= '<p>ACTION: <span class="info"><b>' . $this->action . '</b></span></p>';
 
 		// if docker is used, docker exec CONTAINER must be prepended before mysqldump
 		$cmd_dockerPart = '';
@@ -295,7 +301,9 @@ class Dump  {
 	function exec_control($cmd, $saveCmd = true) {
 		global $options;
 		if ($options['dontExecCommands'])
-			$this->msg('command not executed - exec disabled - see @dontExecCommands', 'info');
+			$this->msg('command not executed - exec is disabled - see option @dontExecCommands', 'info');
+		elseif ($_POST['dontExec'])
+			$this->msg('(command not executed)', 'info');
 		else
 			exec($cmd);
 
@@ -356,6 +364,7 @@ ul  { list-style: none; float: left; margin-top: 0;}
 .actions li > label:hover	{color: red;}
 .radio-sub-options { display: none; padding: 10px 20px 20px;}
 input[type=radio]:checked + .radio-sub-options { display: block;}
+.tooltip    {cursor: help;}
 footer  {font-size: 80%;}
 	</style>
 </head>
@@ -373,28 +382,70 @@ footer  {font-size: 80%;}
 <form action='' method='post'>
 	<div class="actions"><h3<?php print $Dump->checkFieldError('action'); ?>>action:</h3>
 		<ul>
-			<li> <label> <span>export/dump DB &gt;</span><input name='action' type='radio' value='databasedump'> <br class='clear'></label> </li>
-			<li> <label> <span>export/dump DB (omit tables) &gt;</span><input name='action' type='radio' value='databasedump-omit'>
+			<li>
+				<label>
+					<span>DB - EXPORT &DoubleRightArrow;</span>
+					<input name='action' type='radio' value='databasedump'>
+					<br class='clear'>
+				</label>
+			</li>
+			<li>
+				<label>
+					<span>DB - EXPORT (omit tables) &DoubleRightArrow;</span>
+					<input name='action' type='radio' value='databasedump-omit'>
 					<div class="radio-sub-options selector-tables clear">
 						<textarea name='omitTables' cols='32' rows='6'><?php  print $Dump->getOmitTables(); ?></textarea>
-					</div>  <br class='clear'></label> </li>
-			<li> <label for='action_importdb'> <span>import DB &lt;</span> </label> <input name='action' id='action_importdb' type='radio' value='importdb'>
-					<div class="radio-sub-options selector-database clear">
-						<h3<?php print $Dump->checkFieldError('dbFilename'); ?>><label for='dbFilenameSel'>database filename:</label></h3>
-						<select name='dbFilenameSel' id='dbFilenameSel'>
-							<option></option>
-							<?php
-							foreach ($Dump->getFilesFromDirectory() as $file)
-								print "<option>".$file.'</option>';
-							?>
-						</select>
-						or type: <input name='dbFilename' type='text'>
-					</div>  <br class='clear'> </li>
-			<li> <label> <span>dump WHOLE SITE</span><input name='action' type='radio' value='dump'> <br class='clear'></label> </li>
+					</div>
+					<br class='clear'>
+				</label>
+			</li>
+			<li>
+				<label for='action_importdb'>
+					<span>DB - IMPORT &DoubleLeftArrow;</span>
+				</label>
+				<input name='action' id='action_importdb' type='radio' value='importdb'>
+				<div class="radio-sub-options selector-database clear">
+					<h3<?php print $Dump->checkFieldError('dbFilename'); ?>><label for='dbFilenameSel'>database filename:</label></h3>
+					<select name='dbFilenameSel' id='dbFilenameSel'>
+						<option></option>
+						<?php
+						foreach ($Dump->getFilesFromDirectory() as $file)
+							print "<option>".$file.'</option>';
+						?>
+					</select>
+					or type: <input name='dbFilename' type='text'>
+				</div>
+				<br class='clear'>
+			</li>
+			<li>
+				<label>
+					<span>dump WHOLE SITE</span>
+					<input name='action' type='radio' value='dump'>
+					<br class='clear'>
+				</label>
+			</li>
 			<!--<li> <label> <span>quickdump (exclude temp,uploads,src)</span><input name='action' type='radio' value='quickdump'> <br class='clear'></label> </li>-->
-			<li> <label> <span>quickdump (typo3conf, fileadmin without contents)</span><input name='action' type='radio' value='quickdump'> <br class='clear'></label> </li>
-			<li> <label> <span>backup filesystem</span> <input name='action' type='radio' value='backup'> <br class='clear'></label> </li>
-			<li> <label> <span>backup clean</span> <input name='action' type='radio' value='backupclean'> <br class='clear'></label> </li>
+			<li>
+				<label>
+					<span>quickdump (typo3conf, fileadmin without contents)</span>
+					<input name='action' type='radio' value='quickdump'>
+					<br class='clear'>
+				</label>
+			</li>
+			<li>
+				<label>
+					<span>backup filesystem</span>
+					<input name='action' type='radio' value='backup'>
+					<br class='clear'>
+				</label>
+			</li>
+			<li>
+				<label>
+					<span>backup clean</span>
+					<input name='action' type='radio' value='backupclean'>
+					<br class='clear'>
+				</label>
+			</li>
 		</ul>
 	</div>
 	<div>
@@ -403,12 +454,16 @@ footer  {font-size: 80%;}
 	</div>
 	<div>
 		<h3<?php print $Dump->checkFieldError('projectVersion'); ?>><label for='v'>version:</label></h3>
-		<input name='v' id='v' type='text' size='10'>
-		<i title="Existing dumps: <?php print $Dump->getExistingDumpsFilenames(); ?>">[ i ]</i>
+		<input name='v' id='v' type='text' size='10' value='<?php print htmlspecialchars($Dump->projectVersion); ?>'>
+		<i class="tooltip" title="Existing dumps: <?php print $Dump->getExistingDumpsFilenames(); ?>">[ i ]</i>
 	</div>
-	<!--<div>
 
-	</div>-->
+	<br>
+	<div>
+		<label>
+			<input name='dontExec' id='dontExec' type='checkbox'<?php print ($_POST['dontExec'] ? ' checked' : ''); ?>> don't exec generated command
+		</label>
+	</div>
 
 	<br>
 	<input type='submit' name='submit' value=' go! '>
