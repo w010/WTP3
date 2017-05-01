@@ -2,8 +2,7 @@
 // WTP DUMP/BACKUP TOOL FOR TYPO3 - wolo.pl '.' studio
 // 2013-2017
 
-if (!defined('TYPO3_MODE'))
-	die('no access');
+defined ('TYPO3_MODE') or die ('Access denied.');
 
 
 

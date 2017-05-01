@@ -4,10 +4,12 @@
 
 // WTP DUMP/BACKUP TOOL FOR TYPO3 - wolo.pl '.' studio
 // 2013-2017
-define ('SCRIPT_VERSION', '1.3.0');
+define ('SCRIPT_VERSION', '1.3.2');
 //
 // dump / ..za....ka si tr lub o dw
 // you should change default password!
+
+	// sprawdzic, dziala tak: docker exec -i berglanddev_mysql_1 mysql --user=www_devel --password="www_devel" --database=project_app < kultur-bergischesland-v06-dev.sql  (przynajmniej bedac w tym katalogu) [ jest problem z kodowaniem! sprawdzic to, zobaczyc, jak wywolac to z utf ]
 
 //
 //                      WARNING!   CRITICAL
@@ -33,6 +35,7 @@ if (file_exists(PATH_site.'typo3conf/LocalConfiguration.php'))	{
 	$GLOBALS['TYPO3_CONF_VARS'] = require_once(PATH_site.'typo3conf/LocalConfiguration.php');
 
 	// may be used sometimes in AdditionalConfiguration
+	include_once(PATH_site.'typo3/sysext/core/Classes/Utility/ExtensionManagementUtility.php');
 	include_once(PATH_site.'typo3/sysext/core/Classes/Utility/GeneralUtility.php');
 	include_once(PATH_site.'typo3conf/AdditionalConfiguration.php');
 	// for q3i (is already included in AdditionalConfiguration)
@@ -201,7 +204,7 @@ class Dump  {
 
 				if ($this->action == 'quickdump') {
 					/*$this->exec_control ('tar -zcf '.PATH_site.'DUMP/'.$dumpFilename.'-v'.$this->projectVersion.'.tgz ./../* --exclude="typo3temp" --exclude="DUMP" --exclude="uploads" -exclude="typo3_src-*"  ');*/
-					 $this->exec_control('tar -C ' . PATH_site . ' -zcf ' . $dumpFilename . '-v' . $this->projectVersion . '.tgz typo3conf fileadmin --exclude="fileadmin/contents" ');
+					 $this->exec_control('tar -C "' . PATH_site . '" -zcf ' . $dumpFilename . '-v' . $this->projectVersion . '.tgz typo3conf fileadmin --exclude="fileadmin/contents" ');
 
 					// works on win, check on lin
 
@@ -218,7 +221,7 @@ class Dump  {
 
 				} else {
 					$this->exec_control($cmd_dockerPart.'mysqldump --complete-insert --add-drop-table --no-create-db --skip-set-charset --quick --lock-tables --add-locks --default-character-set=utf8 --host=' . $typo_db_host . ' --user=' . $typo_db_username . ' --password="' . $typo_db_password . '" ' . $typo_db . ' > "' . PATH_site . 'DUMP/' . $this->projectName . '-v' . $this->projectVersion . '.sql"');
-					$this->exec_control('tar -C ' . PATH_site . 'DUMP/ -zcf ./' .$dumpFilename . '-v' . $this->projectVersion . '.sql.tgz ' . $this->projectName . '-v' . $this->projectVersion . '.sql');
+					$this->exec_control('tar -C "' . PATH_site . 'DUMP/" -zcf ./' .$dumpFilename . '-v' . $this->projectVersion . '.sql.tgz ' . $this->projectName . '-v' . $this->projectVersion . '.sql');
 				}
 
 				// display download link
