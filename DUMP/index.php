@@ -4,7 +4,7 @@
 
 // WTP DUMP/BACKUP TOOL FOR TYPO3 - wolo.pl '.' studio
 // 2013-2017
-define ('SCRIPT_VERSION', '1.3.2');
+define ('SCRIPT_VERSION', '1.3.3');
 //
 // dump / ..za....ka si tr lub o dw
 // you should change default password!
@@ -73,7 +73,7 @@ $optionsDefault = [
 	'dontShowCommands' => 0,
 
 	// default tables for "Dump with omit" action, if not specified
-	'defaultOmitTables' => ['index_rel', 'sys_log'],
+	'defaultOmitTables' => ['index_rel', 'sys_log', 'sys_history', 'index_fulltext', 'sys_refindex', 'index_words', 'tx_realurl_errorlog', 'tx_extensionmanager_domain_model_extension'],
 
 	// default project name is generated from subdomain, but it's not always ok
 	'defaultProjectName' => '',
