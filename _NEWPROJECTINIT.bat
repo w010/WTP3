@@ -1,6 +1,6 @@
 cd /d %~dp0
 
-rem WTP - NEW PROJECT INIT v0.4
+rem WTP - NEW PROJECT INIT v0.5
 
 rem ('rem' is a comment in bat)
 rem echo Current dir = %CD%
