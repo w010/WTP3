@@ -18,7 +18,7 @@
 // NOT SURE IF THIS FILE SHOULD BE HERE, PLEASE DELETE THIS SCRIPT IMMEDIATELY
 
 
-define ('DUMP_VERSION', '2.0.0');
+define ('DUMP_VERSION', '2.1.0-dev');
 //
 // dump / ..za....ka si tr lub o dw
 
@@ -75,16 +75,16 @@ else if (file_exists(PATH_site.'typo3conf/localconf.php'))	{
 	// compatibility with old typo conf
 	$GLOBALS['TYPO3_CONF_VARS']['DB']['username'] = $typo_db_username;
 	$GLOBALS['TYPO3_CONF_VARS']['DB']['password'] = $typo_db_password;
-	$GLOBALS['TYPO3_CONF_VARS']['DB']['host'] = $typo_db_host;
+	$GLOBALS['TYPO3_CONF_VARS']['DB']['host'] =     $typo_db_host;
 	$GLOBALS['TYPO3_CONF_VARS']['DB']['database'] = $typo_db;
 }
 
 
 
-if (!defined('DEV'))				define('DEV',   false);
+if (!defined('DEV'))				  define('DEV',   false);
 if (!defined('LOCAL'))			  define('LOCAL', false);
 
-if (!defined('TYPO3_CONTEXT'))	  define('TYPO3_CONTEXT',	 getenv('TYPO3_CONTEXT'));
+if (!defined('TYPO3_CONTEXT'))      define('TYPO3_CONTEXT',	 getenv('TYPO3_CONTEXT'));
 if (!defined('INSTANCE_CONTEXT'))   define('INSTANCE_CONTEXT',  getenv('INSTANCE_CONTEXT'));
 
 
@@ -237,6 +237,11 @@ class Dump  {
 			case 'update_domains':
 				$this->action_updatedomains();
 				break;
+
+			// UPDATE DOMAINS
+			case 'fetch_files':
+				$this->action_fetchfiles();
+				break;
 		}
 	}
 
@@ -311,9 +316,11 @@ class Dump  {
 		// todo: ktory dziala pod linuxem, ktory pod win, ktory w dockerze?
 		// dziala na dockerze (wywolany recznie)
 		$this->exec_control("cd \"{$this->PATH_dump}\";  tar  -zcf  \"{$dumpFilename}-v{$this->projectVersion}.sql.tgz\"  \"{$this->projectName}-v{$this->projectVersion}.sql\" ");
+
+		// todo: ktory dziala na windowsie? jakos zaden nie chce
 		//$this->exec_control("tar  -zcf  \"{$this->PATH_dump}{$dumpFilename}-v{$this->projectVersion}.sql.tgz\"  \"{$this->PATH_dump}{$this->projectName}-v{$this->projectVersion}.sql\" ");
 		//$this->exec_control("tar -C \"{$this->PATH_dump}\" -zcf  {$dumpFilename}-v{$this->projectVersion}.sql.tgz  {$this->projectName}-v{$this->projectVersion}.sql");
-		//$this->exec_control("tar -C \"{$this->PATH_dump}\" -zcf ./{$dumpFilename}-v{$this->projectVersion}.sql.tgz  {$this->projectName}-v{$this->projectVersion}.sql");
+        //$this->exec_control("tar -C \"{$this->PATH_dump}\" -zcf ./{$dumpFilename}-v{$this->projectVersion}.sql.tgz  {$this->projectName}-v{$this->projectVersion}.sql");
 
 
 		// display download link
@@ -411,6 +418,43 @@ class Dump  {
 	}
 
 
+	/**
+	 * FETCH FILES
+	 */
+	private function action_fetchfiles()    {
+		if (!$this->paramsRequiredPass(['fetchFilesUrls' => $_POST['fetchFilesUrls']]))
+			return;
+
+		// todo: should be configurable
+		if (INSTANCE_CONTEXT !== 'local-docker') {
+		    $this->msg('Fetching not allowed in context: ' . INSTANCE_CONTEXT, 'error');
+		}
+
+		$filesToFetch = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(chr(10), $_POST['fetchFilesUrls']);
+
+		foreach ($filesToFetch as $fileUrl) {
+            // if given, replace the domain
+			$sourceDomain = trim($_POST['fetchFilesDomainFrom']);
+
+            $fileUrlParts = parse_url($fileUrl);
+			$sourceDomainParts = parse_url($sourceDomain );
+
+			// if no domain given, fetch original url
+			$finalFileUrl = $fileUrl;
+
+			// no scheme given, only domain - parse_url puts domain into 'path' key and nothing else
+			if ($sourceDomainParts['path'] && !$sourceDomainParts['host'])
+			    $finalFileUrl = $fileUrlParts['scheme'] . '://' . $sourceDomainParts['path'] . $fileUrlParts['path'];
+			// scheme found
+			else if ($sourceDomainParts['scheme'])
+				$finalFileUrl = $sourceDomainParts['scheme'] . '://' . $sourceDomainParts['host'] . $fileUrlParts['path'];
+
+            // fetch file and save
+            $this->checkFile($finalFileUrl, $fileUrlParts);
+		}
+    }
+
+
 
 	/* exec shell command */
 	private function exec_control($cmd, $saveCmd = true) {
@@ -420,10 +464,9 @@ class Dump  {
 		elseif ($_POST['dontExec'])
 			$this->msg('(command not executed)', 'info');
 		else
-			// exec($cmd, $output, $return);
-			system($cmd, $output);
+			exec($cmd, $output, $return);
 
-		var_dump($output);
+		// var_dump($output);
 		// var_dump($return);
 
 		if ($this->options['docker'])
@@ -485,20 +528,23 @@ class Dump  {
 	 * @param string $class - class for notice p, may be error or info
 	 * @param string $index - index can be checked in tag markup, to indicate error class in form element
 	 */
-	function msg($message, $class = '', $index = '') {
-		//$this->msg .= $message . '<br>';
+    private function msg($message, $class = '', $index = '') {
 		if ($index)	 $this->messages[$index] = [$message, $class];
 		else			$this->messages[] = [$message, $class];
 	}
 
 	/* display generated messages with class if set */
-	function displayMessages()  {
+	public function displayMessages()  {
 		$content = '';
 		foreach ($this->messages as $message) {
 			$content .= '<p'.($message[1] ? ' class="'.$message[1].'">':'>') . $message[0] . '</p>';
 		}
 		return $content;
 	}
+
+	public function displayTooltip($title, $content = '[ i ]', $additionalClass = '')  {
+		return '<i class="tooltip'.($additionalClass ? ' '.$additionalClass : ''). '" title="'.$title.'">'.$content.'</i>';
+    }
 
 
 	// CONFIG
@@ -543,6 +589,76 @@ class Dump  {
 	/* typo3-like standard replace marker method */
 	function substituteMarkerArray($subject, $markerArray)	{
 		return str_replace(array_keys($markerArray), array_values($markerArray), $subject);
+	}
+
+
+	// FILE FETCH
+
+	/**
+	 * Returns information about a folder.
+	 * @param string $folderIdentifier In the case of the LocalDriver, this is the (relative) path to the file.
+	 * @return array
+	 */
+	public function checkFile($fileUrl, $fileUrlParts)    {
+
+        $allowedExtensions = ['jpg', 'png', 'gif', 'svg'];
+		$requestedFilePathInfo = pathinfo($fileUrlParts['path']);
+		$localFileDirectory = $this->PATH_site . $requestedFilePathInfo['dirname'] . '/';
+		$localFilePath = $localFileDirectory . $requestedFilePathInfo['basename'];
+		// in case of some url problems strip one unnecessary slash
+
+		if (!file_exists($localFilePath)) {
+
+            // if file ext match image
+            if (in_array($requestedFilePathInfo['extension'], $allowedExtensions))   {
+
+                // create dir structure
+                if (!is_dir($localFileDirectory)) {
+                    mkdir($localFileDirectory, 0777, TRUE);
+                }
+                // get the file and store it locally
+                $fetch = $this->fetchFile($fileUrl, $localFilePath);
+
+	            if (file_exists($localFilePath))
+                    $this->msg($fetch['result'], 'info');
+	            else    {
+		            $this->msg('FETCH ERROR! result: ' . print_r($fetch, true), 'error');
+	            }
+            }
+        }
+	}
+
+
+	/**
+	 * borrowed from _docker/get_images.php
+	 * @param string $url       Source - File url to fetch
+	 * @param string $saveto    Target - Local file path + name to save
+	 * @return array            Result log
+	 */
+	protected function fetchFile($url, $saveto){
+		$log = [];
+		$ch = curl_init ($url);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,0);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10); //timeout in seconds
+		curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+		$raw = curl_exec($ch);
+		$status = curl_getinfo ( $ch, CURLINFO_HTTP_CODE);
+		$log[] = "Grab {$url}";
+		$log[] = "Status: {$status}";
+		if($status == 200 && $raw && !file_exists($saveto)){
+			$fp = fopen($saveto,'x');
+			fwrite($fp, $raw);
+			fclose($fp);
+			$log['result'] = "Image {$saveto} saved";
+		}
+		else    {
+			$log['result'] = "Curl error: " . curl_error($ch);
+		}
+		curl_close ($ch);
+		return $log;
 	}
 }
 
@@ -683,7 +799,6 @@ PATH_dump = <?php  print PATH_dump;  ?>
 								'label' => 'Backup project dir',
 								'name' => 'backup',
 							],
-
 							[
 								'label' => 'Domains update',
 								'name' => 'update_domains',
@@ -691,7 +806,7 @@ PATH_dump = <?php  print PATH_dump;  ?>
 									[
 										'label' => "<label for='domains-from'>Update domains in database</label>",
 										'valid' => !$Dump->checkFieldError('domainsFrom'),
-										'class' => 'selector-pickfiles',
+										'class' => 'selector-domains',
 										'content' => function() use ($Dump) {
 											$code = "
                                                 <i>Replace domains in sys_domain records and pages external urls</i>
@@ -703,6 +818,35 @@ PATH_dump = <?php  print PATH_dump;  ?>
 											    <div>
 											        Domains TO:<br>
 													<textarea name='domainsTo' id='domainsTo' rows='5' cols='50'></textarea>
+											    </div>";
+											return $code;
+										}
+									]
+								],
+							],
+							// example of action options with separate fields validation
+							[
+								'label' => 'Manually fetch files',
+								'name' => 'fetch_files',
+								'options' => [
+									[
+										'label' => "<label for='domains-from'>Download files</label>",
+										//'valid' => !$Dump->checkFieldError('fetchFilesUrls'),
+										'class' => 'selector-domains',
+										'content' => function() use ($Dump) {
+											$code = "
+                                                <i>Replace domain in given urls and download those files into their target dirs.</i>
+                                                {$Dump->displayTooltip('If you have local instance and some media contents are missing and needed for testing,'.chr(10)
+                                                                            . 'you can quickly paste 404 urls here, enter target domain to fetch from - or leave empty to use '.chr(10)  
+                                                                            . 'directly given urls. The files will be downloaded from there and saved in their location.')}
+                                                <br><br>
+												<div>
+													Source domain to fetch from:<br>
+													<input name='fetchFilesDomainFrom' id='fetchFilesDomainFrom' value='{$Dump->options['fetchFiles_defaultSourceDomain']}'>
+												</div>
+											    <div{$Dump->checkFieldError_printClass('fetchFilesUrls')}>
+											        URLs:<br>
+													<textarea name='fetchFilesUrls' id='fetchFilesUrls' rows='10' cols='80'></textarea>
 											    </div>";
 											return $code;
 										}
@@ -741,7 +885,7 @@ PATH_dump = <?php  print PATH_dump;  ?>
 									[
 										'###OPTION_LABEL###' => $option['label'],
 										'###OPTION_CLASS###' => $option['class'],
-										'###OPTION_VALID_CLASS###' => defined($option['valid']) && !$option['valid'] ? ' error' : '',
+										'###OPTION_VALID_CLASS###' => isset($option['valid']) && !$option['valid'] ? ' error' : '', // this makes red whole action options container. if needed only one field, see fetch_files
 										'###OPTIONS_CONTENT###' => $option['content'](),
 									]
 								);
@@ -778,7 +922,7 @@ PATH_dump = <?php  print PATH_dump;  ?>
 			<h3<?php print $Dump->checkFieldError_printClass('projectVersion'); ?>><label for='v'>version:</label></h3>
 			<div class="indent">
 				<input name='v' id='v' type='text' size='10' value='<?php print htmlspecialchars($Dump->projectVersion); ?>'>
-				<i class="tooltip" title="Existing dumps: <?php print $Dump->getExistingDumpsFilenames(); ?>">[ i ]</i>
+				<?php print $Dump->displayTooltip('Existing dumps: ' . $Dump->getExistingDumpsFilenames()); ?>
 			</div>
 		</div>
 

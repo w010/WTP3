@@ -21,6 +21,8 @@ $optionsCustom = [
 	'docker' => INSTANCE_CONTEXT == 'local-docker' ? 'true' : false,
 	'docker_containerSql' => INSTANCE_CONTEXT == 'local-docker' ?  'myproject_mysql_1'  : '',
 	'docker_containerPhp' => INSTANCE_CONTEXT == 'local-docker' ?  'myproject_php_1'  : '',
+	
+	'fetchFiles_defaultSourceDomain' => 'http://mydomain.com',
 ];
 
 
