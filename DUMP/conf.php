@@ -44,7 +44,7 @@ $optionsCustom = [
 
 
 	// if not set, is auto determined from first part of domain name
-	'defaultProjectName' => 'pruem',
+	'defaultProjectName' => '',
 
 
 	// generates command lines prepended with "docker exec -it [containername]"
@@ -54,7 +54,7 @@ $optionsCustom = [
 
 
 	// urls of files to fetch will have the domain replaced with this one
-	'fetchFiles_defaultSourceDomain' => 'http://tuer.de',
+	'fetchFiles_defaultSourceDomain' => 'http://wolo.pl',
 
 
 	// default preselection of files and dirs for filesystem archive

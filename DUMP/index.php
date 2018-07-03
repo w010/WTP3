@@ -22,9 +22,7 @@
  */
 
 
-define ('DUMP_VERSION', '3.0.0');
-//
-// dump / ..za....ka si tr lub o dw
+define ('DUMP_VERSION', '3.0.2');
 
 
 
@@ -250,8 +248,9 @@ class Dump  {
 
 		// if docker is used, docker exec CONTAINER must be prepended before mysqldump etc.
 		if ($this->options['docker'])   {
-			$this->dockerContainerCmd['sql'] = "docker exec -it {$this->options['docker_containerSql']}   ";
-			$this->dockerContainerCmd['php'] = "docker exec -it {$this->options['docker_containerPhp']}   ";
+		    // docker exec -it causes some tty error in console
+			$this->dockerContainerCmd['sql'] = "docker exec -i {$this->options['docker_containerSql']}   ";
+			$this->dockerContainerCmd['php'] = "docker exec -i {$this->options['docker_containerPhp']}   ";
 		}
 	}
 
@@ -381,7 +380,8 @@ class Dump  {
 		//if (!$this->paramsRequiredPass(['projectName' => $this->projectName, 'projectVersion' => $this->projectVersion, 'omitTables' => $_POST['omitTables']]))
 			return;
 		$dumpFilename = str_replace(' ', '_', $this->projectName);
-		$omitTables = array_diff(explode(chr(10), $_POST['omitTables']), ['', "\r", "\n"]);
+		//$omitTables = array_diff(explode(chr(10), $_POST['omitTables']), ['', "\r", "\n"]);
+		$omitTables = preg_split('/\n|\r\n?/', $_POST['omitTables']);
 
 
 
@@ -398,25 +398,27 @@ class Dump  {
 		$dumpOnlyStructureQuery = '';
 
 		if ($_POST['omitTablesIncludeInQuery']  &&  $omitTables  &&  !$allTables) {
-			$ignoredTablesPart = chr(10) . "--ignore-table={$this->dbConf['database']}."
-				. implode ("--ignore-table={$this->dbConf['database']}.", $omitTables);
+			$ignoredTablesPart = ' \\' . chr(10) . "--ignore-table={$this->dbConf['database']}."
+				. implode (' \\' . chr(10) . "--ignore-table={$this->dbConf['database']}.", $omitTables);
 
-			$dumpOnlyStructureQuery = chr(10) . chr(10)
-                . ' ; '     // end previous command only if needed
-				. $this->dockerContainerCmd['sql'] . "mysqldump --complete-insert --add-drop-table --no-create-db --skip-set-charset --quick --lock-tables --add-locks --default-character-set=utf8 --host={$this->dbConf['host']} --user={$this->dbConf['username']} --password=\"{$this->dbConf['password']}\"  {$this->dbConf['database']}  "
-				. " --no-data "
+			$dumpOnlyStructureQuery = ';'     // end previous command only if needed
+				. chr(10) . chr(10)
+
+				//. $this->dockerContainerCmd['sql'] . "mysqldump --complete-insert --add-drop-table --no-create-db --skip-set-charset --quick --lock-tables --add-locks --default-character-set=utf8 --host={$this->dbConf['host']} --user={$this->dbConf['username']} --password=\"{$this->dbConf['password']}\"  {$this->dbConf['database']}  "
+				. $this->dockerContainerCmd['sql'] . "mysqldump --complete-insert --add-drop-table --no-create-db --quick --lock-tables --add-locks --default-character-set=utf8 --host={$this->dbConf['host']} --user={$this->dbConf['username']} --password=\"{$this->dbConf['password']}\"  {$this->dbConf['database']}  "
+				. " --no-data \\"
 				. chr(10) . implode(' ', $omitTables)
 				. "  >>  \"{$this->PATH_dump}{$this->projectName}-v{$this->projectVersion}.sql\" ";
-		}
+		} 
 
 		// dziala na dockerze (wywolany recznie)
         // dziala na linux
 		// na win teoretycznie powinno tez ze stream output
-		$cmd = $this->dockerContainerCmd['sql'] . "mysqldump --complete-insert --add-drop-table --no-create-db --skip-set-charset --quick --lock-tables --add-locks --default-character-set=utf8 --host={$this->dbConf['host']} --user={$this->dbConf['username']} --password=\"{$this->dbConf['password']}\"  {$this->dbConf['database']}  "
+		//$cmd = $this->dockerContainerCmd['sql'] . "mysqldump --complete-insert --add-drop-table --no-create-db --skip-set-charset --quick --lock-tables --add-locks --default-character-set=utf8 --host={$this->dbConf['host']} --user={$this->dbConf['username']} --password=\"{$this->dbConf['password']}\"  {$this->dbConf['database']}  "
+		$cmd = $this->dockerContainerCmd['sql'] . "mysqldump --complete-insert --add-drop-table --no-create-db --quick --lock-tables --add-locks --default-character-set=utf8 --host={$this->dbConf['host']} --user={$this->dbConf['username']} --password=\"{$this->dbConf['password']}\"  {$this->dbConf['database']}  "
 			. $ignoredTablesPart
 			. "  >  \"{$this->PATH_dump}{$this->projectName}-v{$this->projectVersion}.sql\" "
 			. $dumpOnlyStructureQuery;
-
 
 		$this->exec_control($cmd);
 
@@ -425,7 +427,7 @@ class Dump  {
 
 		// dziala na dockerze (wywolany recznie)
         // dziala na linux
-		$this->exec_control("cd \"{$this->PATH_dump}\";  tar  -zcf  \"{$dumpFilename}-v{$this->projectVersion}.sql.tgz\"  \"{$this->projectName}-v{$this->projectVersion}.sql\" ");
+		$this->exec_control($this->dockerContainerCmd['php'] . "cd \"{$this->PATH_dump}\";  tar  -zcf  \"{$dumpFilename}-v{$this->projectVersion}.sql.tgz\"  \"{$this->projectName}-v{$this->projectVersion}.sql\" ");
 
 		// todo: ktory dziala na windowsie? jakos zaden nie chce
 		//$this->exec_control("tar  -zcf  \"{$this->PATH_dump}{$dumpFilename}-v{$this->projectVersion}.sql.tgz\"  \"{$this->PATH_dump}{$this->projectName}-v{$this->projectVersion}.sql\" ");
