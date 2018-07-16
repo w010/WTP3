@@ -2,6 +2,7 @@
 if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
+	// wziac z kbs - beierl, pozmienialem nazwy tych constantsow
 
 /**
  * WTP3 v3.76.1
@@ -69,12 +70,14 @@ if (LOCAL)  {
 
 	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path'] = 'D:\xampp\ImageMagick-6.9.1-3\\';
 	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_path_lzw'] = 'D:\xampp\ImageMagick-6.9.1-3\\';
-	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_version_5'] = '6';
+	$GLOBALS['TYPO3_CONF_VARS']['GFX']['im_version_5'] = 'im6';
 	$GLOBALS['TYPO3_CONF_VARS']['GFX']['colorspace'] = 'sRGB';
 
 	$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['rsaauth'] = 'a:1:{s:18:"temporaryDirectory";s:13:"D:\xampp\tmp";}';
 
 	$GLOBALS['TYPO3_CONF_VARS']['SYS']['binSetup'] = 'openssl=d:\xampp\apache\bin\openssl.exe';
+	
+	$GLOBALS['TYPO3_CONF_VARS']['BE']['installToolPassword'] = md5('1234');
 }
 
 // run exts only on this env
@@ -147,4 +150,18 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_hash
 	return FALSE;
 }
 */
-?>
+
+
+
+/*
+// overwrite some (serialized) ext settings on some context
+if (getenv("INSTANCE_CONTEXT") == 'something')    {
+
+	$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['my_ext'] = serialize(
+		array_replace_recursive(
+			unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['my_ext']),
+			['some_setting' => 'new_value']
+		)
+	);	
+}
+*/
