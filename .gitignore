@@ -1,5 +1,3 @@
-
-/.gitignore
 __CONTENTS
 __IMAGES
 __TEMPLATES
@@ -21,4 +19,7 @@ typo3
 /.idea
 /fileadmin/user_upload
 /typo3conf/ext_old
-/typo3conf/l10n
+typo3conf/ext/_przydatne rzeczy/
+*.log
+*.lnk
+fileadmin/_temp_
