@@ -340,21 +340,6 @@ return [
             'classesPath' => 'Classes/',
             'suggestions' => [],
         ],
-        'static_info_tables' => [
-            'state' => 'active',
-            'packagePath' => 'typo3conf/ext/static_info_tables/',
-            'classesPath' => 'Classes/',
-            'suggestions' => [],
-            'composerName' => 'static_info_tables',
-        ],
-        'templavoila' => [
-            'manifestPath' => '',
-            'composerName' => 'templavoila/templavoila',
-            'state' => 'active',
-            'packagePath' => 'typo3conf/ext/templavoila/',
-            'classesPath' => 'Classes/',
-            'suggestions' => [],
-        ],
         'beko_debugster' => [
             'state' => 'active',
             'packagePath' => 'typo3conf/ext/beko_debugster/',
@@ -403,6 +388,19 @@ return [
             'classesPath' => 'Classes/',
             'suggestions' => [],
             'composerName' => 'realurl',
+        ],
+        'static_info_tables' => [
+            'state' => 'active',
+            'packagePath' => 'typo3conf/ext/static_info_tables/',
+            'classesPath' => 'Classes/',
+            'suggestions' => [],
+            'composerName' => 'static_info_tables',
+        ],
+        'templavoilaplus' => [
+            'composerName' => 'templavoilaplus/templavoilaplus',
+            'state' => 'active',
+            'packagePath' => 'typo3conf/ext/templavoilaplus/',
+            'suggestions' => [],
         ],
         'tt_news' => [
             'state' => 'active',
