@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3DataStructure>
+	<meta type="array">
+		<langDisable>1</langDisable>
+	</meta>
+	<ROOT type="array">
+		<tx_templavoilaplus type="array">
+			<title>FCE multi columns</title>
+			<description>Select the HTML element on the page which you want to be the overall container element for the template.</description>
+		</tx_templavoilaplus>
+		<type>array</type>
+		<el type="array">
+			<field_columns type="array">
+				<type>array</type>
+				<tx_templavoilaplus type="array">
+					<title>Columns section</title>
+					<eType>input</eType>
+					<preview></preview>
+				</tx_templavoilaplus>
+				<section>1</section>
+				<el type="array">
+					<field_columncontainer type="array">
+						<type>array</type>
+						<tx_templavoilaplus type="array">
+							<title>Column</title>
+							<eType>input</eType>
+							<TypoScript></TypoScript>
+							<proc type="array">
+								<int>0</int>
+								<HSC>0</HSC>
+								<stdWrap></stdWrap>
+							</proc>
+							<preview></preview>
+						</tx_templavoilaplus>
+						<TCEforms type="array">
+							<label></label>
+							<config type="array"></config>
+						</TCEforms>
+						<el type="array">
+							<field_column_content type="array">
+								<tx_templavoilaplus type="array">
+									<title>Content</title>
+									<sample_data type="array">
+										<numIndex index="0">[ COLUMN CONTENT ... ]</numIndex>
+									</sample_data>
+									<eType>ce</eType>
+									<tags>div</tags>
+									<TypoScript>10= RECORDS
+10.source.current=1
+10.tables = tt_content</TypoScript>
+									<preview></preview>
+									<enableDragDrop>1</enableDragDrop>
+									<proc type="array">
+										<int>0</int>
+										<HSC>0</HSC>
+										<stdWrap></stdWrap>
+									</proc>
+									<oldStyleColumnNumber>0</oldStyleColumnNumber>
+								</tx_templavoilaplus>
+								<TCEforms type="array">
+									<label>Content</label>
+									<config type="array">
+										<type>group</type>
+										<internal_type>db</internal_type>
+										<allowed>tt_content</allowed>
+										<size>5</size>
+										<maxitems>200</maxitems>
+										<minitems>0</minitems>
+										<multiple>1</multiple>
+										<show_thumbs>1</show_thumbs>
+									</config>
+								</TCEforms>
+							</field_column_content>
+							<field_column_class type="array">
+								<type>attr</type>
+								<tx_templavoilaplus type="array">
+									<title>Column class</title>
+									<sample_data type="array">
+										<numIndex index="0">col1-classs</numIndex>
+									</sample_data>
+									<eType>select</eType>
+									<tags>div:attr:class</tags>
+									<TypoScript>	10= TEXT
+	10.value = col {field:field_column_class}
+	10.insertData = 1
+					</TypoScript>
+									<proc type="array">
+										<int>0</int>
+										<HSC>0</HSC>
+										<stdWrap></stdWrap>
+									</proc>
+									<preview></preview>
+								</tx_templavoilaplus>
+								<TCEforms type="array">
+									<label>Column class</label>
+									<config type="array">
+										<type>select</type>
+										<items type="array">
+											<numIndex index="0" type="array">
+												<numIndex index="0">col-xs-12</numIndex>
+												<numIndex index="1">col-xs-12</numIndex>
+											</numIndex>
+											<numIndex index="1" type="array">
+												<numIndex index="0">col-xs-11</numIndex>
+												<numIndex index="1">col-xs-11</numIndex>
+											</numIndex>
+											<numIndex index="2" type="array">
+												<numIndex index="0">col-xs-10</numIndex>
+												<numIndex index="1">col-xs-10</numIndex>
+											</numIndex>
+											<numIndex index="3" type="array">
+												<numIndex index="0">col-xs-9</numIndex>
+												<numIndex index="1">col-xs-9</numIndex>
+											</numIndex>
+											<numIndex index="4" type="array">
+												<numIndex index="0">col-xs-8</numIndex>
+												<numIndex index="1">col-xs-8</numIndex>
+											</numIndex>
+											<numIndex index="5" type="array">
+												<numIndex index="0">col-xs-7</numIndex>
+												<numIndex index="1">col-xs-7</numIndex>
+											</numIndex>
+											<numIndex index="6" type="array">
+												<numIndex index="0">col-xs-6</numIndex>
+												<numIndex index="1">col-xs-6</numIndex>
+											</numIndex>
+											<numIndex index="7" type="array">
+												<numIndex index="0">col-xs-5</numIndex>
+												<numIndex index="1">col-xs-5</numIndex>
+											</numIndex>
+											<numIndex index="8" type="array">
+												<numIndex index="0">col-xs-4</numIndex>
+												<numIndex index="1">col-xs-4</numIndex>
+											</numIndex>
+											<numIndex index="9" type="array">
+												<numIndex index="0">col-xs-3</numIndex>
+												<numIndex index="1">col-xs-3</numIndex>
+											</numIndex>
+											<numIndex index="10" type="array">
+												<numIndex index="0">col-xs-2</numIndex>
+												<numIndex index="1">col-xs-2</numIndex>
+											</numIndex>
+											<numIndex index="11" type="array">
+												<numIndex index="0">col-xs-1</numIndex>
+												<numIndex index="1">col-xs-1</numIndex>
+											</numIndex>
+										</items>
+										<default>0</default>
+									</config>
+								</TCEforms>
+							</field_column_class>
+							<field_column_style type="array">
+								<type>attr</type>
+								<tx_templavoilaplus type="array">
+									<title>Column style</title>
+									<sample_data type="array">
+										<numIndex index="0"></numIndex>
+									</sample_data>
+									<eType>input</eType>
+									<TypoScript type="NULL"></TypoScript>
+									<proc type="array">
+										<int>0</int>
+										<HSC>1</HSC>
+										<stdWrap></stdWrap>
+									</proc>
+									<preview></preview>
+								</tx_templavoilaplus>
+								<TCEforms type="array">
+									<label>Column style</label>
+									<config type="array">
+										<type>input</type>
+										<size>48</size>
+										<eval>trim</eval>
+									</config>
+								</TCEforms>
+							</field_column_style>
+						</el>
+					</field_columncontainer>
+				</el>
+			</field_columns>
+			<field_code_after type="array">
+				<tx_templavoilaplus type="array">
+					<title>HTML code after</title>
+					<sample_data type="array">
+						<numIndex index="0">[ HTML after ]</numIndex>
+					</sample_data>
+					<eType>text</eType>
+					<tags>div:outer</tags>
+					<TypoScript>	10= TEXT
+	10.current = 1
+					</TypoScript>
+					<proc type="array">
+						<int>0</int>
+						<HSC>0</HSC>
+						<stdWrap></stdWrap>
+					</proc>
+					<preview></preview>
+				</tx_templavoilaplus>
+				<TCEforms type="array">
+					<label>HTML code after</label>
+					<config type="array">
+						<type>text</type>
+						<cols>48</cols>
+						<rows>7</rows>
+					</config>
+				</TCEforms>
+			</field_code_after>
+		</el>
+	</ROOT>
+</T3DataStructure>
