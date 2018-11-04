@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2014-07-13T20:55:46Z" product-name="templavoilaplus">
+        <header/>
+        <body>
+            <trans-unit id="mlang_tabs_tab" xml:space="preserve">
+                <source>TemplaVoilà+</source>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tabdescr" xml:space="preserve">
+                <source>TemplaVoilà! Plus Control Center lists all Data Structures and Template Objects available</source>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tablabel" xml:space="preserve">
+                <source>TemplaVoilà! Plus Control Center</source>
+            </trans-unit>
+
+            <trans-unit id="title" xml:space="preserve">
+                <source>TemplaVoilà! Plus Control Center</source>
+            </trans-unit>
+            <trans-unit id="storagefolders" xml:space="preserve">
+                <source>Storage Folders</source>
+            </trans-unit>
+            <trans-unit id="datastructures" xml:space="preserve">
+                <source>Data Structures</source>
+            </trans-unit>
+            <trans-unit id="templateobjects" xml:space="preserve">
+                <source>Template Objects</source>
+            </trans-unit>
+            <trans-unit id="templatefiles" xml:space="preserve">
+                <source>Template Files</source>
+            </trans-unit>
+            <trans-unit id="pagetemplates" xml:space="preserve">
+                <source>Page templates</source>
+            </trans-unit>
+            <trans-unit id="filereference" xml:space="preserve">
+                <source>File reference</source>
+            </trans-unit>
+            <trans-unit id="description" xml:space="preserve">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="fces" xml:space="preserve">
+                <source>Flexible CE</source>
+            </trans-unit>
+            <trans-unit id="other" xml:space="preserve">
+                <source>Other</source>
+            </trans-unit>
+            <trans-unit id="unknown" xml:space="preserve">
+                <source>Unknown &quot;%s&quot;</source>
+            </trans-unit>
+            <trans-unit id="losttos" xml:space="preserve">
+                <source>Lost TOs [%d]</source>
+            </trans-unit>
+            <trans-unit id="overview" xml:space="preserve">
+                <source>XML file</source>
+            </trans-unit>
+            <trans-unit id="dstotitle" xml:space="preserve">
+                <source>DS/TO Title</source>
+            </trans-unit>
+            <trans-unit id="localization" xml:space="preserve">
+                <source>Localization</source>
+            </trans-unit>
+            <trans-unit id="showdetails" xml:space="preserve">
+                <source>Show Details</source>
+            </trans-unit>
+            <trans-unit id="showuused" xml:space="preserve">
+                <source>Show unused datastructures</source>
+            </trans-unit>
+            <trans-unit id="containerstatus" xml:space="preserve">
+                <source>Container status</source>
+            </trans-unit>
+            <trans-unit id="mappingstatus" xml:space="preserve">
+                <source>Mapping status</source>
+            </trans-unit>
+            <trans-unit id="usagecount" xml:space="preserve">
+                <source>Usage count</source>
+            </trans-unit>
+            <trans-unit id="templatestatus" xml:space="preserve">
+                <source>Template Status</source>
+            </trans-unit>
+            <trans-unit id="rendertype" xml:space="preserve">
+                <source>Render Type</source>
+            </trans-unit>
+            <trans-unit id="language" xml:space="preserve">
+                <source>Language</source>
+            </trans-unit>
+            <trans-unit id="globalprocessing_xml" xml:space="preserve">
+                <source>Global Processing &lt;strong&gt;XML&lt;/strong&gt;</source>
+            </trans-unit>
+            <trans-unit id="localprocessing_xml" xml:space="preserve">
+                <source>Local Processing &lt;strong&gt;XML&lt;/strong&gt;</source>
+            </trans-unit>
+            <trans-unit id="usedby" xml:space="preserve">
+                <source>Used by</source>
+            </trans-unit>
+            <trans-unit id="created" xml:space="preserve">
+                <source>Created</source>
+            </trans-unit>
+            <trans-unit id="updated" xml:space="preserve">
+                <source>Updated</source>
+            </trans-unit>
+            <trans-unit id="noicon" xml:space="preserve">
+                <source>[No icon]</source>
+            </trans-unit>
+            <trans-unit id="filenotfound" xml:space="preserve">
+                <source>[File not found!]</source>
+            </trans-unit>
+            <trans-unit id="createnewto" xml:space="preserve">
+                <source>Create new Template Object</source>
+            </trans-unit>
+            <trans-unit id="containerwithseparatelocalization" xml:space="preserve">
+                <source>Container element with separate localization!</source>
+            </trans-unit>
+            <trans-unit id="mixofcontentandref" xml:space="preserve">
+                <source>Mix of content and references, OK, but be careful!</source>
+            </trans-unit>
+            <trans-unit id="nocontentfields" xml:space="preserve">
+                <source>No content fields, recommended to set &quot;&lt;langDisable&gt;&quot; = 1</source>
+            </trans-unit>
+            <trans-unit id="towasupdated" xml:space="preserve">
+                <source>Template file was updated since last mapping (%s) and you might need to remap the Template Object!</source>
+            </trans-unit>
+            <trans-unit id="warning_mappingstatus" xml:space="preserve">
+                <source>%s (TO: &quot;%s&quot;)</source>
+            </trans-unit>
+            <trans-unit id="mapping_uptodate" xml:space="preserve">
+                <source>Mapping is up to date.</source>
+            </trans-unit>
+            <trans-unit id="update_mapping" xml:space="preserve">
+                <source>Update mapping</source>
+            </trans-unit>
+            <trans-unit id="notmapped" xml:space="preserve">
+                <source>Not mapped yet!</source>
+            </trans-unit>
+            <trans-unit id="updatemapping_info" xml:space="preserve">
+                <source>- &lt;em&gt;(It might also mean that the TO was mapped with an older version of TemplaVoilà Plus - then just go and save the mapping again at this will be updated.)&lt;/em&gt;</source>
+            </trans-unit>
+            <trans-unit id="map" xml:space="preserve">
+                <source>Map</source>
+            </trans-unit>
+            <trans-unit id="remap" xml:space="preserve">
+                <source>Remap</source>
+            </trans-unit>
+            <trans-unit id="preview" xml:space="preserve">
+                <source>Preview</source>
+            </trans-unit>
+            <trans-unit id="toused_title" xml:space="preserve">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="toused_pid" xml:space="preserve">
+                <source>Page ID</source>
+            </trans-unit>
+            <trans-unit id="toused_path" xml:space="preserve">
+                <source>Path</source>
+            </trans-unit>
+            <trans-unit id="toused_workspace" xml:space="preserve">
+                <source>Workspace</source>
+            </trans-unit>
+            <trans-unit id="toused_uid" xml:space="preserve">
+                <source>UID</source>
+            </trans-unit>
+            <trans-unit id="toused_header" xml:space="preserve">
+                <source>Header</source>
+            </trans-unit>
+            <trans-unit id="toused_usedin" xml:space="preserve">
+                <source>Used in %d Elements</source>
+            </trans-unit>
+            <trans-unit id="noaccess" xml:space="preserve">
+                <source>No Access</source>
+            </trans-unit>
+            <trans-unit id="usage" xml:space="preserve">
+                <source>Usage</source>
+            </trans-unit>
+            <trans-unit id="action" xml:space="preserve">
+                <source>Action</source>
+            </trans-unit>
+            <trans-unit id="invalidtemplatevalues" xml:space="preserve">
+                <source>Invalid template values in %d elements</source>
+            </trans-unit>
+            <trans-unit id="noerrorsfound" xml:space="preserve">
+                <source>No errors found!</source>
+            </trans-unit>
+            <trans-unit id="byuser" xml:space="preserve">
+                <source>by user</source>
+            </trans-unit>
+            <trans-unit id="file" xml:space="preserve">
+                <source>File</source>
+            </trans-unit>
+            <trans-unit id="newdsto" xml:space="preserve">
+                <source>New DS/TO</source>
+            </trans-unit>
+            <trans-unit id="usedfiles" xml:space="preserve">
+                <source>Used files</source>
+            </trans-unit>
+            <trans-unit id="templatearchive" xml:space="preserve">
+                <source>Template Archive</source>
+            </trans-unit>
+            <trans-unit id="configuration" xml:space="preserve">
+                <source>Configuration</source>
+            </trans-unit>
+            <trans-unit id="fceislocalized" xml:space="preserve">
+                <source>FCE-element is localized</source>
+            </trans-unit>
+            <trans-unit id="fceinlineislocalized" xml:space="preserve">
+                <source>FCE-inline-elements of the FCE-element are localized</source>
+            </trans-unit>
+            <trans-unit id="casttointeger" xml:space="preserve">
+                <source>the entered/computed value will be cast to an integer</source>
+            </trans-unit>
+            <trans-unit id="hsced" xml:space="preserve">
+                <source>the entered/computed value will be passed to htmlentities</source>
+            </trans-unit>
+            <trans-unit id="hsc_on" xml:space="preserve">
+                <source>[HTML-code won't be available]</source>
+            </trans-unit>
+            <trans-unit id="hsc_off" xml:space="preserve">
+                <source>[HTML-code will be displayed as-is]</source>
+            </trans-unit>
+            <trans-unit id="stdwrap" xml:space="preserve">
+                <source>the entered/computed value will be wrapped</source>
+            </trans-unit>
+            <trans-unit id="redundant" xml:space="preserve">
+                <source>redundant</source>
+            </trans-unit>
+            <trans-unit id="illegalcharacters" xml:space="preserve">
+                <source>entry contains illegal characters and/or has multiple lines</source>
+            </trans-unit>
+            <trans-unit id="dsdetails_nobasicdefinitions" xml:space="preserve">
+                <source>The element has no basic definitions!</source>
+            </trans-unit>
+            <trans-unit id="dsdetails_notceformdefinitions" xml:space="preserve">
+                <source>The element has no TCE-form definitions!</source>
+            </trans-unit>
+            <trans-unit id="dsdetails_notes" xml:space="preserve">
+                <source>Notes</source>
+            </trans-unit>
+            <trans-unit id="dsdetails_ts" xml:space="preserve">
+                <source>TypoScript</source>
+            </trans-unit>
+            <trans-unit id="dsdetails_column" xml:space="preserve">
+                <source>Column-positioning</source>
+            </trans-unit>
+            <trans-unit id="dsdetails_preset" xml:space="preserve">
+                <source>Preset used for the element</source>
+            </trans-unit>
+            <trans-unit id="dsdetails_tsutilize" xml:space="preserve">
+                <source>will utilize the TS-structure %s defined inside the &lt;TypoScriptObjPath&gt;-entry</source>
+            </trans-unit>
+            <trans-unit id="dsdetails_tslines" xml:space="preserve">
+                <source>%d lines of TS-code inside the &lt;TypoScript&gt;-entry</source>
+            </trans-unit>
+            <trans-unit id="dsdetails_tsconstants" xml:space="preserve">
+                <source>%d TS-constants defined for use in the &lt;TypoScript&gt;-entry</source>
+            </trans-unit>
+            <trans-unit id="warnings" xml:space="preserve">
+                <source>Warnings</source>
+            </trans-unit>
+            <trans-unit id="fatalerrors" xml:space="preserve">
+                <source>Fatal errors</source>
+            </trans-unit>
+            <trans-unit id="invaliddatastructure_xmlbroken" xml:space="preserve">
+                <source>The the element &quot;%1$s&quot; within the datastructure seems to contain invalid XML, therefore the required data can't be displayed.</source>
+            </trans-unit>
+            <trans-unit id="description_pagesWithCertainDsTo" xml:space="preserve">
+                <source>The following pages in the root line contain data structures and template objects</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

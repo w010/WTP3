@@ -1,0 +1,15 @@
+{
+    "name": "templavoilaplus/templavoilaplus",
+    "type": "typo3-cms-extension",
+    "description": "Point-and-click, popular and easy template engine for TYPO3. Replacement for old TemplaVoilà!.",
+    "homepage": "https://github.com/pluspol-interactive/templavoilaplus",
+    "license": ["GPL-2.0+"],
+    "require": {
+        "typo3/cms-core": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ppi\\TemplaVoilaPlus\\": "Classes/"
+        }
+    }
+}
