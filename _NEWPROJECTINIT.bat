@@ -17,5 +17,6 @@ xcopy D:\WORK\___projects\WTP3\t3_clearcache.bat
 xcopy D:\WORK\___projects\WTP3\t3_clearcache.sh
 xcopy D:\WORK\___projects\WTP3\t3_cleartempcache.sh
 xcopy D:\WORK\___projects\WTP3\t3_installfile.bat
+xcopy D:\WORK\___projects\WTP3\t3_installfile.ps1
 xcopy D:\WORK\___projects\WTP3\sys_apache_restart.sh
 xcopy D:\WORK\___projects\WTP3\sys_apache_vhosts_copy.sh
